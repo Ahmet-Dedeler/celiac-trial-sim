@@ -34,21 +34,31 @@ from ctsim.variance import fit_injury_variance
 #
 # The uuids are pinned here so every protocol claim in this module can be taken back
 # to the page it came from, by anyone, without clicking through the portal.
+#
+# The SHA-256 of each document is pinned too, and that is not ceremony. Dr Falk already
+# redacted in v9.0 what v8.0 in the same package still shows; a sponsor that does the
+# same again would leave these quotes standing over a document nobody can check. A
+# checksum turns "the protocol says" into something falsifiable either way.
+#   (EU CT number, document uuid, sha256 of the PDF as retrieved 2026-08-02)
 CTIS_DOCUMENTS = {
-    "TEV-53408 protocol v5.0":
-        ("2024-517081-42-00", "d14dcc6c-2eb2-4363-97a5-7b85af771a2a"),
-    "ASPIRION protocol v5 (EN, redacted)":
-        ("2024-511213-38-00", "69756e33-7854-41a1-95c8-d33e17b8c9f3"),
-    "ASPIRION patient information sheet v2.0 (EN) — carries the gluten dose":
-        ("2024-511213-38-00", "7cf31c12-df21-4aa6-ad18-4ccbf8fef268"),
-    "CEC-013/CEL protocol, tracked changes v8.0":
-        ("2023-506150-21-00", "c6bf4218-0796-4131-b4a1-2abe47a6f3d6"),
+    "TEV-53408 protocol v5.0": (
+        "2024-517081-42-00", "d14dcc6c-2eb2-4363-97a5-7b85af771a2a",
+        "182bf6313c270e2a7f9ffa7361f46cd5ca4e32630e363210774fe851c3ceedb9"),
+    "ASPIRION protocol v5 (EN, redacted)": (
+        "2024-511213-38-00", "69756e33-7854-41a1-95c8-d33e17b8c9f3",
+        "6893226801cc99aadcf939c5a8d8e9ca5cad1cba6a5b27b1432ac7bc77a07d21"),
+    "ASPIRION patient information sheet v2.0 (EN) — carries the gluten dose": (
+        "2024-511213-38-00", "7cf31c12-df21-4aa6-ad18-4ccbf8fef268",
+        "b9a50599e58166790090c33da07a16329340537116f2ed818fff9e1eecafb1d6"),
+    "CEC-013/CEL protocol, tracked changes v8.0": (
+        "2023-506150-21-00", "c6bf4218-0796-4131-b4a1-2abe47a6f3d6",
+        "eafd924f40254a38bd6420d59c04aa88b4ddb7808e6398f9f0fe69e8243dd7aa"),
 }
 
 
 def ctis_download_endpoint(doc_key: str) -> str:
     """The first hop of the CTIS two-step download, for a key of CTIS_DOCUMENTS."""
-    ct, uuid = CTIS_DOCUMENTS[doc_key]
+    ct, uuid, _sha = CTIS_DOCUMENTS[doc_key]
     return f"https://euclinicaltrials.eu/ctis-public-api/documents/{ct}/{uuid}/download"
 
 
@@ -243,6 +253,22 @@ def best_known_protection() -> float:
     return max(1.0 - abs(a[2]) / abs(placebo[2]) for a in ZED1227_ARMS if not a[5])
 
 
+def protection_flip_n(injury: float = 0.61) -> int:
+    """Evaluable N per arm at which a prevention trial stops missing the best drug.
+
+    The Teva prediction is the sharpest claim in this module, so it is worth knowing
+    how little it takes to reverse. It is a sample-size claim, and sample size is the
+    one design parameter that moves after a protocol is written.
+    """
+    model = fit_injury_variance()
+    sd = model.sd_at(injury)
+    best = best_known_protection()
+    n = 2
+    while mde(n, sd) / injury > best:
+        n += 1
+    return n
+
+
 @dataclass
 class Prediction:
     trial: LiveTrial
@@ -352,6 +378,15 @@ def report() -> str:
         "  evaluable per arm the 95% interval is about +/-0.40 on an effect whose ceiling",
         "  is 0.61, so the result will be compatible with anything from no effect to",
         "  complete protection.",
+        "",
+        f"  How fragile that is, stated plainly: the verdict flips at "
+        f"{protection_flip_n()} evaluable",
+        "  per arm. The protocol targets 40 evaluable (20 per arm) but permits up to 48",
+        "  randomised (24 per arm), and the registry already lists 50 enrolled. So this",
+        "  prediction turns on a number the protocol itself leaves open, and the honest",
+        "  form of it is conditional: if TEV-53408 reports ~20 evaluable per arm it could",
+        "  not have seen a best-in-class drug, and if it reports 23 or more it could.",
+        "  That is the first thing to check at readout, before any p-value.",
         "",
         "  Sanofi and Dr Falk run the opposite design: ~250 and ~214 mg/day into mucosas",
         "  that are already atrophic. At those doses the threshold literature expects",

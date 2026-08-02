@@ -21,6 +21,7 @@ from ctsim.prospective import (
     ZED1227_CEC013,
     best_known_protection,
     predict,
+    protection_flip_n,
 )
 
 # --- the predictions themselves ---------------------------------------------
@@ -45,6 +46,25 @@ def test_tev53408_would_miss_the_best_known_drug():
 def test_best_known_protection_comes_from_the_best_arm():
     """Guards the comparison above from silently reverting to a weaker arm."""
     assert best_known_protection() == pytest.approx(1 - 0.12 / 0.61, abs=1e-9)
+
+
+def test_the_teva_verdict_is_conditional_on_evaluable_n():
+    """The sharpest claim here is also the most fragile, and that has to stay visible.
+
+    TEV-53408's protocol targets 40 evaluable (20 per arm) but permits up to 48
+    randomised (24 per arm), and the registry lists 50 enrolled. The flip point sits
+    inside that range, so the prediction is conditional on a number the protocol
+    leaves open — not on anything about the drug.
+    """
+    flip = protection_flip_n()
+    assert TEV_53408.n_per_arm < flip, (
+        "the trial is only predicted to miss because its planned evaluable N is below "
+        "the flip point; if that stops being true the verdict must be restated"
+    )
+    assert 21 <= flip <= 25, (
+        f"flip point moved to {flip}: the range the protocol permits is 20-24 per arm, "
+        "so a flip point outside it would change how conditional this claim is"
+    )
 
 
 def test_both_restoration_trials_need_more_than_has_ever_been_achieved():
@@ -153,13 +173,18 @@ def test_the_bar_is_set_by_a_between_arm_difference():
     )
 
 
-def test_protocol_documents_are_pinned_by_id():
-    """CTIS quotes are only checkable if the exact document is identified."""
+def test_protocol_documents_are_pinned_by_id_and_hash():
+    """CTIS quotes are only checkable if the exact document is identified.
+
+    The hash matters because Dr Falk already redacted in v9.0 what v8.0 still shows:
+    a sponsor can replace the document a quote rests on.
+    """
     assert len(CTIS_DOCUMENTS) >= 4
     cts = {t.ct_number for t in LIVE_TRIALS}
-    for ct, uuid in CTIS_DOCUMENTS.values():
+    for ct, uuid, sha in CTIS_DOCUMENTS.values():
         assert ct in cts, f"{ct} is not one of the audited trials"
         assert len(uuid) == 36
+        assert len(sha) == 64 and set(sha) <= set("0123456789abcdef")
 
 
 def test_effective_n_handles_unequal_allocation():

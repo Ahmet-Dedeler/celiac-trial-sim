@@ -20,7 +20,7 @@ it didn't. Handed a drug as good as ZED1227's, that trial still reports a null.
 
 ```bash
 uv run python -m ctsim.simulate     # full report
-uv run pytest                       # 80 tests
+uv run pytest                       # 81 tests
 ```
 
 Live version: **[ahmetdedeler.com/celiac](https://ahmetdedeler.com/celiac)**
@@ -203,6 +203,13 @@ the only one that openly declines to power for the endpoint. Its exposure is ari
 at 20 evaluable per arm it needs **85% protection**, where the best ZED1227 arm delivered
 80%. Its own ±0.40 precision target spans everything from no effect to complete
 protection.
+
+That claim is the sharpest one here, so it is worth saying how little reverses it: **the
+verdict flips at 23 evaluable per arm.** The protocol targets 40 evaluable (20 per arm)
+but permits up to 48 randomised (24 per arm), and the registry already lists 50 enrolled.
+So the honest form is conditional — at ~20 evaluable per arm TEV-53408 could not have seen
+a best-in-class drug, at 23+ it could. That is the first number to check at readout,
+before any p-value.
 
 **Sanofi and Dr Falk** need healing of **0.27** and **0.21**. The largest drug-minus-placebo
 VH:CD difference any restoration-design celiac trial has produced is **+0.14** — ZED1227's
