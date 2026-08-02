@@ -167,17 +167,47 @@ classified prevention vs restoration and scored accordingly.
 The 30% IEL threshold originates in Pollock 1992 (*Ann Clin Biochem*), not Taavela.
 `NCT03766445` does not exist. ZED1227 is EudraCT **2017-002241-30**, not 2018-002603-14.
 
-## 5. Two levers that still don't save you
+## 5. Levers
 
 **ANCOVA instead of a change score.** Baseline–follow-up correlation recovered from
 posted SDs: ρ = 0.22–0.73, cutting required N from 34 to 21–29 per arm. Free, and not
 enough. (Arms where the implied ρ goes negative are excluded and flagged: that means the
 follow-up spread exceeded baseline — the injury model again — not a real anticorrelation.)
 
-**Switching to IEL density.** Required N depends on the standardized effect, so a noisier
-endpoint with a proportionally larger threshold costs nothing. In the challenge
-population VH:CD needs 46/arm and IEL needs 56. IEL is worse. Takeda reached the same
-conclusion independently: *"no endpoint outperformed Vh:Cd."*
+**Endpoint choice — and this one is real. An earlier version of this README got it
+wrong.**
+
+It said IEL density is the worse endpoint (VH:CD 46/arm vs IEL 56) and cited Takeda's
+*"no endpoint outperformed Vh:Cd"* as agreement. That comparison asked a narrow question:
+how many patients to detect a fixed *threshold* change, where the IEL threshold is a 30%
+relative change converted through a single posted baseline. It is not the question a
+trial designer has.
+
+Syage et al. asked the better one — the standardized effect each endpoint actually
+achieved on the same patients and the same biopsies ([*Clin Gastroenterol Hepatol*
+2024;22:1238, PMC12213069](https://pmc.ncbi.nlm.nih.gov/articles/PMC12213069/)):
+
+| Trial | ΔVh:Cd | ΔIEL | **ΔVCIEL** (composite) |
+|---|---|---|---|
+| ALV003-1021 | 1.37 (p=0.038) | 1.17 (p=0.005) | **1.86 (p=0.004)** |
+| IMGX003 CeliacShield | 0.76 (**p=0.057**) | 0.98 (**p=0.018**) | **1.14 (p=0.007)** |
+
+Read the IMGX003 row again. **The same trial missed on VH:CD at p=0.057 and hit on IEL
+at p=0.018 and on the composite at p=0.007.** Same patients, same slides, same gluten
+challenge — the verdict was decided by which number came off the microscope. IMGX003
+appears in this repo's dataset as a miss; on the endpoint that best captured its effect
+it was not one.
+
+So endpoint choice is not a dead lever. It is arguably the cheapest live one: the
+composite costs nothing beyond measurements trials already take, and it beat both of its
+own components in both trials.
+
+Two caveats worth keeping. Syage's effect size is the *observed* drug effect over a
+baseline SD, so it is partly a function of how well each drug worked, not purely an
+assay property — a well-powered head-to-head on a fixed target would be better evidence.
+And **the literature contradicts itself here**: Takeda's MP739 reports *"no endpoint
+outperformed Vh:Cd"* on TAK-062, directly against Syage on two other trials. Nobody has
+reconciled that, and it is a real open question rather than a settled one.
 
 ## 6. Data and provenance
 
