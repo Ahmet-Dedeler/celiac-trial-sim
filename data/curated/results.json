@@ -1,0 +1,262 @@
+{
+  "generated_by": "ctsim.export",
+  "endpoint": "change from baseline in villous height : crypt depth ratio (VH:CD)",
+  "pooled_sd": 0.7399,
+  "n_arms": 6,
+  "n_trials": 3,
+  "clinically_meaningful_change": 0.4,
+  "noise_to_signal": 1.85,
+  "variance_decomposition": {
+    "total_sd": 0.7399,
+    "reader_sd": 0.2249,
+    "residual_sd": 0.7049,
+    "reader_share": 0.0924,
+    "residual_share": 0.9076
+  },
+  "empirical_arms": [
+    {
+      "nct_id": "NCT03409796",
+      "trial": "Gluten challenge dose-finding",
+      "arm": "Group A: Gluten 3 Gram",
+      "n": 7,
+      "delta": -0.06,
+      "sd": 0.516,
+      "sd_source": "posted_sd"
+    },
+    {
+      "nct_id": "NCT03409796",
+      "trial": "Gluten challenge dose-finding",
+      "arm": "Group B: Gluten 10 Gram",
+      "n": 7,
+      "delta": -1.53,
+      "sd": 0.941,
+      "sd_source": "posted_sd"
+    },
+    {
+      "nct_id": "NCT06001177",
+      "trial": "KAN-101 SynCeD",
+      "arm": "0.6 mg/kg KAN-101",
+      "n": 25,
+      "delta": -0.85,
+      "sd": 0.707,
+      "sd_source": "posted_sd"
+    },
+    {
+      "nct_id": "NCT06001177",
+      "trial": "KAN-101 SynCeD",
+      "arm": "Placebo",
+      "n": 25,
+      "delta": -0.61,
+      "sd": 0.614,
+      "sd_source": "posted_sd"
+    },
+    {
+      "nct_id": "NCT05353985",
+      "trial": "TAK-062 (zamaglutenase)",
+      "arm": "Placebo + SIGE Gluten-Bar",
+      "n": 60,
+      "delta": -0.006,
+      "sd": 0.7746,
+      "sd_source": "from_se"
+    },
+    {
+      "nct_id": "NCT05353985",
+      "trial": "TAK-062 (zamaglutenase)",
+      "arm": "TAK-062 + SIGE Gluten-Bar",
+      "n": 59,
+      "delta": -0.338,
+      "sd": 0.7604,
+      "sd_source": "from_se"
+    }
+  ],
+  "required_n_per_arm": {
+    "0.1": 860,
+    "0.15": 382,
+    "0.2": 215,
+    "0.25": 138,
+    "0.3": 96,
+    "0.35": 71,
+    "0.4": 54,
+    "0.5": 35
+  },
+  "replay": [
+    {
+      "nct_id": "NCT03409796",
+      "label": "Group A vs Group B",
+      "n_per_arm": 7,
+      "sd_used": 0.7399,
+      "mde_80": 1.108,
+      "ratio_to_meaningful": 2.77,
+      "power_for_meaningful": 0.1729,
+      "power_for_half": 0.0798,
+      "trial": "Gluten challenge dose-finding",
+      "sponsor_note": "3 g vs 10 g gluten, 14 days"
+    },
+    {
+      "nct_id": "NCT05353985",
+      "label": "Placebo + SIGE Gluten- vs TAK-062 + SIGE Gluten-",
+      "n_per_arm": 59,
+      "sd_used": 0.7399,
+      "mde_80": 0.3816,
+      "ratio_to_meaningful": 0.954,
+      "power_for_meaningful": 0.8356,
+      "power_for_half": 0.3117,
+      "trial": "TAK-062 (zamaglutenase)",
+      "sponsor_note": "Takeda \u2014 Phase 2, discontinued"
+    },
+    {
+      "nct_id": "NCT06001177",
+      "label": "0.6 mg/kg KAN-101 vs Placebo",
+      "n_per_arm": 25,
+      "sd_used": 0.7399,
+      "mde_80": 0.5863,
+      "ratio_to_meaningful": 1.466,
+      "power_for_meaningful": 0.4807,
+      "power_for_half": 0.1594,
+      "trial": "KAN-101 SynCeD",
+      "sponsor_note": "Anokion \u2014 Phase 2a, program shelved"
+    }
+  ],
+  "power_curve": [
+    {
+      "n_per_arm": 10,
+      "mde_80": 0.927,
+      "power_at_0_40": 0.2271,
+      "power_at_0_20": 0.0928
+    },
+    {
+      "n_per_arm": 15,
+      "mde_80": 0.7569,
+      "power_at_0_40": 0.3161,
+      "power_at_0_20": 0.1148
+    },
+    {
+      "n_per_arm": 20,
+      "mde_80": 0.6555,
+      "power_at_0_40": 0.4013,
+      "power_at_0_20": 0.137
+    },
+    {
+      "n_per_arm": 25,
+      "mde_80": 0.5863,
+      "power_at_0_40": 0.4807,
+      "power_at_0_20": 0.1594
+    },
+    {
+      "n_per_arm": 30,
+      "mde_80": 0.5352,
+      "power_at_0_40": 0.5533,
+      "power_at_0_20": 0.1819
+    },
+    {
+      "n_per_arm": 40,
+      "mde_80": 0.4635,
+      "power_at_0_40": 0.6765,
+      "power_at_0_20": 0.2271
+    },
+    {
+      "n_per_arm": 50,
+      "mde_80": 0.4146,
+      "power_at_0_40": 0.7713,
+      "power_at_0_20": 0.2719
+    },
+    {
+      "n_per_arm": 60,
+      "mde_80": 0.3784,
+      "power_at_0_40": 0.8416,
+      "power_at_0_20": 0.3161
+    },
+    {
+      "n_per_arm": 80,
+      "mde_80": 0.3277,
+      "power_at_0_40": 0.9278,
+      "power_at_0_20": 0.4013
+    },
+    {
+      "n_per_arm": 100,
+      "mde_80": 0.2931,
+      "power_at_0_40": 0.9688,
+      "power_at_0_20": 0.4807
+    },
+    {
+      "n_per_arm": 150,
+      "mde_80": 0.2394,
+      "power_at_0_40": 0.9968,
+      "power_at_0_20": 0.6484
+    },
+    {
+      "n_per_arm": 200,
+      "mde_80": 0.2073,
+      "power_at_0_40": 0.9997,
+      "power_at_0_20": 0.7713
+    },
+    {
+      "n_per_arm": 300,
+      "mde_80": 0.1692,
+      "power_at_0_40": 1.0,
+      "power_at_0_20": 0.9116
+    },
+    {
+      "n_per_arm": 400,
+      "mde_80": 0.1466,
+      "power_at_0_40": 1.0,
+      "power_at_0_20": 0.9688
+    }
+  ],
+  "literature_constants": {
+    "vhcd_interobserver_sd": {
+      "value": 0.227,
+      "units": "VH:CD ratio units",
+      "source": "Taavela 2013 PLoS One",
+      "note": "reported error margin (2SD) = 0.454 on a single read"
+    },
+    "vhcd_intraobserver_sd": {
+      "value": 0.159,
+      "units": "VH:CD ratio units",
+      "source": "Taavela 2013 PLoS One",
+      "note": "reported error margin (2SD) = 0.318"
+    },
+    "vhcd_clinically_significant": {
+      "value": 0.4,
+      "units": "VH:CD ratio units",
+      "source": "Taavela 2013 PLoS One",
+      "note": "threshold for a clinically meaningful change"
+    },
+    "iel_intraobserver_cv_cd3_paraffin": {
+      "value": 0.342,
+      "units": "fraction",
+      "source": "Taavela 2013 PLoS One",
+      "note": "34.2% error margin"
+    },
+    "iel_intraobserver_cv_he": {
+      "value": 0.532,
+      "units": "fraction",
+      "source": "Taavela 2013 PLoS One",
+      "note": "53.2% error margin, H&E"
+    },
+    "iel_clinically_significant": {
+      "value": 0.3,
+      "units": "fraction",
+      "source": "Taavela 2013 PLoS One",
+      "note": "30% change in T-cell IEL density"
+    },
+    "marsh_interobserver_kappa": {
+      "value": 0.35,
+      "units": "kappa",
+      "source": "Corazza 2007 CGH",
+      "note": "Marsh-Oberhuber; 0.55 for a simplified scale"
+    },
+    "patchiness_between_site_discordance": {
+      "value": 0.466,
+      "units": "fraction of patients",
+      "source": "Bonamico 2010 AJG",
+      "note": "different lesion grade at different duodenal sites"
+    },
+    "patchiness_within_biopsy_discordance": {
+      "value": 0.169,
+      "units": "fraction of patients",
+      "source": "Bonamico 2010 AJG",
+      "note": "variable lesions within a single biopsy fragment"
+    }
+  }
+}

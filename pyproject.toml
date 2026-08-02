@@ -1,0 +1,25 @@
+[project]
+name = "ctsim"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Ahmet Dedeler", email = "105894172+Ahmet-Dedeler@users.noreply.github.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "httpx>=0.28.1",
+    "numpy>=2.5.1",
+    "pandas>=3.0.5",
+    "pyyaml>=6.0.3",
+    "scipy>=1.18.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.1,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
