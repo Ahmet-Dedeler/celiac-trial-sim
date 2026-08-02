@@ -150,3 +150,55 @@ def test_zed1227_assumed_more_noise_than_it_measured():
     a = next(x for x in ASSUMPTIONS if x.nct_id.startswith("EudraCT"))
     observed, _df = zed1227_residual_sd()
     assert observed < a.assumed_sd, "expected the assumption to be conservative"
+
+
+# --- paper-extracted arms ----------------------------------------------------
+
+def test_every_paper_trial_has_a_source_with_a_quote():
+    from ctsim.published import PAPER_ARM_SOURCES, PAPER_ARMS
+
+    for _trial, nct, *_rest in PAPER_ARMS:
+        src = PAPER_ARM_SOURCES.get(nct)
+        assert src is not None, f"{nct} has no source"
+        assert src.url.startswith("http") and len(src.quote) > 40
+
+
+def test_paper_arm_values_are_physically_plausible():
+    """VH:CD is a ratio of two lengths; a change score and its SD have hard limits."""
+    from ctsim.published import PAPER_ARMS
+
+    for trial, _nct, arm, n, delta, sd, _placebo, _design in PAPER_ARMS:
+        assert n > 0, f"{trial} {arm}"
+        assert abs(delta) < 2.0, f"{trial} {arm}: change of {delta} is not a change score"
+        assert 0.0 < sd < 2.0, f"{trial} {arm}: SD {sd} out of range"
+
+
+def test_paper_rows_merge_without_colliding_with_registry_rows():
+    from ctsim.model import load_empirical
+    from ctsim.published import paper_rows
+
+    registry = {(r.nct_id, r.arm_label) for r in load_empirical()}
+    for r in paper_rows():
+        assert (r.nct_id, r.arm_label) not in registry, (
+            f"{r.nct_id} {r.arm_label} would be counted twice"
+        )
+        assert r.sd_source == "paper_posted_sd"
+
+
+def test_measured_variance_shares_are_shares():
+    from ctsim.published import MEASURED_VARIANCE_SHARES, MEASURED_VARIANCE_SOURCE
+
+    assert sum(MEASURED_VARIANCE_SHARES.values()) <= 1.0
+    assert all(0 <= v <= 1 for v in MEASURED_VARIANCE_SHARES.values())
+    # The direction is the load-bearing part: reader is the smallest term by far.
+    assert MEASURED_VARIANCE_SHARES["reader"] < MEASURED_VARIANCE_SHARES["biopsy"]
+    assert MEASURED_VARIANCE_SHARES["biopsy"] < MEASURED_VARIANCE_SHARES["patient"]
+    assert MEASURED_VARIANCE_SOURCE.url.startswith("http")
+
+
+def test_unavailable_data_is_recorded_rather_than_forgotten():
+    from ctsim.published import NOT_AVAILABLE
+
+    assert len(NOT_AVAILABLE) >= 4
+    for trial, why in NOT_AVAILABLE.items():
+        assert len(why) > 60, f"{trial}: reason is too thin to stop a re-search"

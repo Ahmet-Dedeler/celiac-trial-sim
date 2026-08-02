@@ -51,6 +51,7 @@ class AssaySensitivity:
     control_delta_lo: float  # 95% CI on the control-arm change
     control_delta_hi: float
     mde_80: float
+    sd_used: float
     min_protection: float          # using the point estimate of the injury
     min_protection_best_case: float  # using the largest injury the CI allows
     trial_has_control: bool = True
@@ -81,11 +82,17 @@ def assay_sensitivity(rows: list[EmpiricalSD] | None = None,
                       sd: float | None = None) -> list[AssaySensitivity]:
     """For each placebo-controlled trial, how good would the drug have had to be?
 
-    `sd` is the noise estimate used for the MDE; it defaults to the pooled empirical SD
-    so every trial is judged on the same footing.
+    `sd` overrides the noise estimate. Left unset, each trial is judged on **its own**
+    measured SD rather than a common pooled one. That used to be the other way round,
+    on the reasoning that a shared estimate stops a small noisy trial flattering itself.
+    It has to be per-trial now: the noise is not a constant across designs — it scales
+    with how hard the challenge hit (see `ctsim.variance`) — so a common SD would
+    penalise gentle-challenge trials and flatter harsh-challenge ones.
+
+    The trials' own numbers are also the more conservative choice here, and the headline
+    comparison does not depend on the switch.
     """
     rows = load_empirical() if rows is None else rows
-    sd = pooled_sd(rows) if sd is None else sd
 
     by_trial: dict[str, list[EmpiricalSD]] = {}
     for r in rows:
@@ -108,7 +115,8 @@ def assay_sensitivity(rows: list[EmpiricalSD] | None = None,
             continue
         ctrl = controls[0]
         n = min(a.n_arm for a in arms)
-        m = mde(n, sd)
+        sd_used = sd if sd is not None else pooled_sd(arms)
+        m = mde(n, sd_used)
         lo, hi = _injury_ci(ctrl.delta, ctrl.sd, ctrl.n_arm or n)
         # Injury magnitude is the size of the control arm's deterioration. The best case
         # for the trial is the largest injury its CI still allows.
@@ -123,6 +131,7 @@ def assay_sensitivity(rows: list[EmpiricalSD] | None = None,
                 control_delta_lo=lo,
                 control_delta_hi=hi,
                 mde_80=m,
+                sd_used=sd_used,
                 min_protection=m / injury if injury > 0 else float("inf"),
                 min_protection_best_case=m / injury_best if injury_best > 0 else float("inf"),
             )
@@ -154,10 +163,15 @@ def challenge_dose_options(n_per_arm: int, sd: float | None = None,
 
     Drug arms are excluded on purpose: their change reflects challenge minus whatever
     the drug did, which is the thing being measured, not a property of the protocol.
+
+    Each protocol is costed at the SD that goes with *its own* injury, not a shared one.
+    That matters: a harsher challenge raises the noise as well as the signal, so pricing
+    every protocol at one SD makes hard challenges look better than they are.
     """
+    from ctsim.variance import fit_injury_variance
+
     rows = load_empirical() if rows is None else rows
-    sd = pooled_sd(rows) if sd is None else sd
-    m = mde(n_per_arm, sd)
+    model = fit_injury_variance()
     k = (stats.norm.ppf(0.975) + stats.norm.ppf(0.80)) ** 2
 
     out: list[ChallengeOption] = []
@@ -167,14 +181,15 @@ def challenge_dose_options(n_per_arm: int, sd: float | None = None,
             # A restoration trial's control arm is not measuring a challenge protocol.
             continue
         injury = abs(r.delta)
+        sd_here = sd if sd is not None else model.sd_at(injury)
         half = injury / 2
         out.append(
             ChallengeOption(
                 source=r.nct_id,
                 label=r.arm_label,
                 injury=injury,
-                min_protection=m / injury,
-                n_for_half_protection=math.ceil(2 * k * sd**2 / half**2),
+                min_protection=mde(n_per_arm, sd_here) / injury,
+                n_for_half_protection=math.ceil(2 * k * sd_here**2 / half**2),
             )
         )
     return out
@@ -208,7 +223,7 @@ def could_detect_benchmark(benchmark_protection: float,
     """
     rows = load_empirical() if rows is None else rows
     out: list[BenchmarkCheck] = []
-    for a in assay_sensitivity(rows, sd):
+    for a in assay_sensitivity(rows):
         out.append(
             BenchmarkCheck(
                 nct_id=a.nct_id,
@@ -225,22 +240,21 @@ def could_detect_benchmark(benchmark_protection: float,
 
 def report(rows: list[EmpiricalSD] | None = None) -> str:
     rows = load_empirical() if rows is None else rows
-    sd = pooled_sd(rows)
     meaningful = LIT["vhcd_clinically_significant"].value
 
     lines = [
         "Assay sensitivity: was there a detectable signal available at all?",
         "-" * 78,
-        f"  (noise SD = {sd:.3f}, MDE at 80% power, alpha=0.05 two-sided)",
+        "  (each trial judged on its own measured SD; MDE at 80% power, two-sided)",
         "",
-        (f"  {'trial':<14}{'n/arm':>6}{'control d':>11}{'95% CI':>18}"
+        (f"  {'trial':<14}{'n/arm':>6}{'own SD':>8}{'control d':>11}{'95% CI':>18}"
          f"{'MDE':>8}{'min protection':>16}"),
     ]
-    for a in assay_sensitivity(rows, sd):
+    for a in assay_sensitivity(rows):
         prot = ("impossible" if a.min_protection > 1
                 else f"{a.min_protection:.0%}")
         lines.append(
-            f"  {a.nct_id:<14}{a.n_per_arm:>6}{a.control_delta:>+11.3f}"
+            f"  {a.nct_id:<14}{a.n_per_arm:>6}{a.sd_used:>8.3f}{a.control_delta:>+11.3f}"
             f"{f'[{a.control_delta_lo:+.2f},{a.control_delta_hi:+.2f}]':>18}"
             f"{a.mde_80:>8.3f}{prot:>16}"
         )
@@ -265,7 +279,7 @@ def report(rows: list[EmpiricalSD] | None = None) -> str:
         (f"  {'source':<14}{'arm':<26}{'injury':>9}{'min protection':>16}"
          f"{'N/arm for 50%':>15}"),
     ]
-    for c in challenge_dose_options(25, sd, rows):
+    for c in challenge_dose_options(25, None, rows):
         prot = "impossible" if c.min_protection > 1 else f"{c.min_protection:.0%}"
         lines.append(
             f"  {c.source:<14}{c.label[:24]:<26}{c.injury:>9.3f}{prot:>16}"

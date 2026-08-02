@@ -1,225 +1,215 @@
 # Could these celiac trials have detected their drugs?
 
-Two celiac trials ran a gluten challenge against the same endpoint. In both, the placebo
-arm lost **exactly 0.61** of villous height : crypt depth ratio — the same injury, the
-same disease, the same measurement.
+Three gluten-challenge trials, one endpoint, near-identical injury to the placebo arm's
+gut (−0.61, −0.61, −0.63 of villous height : crypt depth). Two of the drugs protected
+about as well as each other. One is the only celiac drug ever to hit a histologic
+primary endpoint. The other was written up as a miss.
 
-**ZED1227** needed its drug to prevent **54%** of that injury to reach 80% power. Its
-drug prevented 72–79%. It worked, and remains the first and so far only celiac drug to
-hit a histologic primary endpoint.
+| Trial | n/arm | Protection **delivered** | Protection **needed** for 80% power | Reported |
+|---|---|---|---|---|
+| **ZED1227** | 34 | **79%** | **54%** | p < 0.001 ✅ |
+| **TAK-101** Ph2a | 13 | **71%** | **95%** | p = 0.08 ❌ |
+| **KAN-101** SynCeD | 25 | −39% | 86% | null ❌ |
 
-**KAN-101's Phase 2a** needed its drug to prevent **86%**. Handed a drug exactly as good
-as ZED1227's, it would still have reported a null.
+TAK-101 delivered essentially what ZED1227 delivered. At ZED1227's sample size it would
+have had **92% power** instead of 55%. Its failure is a sample-size artifact, not a
+result about the drug.
 
-The difference was not the biology. It was 25 patients per arm instead of 34, and a
-protocol that assumed the endpoint was quieter than it is.
+KAN-101's drug arm went the wrong way, so we can't say it worked — but we also can't say
+it didn't. Handed a drug as good as ZED1227's, that trial still reports a null.
 
 ```bash
 uv run python -m ctsim.simulate     # full report
-uv run pytest                       # 51 tests
+uv run pytest                       # 59 tests
 ```
 
 Live version: **[ahmetdedeler.com/celiac](https://ahmetdedeler.com/celiac)**
 
 ---
 
-## 1. The trials that guessed the noise wrong are the ones that failed
+## 1. The noise is not a constant. It grows with the injury.
 
-Sample size is a function of an assumed standard deviation, written into the protocol
-before anyone sees data. Those assumptions are public. Almost nobody checks them against
-what the trial then measured.
+This repo used to quote one pooled standard deviation for ΔVH:CD and apply it to every
+design. That was wrong twice over — once in the arithmetic (§4) and once in the concept.
 
-| Trial | Target effect | **Assumed SD** | **Observed SD** | Claimed power | Actual power |
+Plot every published arm's SD against how much its mucosa actually moved:
+
+**SD = 0.400 (±0.024) + 0.299 (±0.073) × |injury|** — 16 arms, 6 trials, r = 0.91
+
+| |injury| | SD observed | SD fitted | n | arm |
+|---|---|---|---|---|
+| 0.006 | 0.417 | 0.402 | 60 | TAK-062 placebo |
+| 0.06 | 0.516 | 0.418 | 7 | 3 g gluten × 14 d |
+| 0.15 | 0.413 | 0.445 | 77 | latiglutenase 300 mg |
+| 0.27 | 0.401 | 0.481 | 125 | CeliAction placebo |
+| 0.35 | 0.616 | 0.504 | 22 | IMGX003 placebo |
+| 0.61 | 0.614 | 0.582 | 25 | KAN-101 placebo |
+| 0.63 | 0.657 | 0.588 | 15 | TAK-101 placebo |
+| 0.85 | 0.707 | 0.654 | 25 | KAN-101 drug |
+| 1.53 | 0.941 | 0.857 | 7 | 10 g gluten × 14 d |
+
+Mechanistically this is not surprising. The **floor (0.40)** is what the assay costs you
+when nothing happens: biopsy siting, orientation, reading. The **slope** is patient
+heterogeneity in *response* — if the average patient loses 1.5 of villous height,
+patients differ in how much they lose, and that spread scales with the mean.
+
+A formal homogeneity test rejects a single pooled SD (Bartlett p < 0.001). The injury
+model is what replaces it, and there is a test asserting the rejection, so nobody
+reintroduces one average later.
+
+### This weakens a design claim I published earlier
+
+A harsher gluten challenge buys more signal — and more noise with it.
+
+| Challenge injury | SD | N/arm for 50% protection | N/arm if SD were constant |
+|---|---|---|---|
+| 0.20 | 0.460 | 332 | 533 |
+| 0.61 | 0.582 | 58 | 58 |
+| 1.00 | 0.699 | 31 | 22 |
+| **1.53** | 0.857 | **20** | **10** |
+| 2.50 | 1.147 | 14 | 4 |
+
+The right-hand column is the earlier version of this README. It claimed a 10 g/day
+challenge cuts a trial from 93 patients per arm to 15. The real figure is **58 → 20**.
+Still the single biggest lever, but it saturates: N falls roughly as 1/injury, not the
+1/injury² that constant-SD arithmetic predicts.
+
+## 2. The trials that guessed the noise wrong are the ones that failed
+
+Sample size is a function of an assumed SD, written into the protocol before anyone sees
+data. Those assumptions are public. Almost nobody checks them.
+
+| Trial | Target effect | **Assumed SD** | **Observed SD** | Claimed power | Actual |
 |---|---|---|---|---|---|
-| **ZED1227** (CEC-3) | 0.60 | **0.80** | **0.481** | 80% | ~100% |
+| **ZED1227** | 0.60 | **0.80** | **0.481** | 80% | ~100% |
 | **KAN-101 SynCeD** | 0.50 | **0.50** | **0.662** | 94% | **78%** |
 
 ZED1227 assumed 66% more noise than it found and cleared its endpoint with room to
-spare. KAN-101 assumed 25% less noise than it found, and the 94% power in its statistical
-analysis plan was really 78% — or 67% against the pooled estimate below.
+spare. KAN-101 assumed 25% less than it found, and its SAP's 94% was really 78%.
 
-Both assumptions are quoted verbatim with URLs in
-[`src/ctsim/published.py`](src/ctsim/published.py). KAN-101's is from the SAP posted on
-ClinicalTrials.gov; ZED1227's appears identically in the NEJM paper and the protocol.
-
+Both are quoted verbatim with URLs in [`src/ctsim/published.py`](src/ctsim/published.py).
 Neither sponsor cited a source for its assumed SD. Neither number appears to have come
 from data.
-
-## 2. What the noise actually is
-
-Pooled between-patient SD of ΔVH:CD, from posted per-arm results:
-
-**0.740, 95% CI 0.670–0.826** (6 arms, 3 trials, df = 177)
-
-The README this replaces called that a small pool and moved on. It survives being
-attacked properly:
-
-| Check | Result |
-|---|---|
-| Bartlett test of variance homogeneity | T = 3.87, df = 5, **p = 0.57** — pooling is justified |
-| Leave-one-trial-out | 0.683 – 0.767 |
-| Placebo/control arms only | 0.732 |
-| Posted SDs only, no SE conversion | 0.683 |
-| **ZED1227, entirely independent, not in the pool** | **0.481** (ANCOVA-residual scale) |
-
-Every subset lands between 0.68 and 0.77. ZED1227 sits lower, but on a different scale —
-see the provenance section.
-
-### Reader error is the small term, and probably smaller than previously stated
-
-| Component | SD | Share of variance |
-|---|---|---|
-| Total between-patient (ΔVH:CD) | 0.740 | 100% |
-| Reader (intra-observer, single central reader) | 0.159 | **4.6%** |
-| Residual: biology + biopsy site + orientation | 0.723 | **95.4%** |
-
-An earlier version of this repo put the reader share at 9.2%. That was a double count.
-Taavela's "error margins" are Bland–Altman repeatability coefficients — twice the SD of
-the *paired difference* between two reads, not twice the SD of one read. The paper's own
-limits of agreement settle it: reported as −0.516 to +0.375, a span of 0.891, and
-2 × 1.96 × 0.227 = 0.890. A change-from-baseline score is itself a difference of two
-reads, so it inherits that SD directly, with no further √2.
-
-Reader error is not a single number, though, and quoting only the friendliest estimate
-would be cheating. The same group, same SOP, reported considerably worse reproducibility
-eight years later:
-
-| Estimate | Reader SD | Share |
-|---|---|---|
-| Taavela 2013, intraobserver | 0.159 | 4.6% |
-| Taavela 2021, intraobserver APOA4 | 0.194 | 6.9% |
-| Taavela 2021, intraobserver H&E | 0.264 | 12.7% |
-| Taavela 2021, **inter**observer H&E | 0.508 | 47.2% |
-
-The conclusion — that reader disagreement is the minority term — holds across every
-*intra*observer estimate, which is the right comparator for a trial with one blinded
-central reader. It fails if that assumption fails. That is the number to attack.
-
-Also note what the reader-error study did *not* capture: it re-read **the same paraffin
-blocks**. Zero biopsy-site variability, zero between-endoscopy variability. It is a floor
-on reading error, not on measuring a change across two endoscopies.
 
 ## 3. What was available to detect
 
 A gluten-challenge trial can only detect what the challenge causes. If the control arm
-loses 0.61, a drug preventing fraction *f* of that produces a between-arm difference of
-exactly *f* × 0.61, and *f* cannot exceed 1. That caps the detectable effect before
-sample size enters.
+loses 0.61, a drug preventing fraction *f* produces a between-arm difference of exactly
+*f* × 0.61, and *f* cannot exceed 1. That caps the effect before sample size enters —
+the standard regulatory notion of assay sensitivity, applied to an endpoint whose
+control-arm trajectory is public.
 
-| Trial | n/arm | Control injury | MDE (80%) | Protection needed |
-|---|---|---|---|---|
-| ZED1227 | 34 | −0.61 | 0.327 | **54%** — and it delivered 72–79% |
-| KAN-101 SynCeD | 25 | −0.61 | 0.525 | **86%** |
-| KAN-101, judged on the pooled SD | 25 | −0.61 | 0.586 | **96%** |
+Each trial is judged on **its own** measured SD, since noise is not a constant across
+designs.
 
-This is the standard regulatory notion of assay sensitivity, applied to an endpoint where
-the control-arm trajectory is public.
+## 4. Corrections to this repo's own earlier claims
 
-**The challenge protocol is the dominant design lever**, because required N scales with
-1/injury². The dataset contains direct measurements of what different protocols do:
+Everything below was wrong in a previous version and is fixed here.
 
-| Protocol | Control-arm injury | N/arm to detect 50% protection |
-|---|---|---|
-| 10 g/day gluten, 14 days (NCT03409796) | **−1.53** | **15** |
-| KAN-101 SynCeD 2-week challenge | −0.61 | 93 |
-| 3 g/day gluten, 14 days (NCT03409796) | −0.06 | no usable signal at any N |
+**The headline SD was 0.740. It is ~0.52, and even that shouldn't be quoted alone.**
+The pipeline converted *least-squares-mean* standard errors to SDs via SE×√n. That is
+invalid — an LS-mean SE carries model terms that cancel in the between-arm contrast. On
+TAK-062, which supplied two-thirds of the pooled degrees of freedom, it inflated the SD
+from 0.418 to 0.775. The registry's own posted p-value settles it:
 
-A 3 g/day challenge for two weeks does not measurably flatten villi. A 10 g/day challenge
-does, and makes a 15-patient arm sufficient where a weak challenge needs 93.
+| Route | Implied SE of difference | Test statistic | p |
+|---|---|---|---|
+| SE×√n on arm LS means | 0.141 | 2.35 | 0.019 |
+| Posted ANCOVA contrast | 0.077 | 4.32 | **0.000015** |
+| *What the registry posts* | | | **< 0.001** ✓ |
 
-### Two levers that do not save you
+Only the contrast reproduces it. LS-mean rows now derive their SD from the posted
+contrast or drop out entirely. Where trials post genuine means with genuine SDs the two
+routes agree (KAN-101: 0.654 vs 0.662), so this doesn't bend the data — it only bites
+where the shortcut was invalid.
 
-**ANCOVA instead of a change score.** The baseline-to-follow-up correlation is recoverable
-from trials that post both a baseline SD and a change SD: ρ = 0.44–0.73. ANCOVA cuts the
-required N by 13–28%. It is free — a line in the analysis plan — and it is not enough.
+**Reader error was 9.2%, then 4.6%, and is really a range.** Taavela's "error margins"
+are Bland–Altman repeatability coefficients — the SD of a *paired difference*, not of one
+read. A change score is also a paired difference, so the extra √2 was a double count.
+The paper's own limits of agreement confirm it (span 0.891 vs 2×1.96×0.227 = 0.890).
+Since only the injury term grows, the reader share depends on the challenge: **3–16%**
+under Taavela 2013, up to 9–44% under the harsher 2021 H&E figures.
+
+Takeda then measured it directly (UEG Week 2025, abstract MP739):
+
+> "52% of the variability was at the patient level and 23% at the biopsy level. Only 1%
+> of the variability was due to reader effects."
+
+That settles the direction and retires limitation #3 below — sampling *can* be separated
+from biology, and the answer is 23%. Caveat: their readers were averaged, so 1% is a
+floor, not a like-for-like comparison. Separately, the Taavela 2021 **inter**observer
+figure implies more reader variance than the entire observed floor, which is impossible —
+real central-reading setups are demonstrably tighter than that study's.
+
+**"0.40 is the clinically meaningful change."** It isn't. Taavela derived it from their
+own reader error — *"a cautious new cut-off value of 0.4 ... a clinically relevant
+difference between measurements"* — a reading-reproducibility floor for one patient,
+rounded up. Tampere consensus adopted >0.4 citing only that paper, graded **D**. FDA's
+2022 draft guidance names Marsh-Oberhuber and never mentions VH:CD; EMA has no celiac
+guideline. Trials don't target it either: ZED1227 powered on 0.6, KAN-101 on 0.50.
+
+**"TAK-062's failure looks real."** Withdrawn. Its VH:CD endpoint was *secondary* and it
+powered on a symptom score. It is also a restoration design, where a flat control arm is
+not a missing signal, so the protection ceiling does not apply — trials are now
+classified prevention vs restoration and scored accordingly.
+
+**Citations.** PMID 24098545 is a tamoxifen meta-analysis; Taavela 2013 is **24146832**.
+The 30% IEL threshold originates in Pollock 1992 (*Ann Clin Biochem*), not Taavela.
+`NCT03766445` does not exist. ZED1227 is EudraCT **2017-002241-30**, not 2018-002603-14.
+
+## 5. Two levers that still don't save you
+
+**ANCOVA instead of a change score.** Baseline–follow-up correlation recovered from
+posted SDs: ρ = 0.22–0.73, cutting required N from 34 to 21–29 per arm. Free, and not
+enough. (Arms where the implied ρ goes negative are excluded and flagged: that means the
+follow-up spread exceeded baseline — the injury model again — not a real anticorrelation.)
 
 **Switching to IEL density.** Required N depends on the standardized effect, so a noisier
-endpoint with a proportionally larger meaningful change costs nothing. In the challenge
-population: VH:CD needs 46/arm, IEL density needs 67/arm. IEL is *worse*. The noise is in
-the biology and the biopsy, not in the choice of what to measure on the slide.
+endpoint with a proportionally larger threshold costs nothing. In the challenge
+population VH:CD needs 46/arm and IEL needs 56. IEL is worse. Takeda reached the same
+conclusion independently: *"no endpoint outperformed Vh:Cd."*
 
-## 4. What "0.40" actually is
+## 6. Data and provenance
 
-Most of the field, and the first version of this repo, treats 0.40 as the clinically
-meaningful change in VH:CD. It is not, and the distinction matters because it is used as
-a power target.
-
-Taavela derived it from their own reader error:
-
-> "twice the standard deviation was only 0.318 in the intraobserver Bland-Altman
-> analysis. A cautious new cut-off value of 0.4 could thus be assigned to represent a
-> clinically relevant difference **between measurements**."
-
-It is a reading-reproducibility floor for one patient's paired biopsies, rounded up. The
-value it replaced (0.5) was itself a lab convention. The Tampere consensus (*Gut* 2018)
-adopted >0.4 citing only this paper and graded it **D**. There is no anchor-based MCID
-study for VH:CD.
-
-Three corrections follow, all of which apply to this repo's own earlier claims:
-
-1. **FDA has never named VH:CD.** The 2022 draft guidance on celiac drug development
-   asks for "histology using a clinically accepted scale (e.g., Marsh-Oberhuber
-   classification)" and specifies no effect size. The previous claim that VH:CD is "the
-   endpoint regulators want" was wrong. EMA has no celiac guideline at all.
-2. **"Noise is 1.85× the effect size" oversold it.** A between-patient SD and a
-   within-patient reading threshold are different quantities. SD/δ is still exactly what
-   sets sample size, so the arithmetic downstream stands — but the phrase implied the
-   endpoint is unusable, which does not follow.
-3. **Trials do not target 0.40.** ZED1227 powered on 0.6, KAN-101 on 0.50. Judging a
-   trial against a threshold it never adopted is the same error, pointed the other way —
-   so each trial is now also scored against its own registered target.
-
-## 5. Data and provenance
-
-- **20 celiac trials** pulled from the ClinicalTrials.gov API v2, 10 with posted results.
+- **22 celiac trials** from the ClinicalTrials.gov API v2, 11 with posted results
   → [`data/curated/histology_endpoints.csv`](data/curated/histology_endpoints.csv)
-- **ZED1227** is hand-entered from the NEJM paper — it is registered only in EudraCT
-  (2017-002241-30) and has no NCT number, so no API reaches it. Every value carries a
-  verbatim quote and URL in [`src/ctsim/published.py`](src/ctsim/published.py).
+- **Papers, hand-entered** with a verbatim quote and URL each, in
+  [`src/ctsim/published.py`](src/ctsim/published.py): ZED1227 (EudraCT-only, no NCT
+  number exists), IMGX003/CeliacShield, CeliAction.
 - **Literature constants** with citations in [`src/ctsim/model.py`](src/ctsim/model.py).
 
-Three provenance rules the numbers depend on:
+Rules the numbers depend on:
 
-**Dispersion conversion.** Posted dispersions come as SD, SE or 95% CI. Each is converted
-to a between-patient SD and tagged `sd_source`. Rows that cannot be converted keep
-`sd = None` and are excluded rather than guessed at.
+**Dispersion conversion.** SD / SE / CI each convert differently, and least-squares means
+convert only through a posted contrast. Every row is tagged `sd_source`. Rows that cannot
+be converted validly keep `sd = None` and drop out — losing data is the correct outcome
+when the alternative is inventing it.
 
-**Variance scale.** A raw change score has variance 2σ²(1−ρ); an ANCOVA least-squares mean
-has σ²(1−ρ²). These are not the same quantity, and the dataset now tags which is which
-(`param_type` → `sd_scale`). Pooling by scale: change-score arms give 0.683 (df 60),
-ANCOVA-residual arms give 0.768 (df 117). They cannot be reconciled through ρ alone
-because scale is confounded with population here — the ANCOVA arms are also the only
-restoration-design arms. Both are reported; neither is silently averaged into the other.
-
-**ZED1227 is one row, not four.** All four of its arms imply nearly the same SD
+**One row per variance estimate.** ZED1227's four arms all imply the same SD
 (0.475–0.487) because they come from one model with a common residual variance. Entering
-them as four arms would quadruple the apparent degrees of freedom. It is stored at the
+four rows would quadruple the apparent degrees of freedom; it is stored once at the
 model's real df (137).
 
-## 6. Honest limitations
+**Recorded absences.** `NOT_AVAILABLE` lists what was searched for and genuinely isn't
+published — ALV003-1021's dispersion (nowhere, in paper or three supplements), TAK-062's
+raw SD, AMG 714's raw ratio units (both 2019 papers closed-access), Nexvax2's within-arm
+change SDs — so the next person doesn't spend an afternoon rediscovering the gap.
 
-1. **Small pool.** Six arms, three trials for the headline SD, plus ZED1227 independently.
-   It now survives a homogeneity test and leave-one-trial-out, which is more than the
-   previous version could say — but it is not thirty trials.
-2. **Reader share is a range, not a number.** 4.6% under Taavela 2013, 12.7% under the
-   2021 H&E figure, 47% if the single-central-reader assumption fails. The qualitative
-   claim survives all the intraobserver estimates.
-3. **Sampling vs biological variance cannot be separated from public data.** The
-   simulator exposes this as an explicit `sampling_share` knob rather than pretending to
-   know it. The experiment that would settle it is a multi-fragment re-read study.
-4. **The protection-ceiling analysis applies only to prevention designs.** Trials
-   enrolling patients with active atrophy (TAK-062, PRV-015) expect healing, so their
-   ceiling is the headroom to a normal mucosa, which needs a baseline VH:CD none of them
-   post. Those trials are excluded from that table rather than scored wrongly.
-   In particular the earlier claim that TAK-062's failure "looks real" is withdrawn: its
-   VH:CD endpoint was **secondary**, and it powered itself on a symptom score, not on
-   histology at all.
-5. **SE→SD conversion assumes posted LS-mean standard errors reflect residual
-   between-patient variance.** For MMRM/ANCOVA outcomes these are covariate-adjusted.
-   Flagged per row.
-6. **None of this says whether any of these drugs work.** It says what these trials were
-   capable of detecting. Underpowered is not the same as ineffective — which is exactly
-   why KAN-101's null result should not be read as evidence about KAN-101.
+## 7. Honest limitations
+
+1. **The injury model is 16 arms from 6 trials.** r = 0.91 and the slope is four SEs from
+   zero, but it is a straight line through a modest cloud, and the harshest-challenge
+   point (injury 1.53) rests on n = 7.
+2. **Scale is confounded with population.** Change-score SDs and ANCOVA-residual SDs are
+   different quantities, and the trials supplying each are also the trials with different
+   designs. Both are tagged; neither is silently averaged into the other.
+3. **The protection ceiling applies only to prevention designs.** Restoration trials'
+   ceiling is headroom to a normal mucosa, which needs a baseline VH:CD none of them post.
+4. **Reader share is a range, not a number** — 3–16% under one study, up to 44% under
+   another, 1% as measured by Takeda with averaged readers.
+5. **None of this says whether any of these drugs work.** It says what these trials could
+   have detected. Underpowered is not the same as ineffective — which is the entire point
+   of the TAK-101 row at the top.
 
 ## Why this exists
 
@@ -232,14 +222,13 @@ arithmetically capable of finding what they were looking for.
 
 ## Contributing
 
-1. **More trials.** Latiglutenase/IMGX003, TAK-101 and the ALV003 gluten-challenge study
-   all report VH:CD in papers but not the registry. Add them to
-   [`src/ctsim/published.py`](src/ctsim/published.py) with a verbatim quote.
-2. **More design assumptions.** The planned-vs-observed table is the most useful thing
-   here and currently has two rows. Every protocol PDF on ClinicalTrials.gov with a
-   sample-size section is another row.
-3. **Challenge the variance decomposition.** If you have re-read data, the reader share
-   is the number to attack.
+1. **More design assumptions.** The planned-vs-observed table is the most useful thing
+   here and has two rows. Every protocol or SAP PDF attached to a ClinicalTrials.gov
+   record with a sample-size section is another row, and almost nobody reads them.
+2. **More arms for the injury model.** Any trial reporting a mean change in VH:CD with a
+   genuine SD extends the fit. Add to `PAPER_ARMS` with a verbatim quote.
+3. **Challenge the variance decomposition.** Takeda's 52/23/1 split is one abstract with
+   no methods detail. If you have re-read data, that is the number to attack.
 4. **IPD.** Takeda, Sanofi, Pfizer and Regeneron all share individual patient data
    through [Vivli](https://vivli.org). Nobody has requested the celiac trials.
 

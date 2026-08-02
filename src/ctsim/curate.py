@@ -81,17 +81,36 @@ def is_placebo(label: str) -> bool:
 
 
 def to_sd(value_spread: float | None, dispersion: str, n: int | None,
-          lower: float | None, upper: float | None) -> tuple[float | None, str]:
+          lower: float | None, upper: float | None,
+          param_type: str = "MEAN",
+          contrast_sd: float | None = None) -> tuple[float | None, str]:
     """Normalise a posted dispersion to a between-patient SD.
 
-    SE -> SD requires the analysed N for that arm: SD = SE * sqrt(n).
-    A 95% CI on a mean likewise implies SE = (upper-lower)/(2*z), then SD = SE*sqrt(n).
+    Two regimes, and conflating them was this repo's largest error:
 
-    Note: for LEAST_SQUARES_MEAN outcomes the posted SE comes from a model (often
-    MMRM/ANCOVA) and includes covariate adjustment, so SD recovered this way is an
-    approximation of the residual between-patient SD. Flagged via sd_source.
+    **Genuine arm means.** `MEAN` with a posted `Standard Deviation` is already the
+    quantity wanted. `SE -> SD` via SE*sqrt(n), and `CI -> SE -> SD`, are valid here
+    because the posted SE really is sd/sqrt(n) for that arm.
+
+    **Least-squares means.** An LS-mean SE is a model output carrying terms that cancel
+    in the between-arm contrast, so SE*sqrt(n) does NOT recover the residual SD. On
+    TAK-062 that mistake inflated the SD from 0.418 to 0.775 — and because TAK-062
+    contributes two-thirds of the pooled degrees of freedom, it dragged this repo's
+    headline estimate from 0.52 to 0.74.
+
+    So for LS means the only accepted route is the posted between-arm contrast
+    (`contrast_sd`, computed in `ctsim.fetch`). Where no contrast is posted, the row
+    keeps `sd = None` and drops out of pooling. That loses data, which is the correct
+    outcome: a number that cannot be derived validly should not be derived.
     """
     d = (dispersion or "").lower()
+    is_lsmean = "SQUARES" in (param_type or "").upper()
+
+    if is_lsmean:
+        if contrast_sd is not None:
+            return contrast_sd, "from_contrast"
+        return None, "lsmean_no_contrast"
+
     if "standard deviation" in d and value_spread is not None:
         return value_spread, "posted_sd"
     if "standard error" in d and value_spread is not None and n:
@@ -116,7 +135,8 @@ def build() -> list[Row]:
             # binary endpoints and need a different treatment than continuous SDs.
             if v.param_type in {"COUNT_OF_PARTICIPANTS", "NUMBER"} and "percent change" not in v.unit.lower():
                 continue
-            sd, src = to_sd(v.spread, v.dispersion_type, v.n_analyzed, v.lower, v.upper)
+            sd, src = to_sd(v.spread, v.dispersion_type, v.n_analyzed, v.lower, v.upper,
+                            v.param_type, v.contrast_sd)
             rows.append(
                 Row(
                     nct_id=rec.nct_id,

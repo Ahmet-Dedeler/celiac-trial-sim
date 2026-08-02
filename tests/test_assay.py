@@ -17,7 +17,6 @@ from ctsim.model import (
     ancova_variance_ratio,
     baseline_correlation,
     load_empirical,
-    pooled_sd,
 )
 from ctsim.simulate import analytic_power, mde
 
@@ -118,12 +117,20 @@ def test_stronger_challenge_needs_a_smaller_trial():
     assert ns == sorted(ns, reverse=True), "bigger injury must require fewer patients"
 
 
-def test_required_n_scales_as_inverse_square_of_injury():
-    opts = {o.label: o for o in challenge_dose_options(25)}
-    a, b = sorted(opts.values(), key=lambda o: o.injury)[-2:]
-    ratio_n = a.n_for_half_protection / b.n_for_half_protection
-    ratio_injury_sq = (b.injury / a.injury) ** 2
-    assert ratio_n == pytest.approx(ratio_injury_sq, rel=0.05)
+def test_required_n_falls_slower_than_inverse_square_of_injury():
+    """A harsher challenge helps, but not as much as constant-SD arithmetic claims.
+
+    With SD fixed, N would scale as 1/injury^2. Because SD grows with injury, the real
+    gain is closer to 1/injury. This repo previously published the 1/injury^2 answer and
+    overstated the challenge lever roughly threefold.
+    """
+    opts = sorted(challenge_dose_options(25), key=lambda o: o.injury)
+    a, b = opts[-2:]  # a = smaller injury, b = larger
+    observed_gain = a.n_for_half_protection / b.n_for_half_protection
+    naive_gain = (b.injury / a.injury) ** 2
+    linear_gain = b.injury / a.injury
+    assert observed_gain < naive_gain / 1.5, "gain should be well short of 1/injury^2"
+    assert observed_gain > linear_gain * 0.8, "but a harsher challenge must still help"
 
 
 # --- baseline correlation / ANCOVA ------------------------------------------
@@ -166,4 +173,37 @@ def test_positive_change_scores_survive_loading():
     # Every retained row is a change score, so none should carry a raw baseline
     # magnitude (~2-3 in VH:CD units).
     assert all(abs(r.delta) < 2.0 for r in rows)
-    assert pooled_sd(rows) == pytest.approx(0.740, abs=0.005)
+
+
+def test_lsmean_arms_never_use_the_se_times_sqrt_n_shortcut():
+    """The error that inflated this repo's headline SD by 40%.
+
+    An LS-mean SE carries model terms that cancel in the between-arm contrast, so
+    SE*sqrt(n) does not recover a residual SD. Only a posted contrast may be used.
+    """
+    import csv
+
+    from ctsim.model import CURATED
+
+    with CURATED.open() as fh:
+        for row in csv.DictReader(fh):
+            if "SQUARES" in row["param_type"].upper():
+                assert row["sd_source"] in {"from_contrast", "lsmean_no_contrast"}, (
+                    f"{row['nct_id']} used {row['sd_source']} on a least-squares mean"
+                )
+
+
+def test_tak062_sd_comes_from_its_contrast_and_matches_its_posted_p_value():
+    """Cross-check that ties the corrected SD to something the registry published.
+
+    At the contrast-derived SD the test statistic reproduces the posted p<0.001; at the
+    SE*sqrt(n) figure it would be p=0.02, contradicting the registry.
+    """
+    from scipy import stats as st
+
+    rows = [r for r in load_empirical() if r.nct_id == "NCT05353985"]
+    assert rows and all(r.sd_source == "from_contrast" for r in rows)
+    sd = rows[0].sd
+    se_diff = sd * math.sqrt(1 / 60 + 1 / 59)
+    z = 0.331 / se_diff
+    assert 2 * st.norm.sf(z) < 0.001, "corrected SD must reproduce the posted p<0.001"

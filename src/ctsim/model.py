@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import csv
 import math
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from statistics import mean
@@ -183,8 +184,11 @@ def load_empirical(endpoint: str = "VHCD", scale: str = "ratio",
             # outcome title, which tags baseline rows explicitly, rather than on the
             # value: a change score can legitimately be positive (mucosal healing), so
             # thresholding on the value would silently drop real recovery data.
+            # Baseline rows carry absolute levels, not changes. Registries label the
+            # class inconsistently ("[Baseline]", "[Baseline (Screening)]"), so match
+            # the bracketed class label rather than any one spelling.
             title = r["outcome_title"].lower()
-            if changes_only and "[baseline]" in title:
+            if changes_only and re.search(r"\[baseline", title):
                 continue
             out.append(
                 EmpiricalSD(
@@ -214,7 +218,7 @@ def load_baselines(endpoint: str = "VHCD", scale: str = "ratio") -> list[Empiric
         for r in csv.DictReader(fh):
             if r["endpoint"] != endpoint or r["scale"] != scale or not r["sd"]:
                 continue
-            if "[baseline]" not in r["outcome_title"].lower():
+            if not re.search(r"\[baseline", r["outcome_title"].lower()):
                 continue
             out.append(
                 EmpiricalSD(
@@ -313,6 +317,11 @@ class BaselineCorrelation:
     sd_change: float
     rho: float
 
+    @property
+    def assumption_holds(self) -> bool:
+        """A negative rho means sd_followup > sd_baseline, so the estimate is invalid."""
+        return self.rho >= 0.0
+
 
 def baseline_correlation(nct_id: str | None = None) -> list[BaselineCorrelation]:
     """Recover the baseline-to-follow-up correlation of VH:CD from posted summaries.
@@ -331,6 +340,12 @@ def baseline_correlation(nct_id: str | None = None) -> list[BaselineCorrelation]
     challenge the mucosa flattens, which compresses the follow-up spread, so sd_f is
     probably a little *below* sd_b and these estimates are correspondingly rough.
     They are reported as a range, never as a single number.
+
+    Worse than "rough", in fact: `ctsim.variance` shows the follow-up spread *grows*
+    with the injury a challenge inflicts, so sd_f > sd_b systematically in exactly the
+    trials this is applied to. That biases rho downward, and an arm whose challenge hit
+    hard enough can come out negative — which is not a real negative correlation, it is
+    the assumption failing out loud. Such arms are flagged rather than dropped.
     """
     changes = {(r.nct_id, r.arm_label): r for r in load_empirical()}
     out: list[BaselineCorrelation] = []
@@ -399,7 +414,8 @@ def endpoint_comparison(population: set[str] | None = None) -> list[EndpointComp
     vhcd = [r for r in load_empirical("VHCD", "ratio") if r.nct_id in population]
     iel = [r for r in load_empirical("IEL", "cells_per_100") if r.nct_id in population]
 
-    iel_baselines = [b.delta for b in load_baselines("IEL", "cells_per_100")]
+    iel_baselines = [b.delta for b in load_baselines("IEL", "cells_per_100")
+                     if b.nct_id in population]
     if not iel_baselines or not vhcd or not iel:
         return []
     baseline_iel = mean(iel_baselines)

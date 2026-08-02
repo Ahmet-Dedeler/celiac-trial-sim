@@ -271,28 +271,56 @@ def planned_vs_actual() -> str:
 def report() -> str:
     # Imported here rather than at module scope: `assay` imports `mde` from this
     # module, so a top-level import would be circular.
-    from ctsim import assay, uncertainty
+    from ctsim import assay, published, uncertainty, variance
 
     rows = load_empirical()
     est = uncertainty.pooled_estimate(rows)
-    sd = est.sd
+    model = variance.fit_injury_variance()
     meaningful = LIT["vhcd_clinically_significant"].value
+    # A single SD is only meaningful once an injury level is named. 0.61 is what both
+    # KAN-101's and ZED1227's placebo arms actually sustained, so it is the honest
+    # reference point for "a typical gluten-challenge trial".
+    sd = model.sd_at(0.61)
     dec = decompose_vhcd(sd)
 
     lines: list[str] = []
     lines.append("=" * 78)
     lines.append("CELIAC TRIAL SIMULATOR — ΔVH:CD endpoint")
     lines.append("=" * 78)
-    lines.append(f"pooled between-patient SD (empirical, {len(rows)} arms): {sd:.3f}"
-                 f"  [95% CI {est.ci_low:.3f}-{est.ci_high:.3f}]")
-    lines.append(f"clinically meaningful change:                        {meaningful:.2f}")
-    lines.append(f"noise-to-signal ratio:                               {sd / meaningful:.2f}x")
+    lines.append(variance.report())
     lines.append("")
+    lines.append("-" * 78)
+    lines.append(f"Variance decomposition at a typical challenge (injury 0.61, SD {sd:.3f})")
+    lines.append("-" * 78)
     lines.append(dec.describe())
     lines.append("")
-    lines.append("  reader share under every published estimate of reader error:")
-    for label, reader_sd, share in reader_share_range(sd):
-        lines.append(f"    {label:<62} sd={reader_sd:.3f}  {share:>5.1%}")
+    lines.append("  reader share is not one number — it depends on the reader-error")
+    lines.append("  estimate AND on how hard the challenge was, since only the injury")
+    lines.append("  term grows:")
+    for label, reader_sd, _share in reader_share_range(sd):
+        at_floor = reader_sd**2 / model.floor**2
+        at_hard = reader_sd**2 / model.sd_at(1.53) ** 2
+        if at_floor > 1.0:
+            # Reader error cannot exceed the total variance actually observed. An
+            # estimate that implies it is falsified by the trial data, which is a
+            # result rather than a formatting problem: whatever central-reading setup
+            # these trials use, it is demonstrably tighter than that study's readers.
+            note = f"{at_hard:>5.1%} - >100%  RULED OUT by the observed floor"
+        else:
+            note = f"{at_hard:>5.1%} - {at_floor:>5.1%}"
+        lines.append(f"    {label:<58} {note}")
+    shares = published.MEASURED_VARIANCE_SHARES
+    lines.append("")
+    lines.append("  and Takeda measured it directly in the TAK-062 Phase 2 "
+                 "(UEG 2025, MP739):")
+    lines.append(f"    patient-level {shares['patient']:.0%}   "
+                 f"biopsy-level {shares['biopsy']:.0%}   "
+                 f"reader {shares['reader']:.0%}")
+    lines.append("    — which settles the direction, though their 1% is after averaging")
+    lines.append("      multiple readers, so it is a floor rather than a like-for-like")
+    lines.append("      comparison with the single-reader figures above. The 23%")
+    lines.append("      biopsy-level share is a measured value for what averaging more")
+    lines.append("      fragments per timepoint could remove.")
     lines.append("")
     lines.append(uncertainty.report(rows))
     lines.append("")
@@ -371,7 +399,8 @@ def report() -> str:
     lines.append(f"  baseline: {base_n} per arm to detect 0.40 with a change-score analysis")
     lines.append("")
 
-    corrs = baseline_correlation()
+    corrs = [c for c in baseline_correlation() if c.assumption_holds]
+    dropped = [c for c in baseline_correlation() if not c.assumption_holds]
     if corrs:
         rhos = sorted(c.rho for c in corrs)
         lines.append("  1. Analyse by ANCOVA on baseline instead of a change score.")
@@ -382,13 +411,17 @@ def report() -> str:
             n = required_n(meaningful, sd * math.sqrt(ratio))
             lines.append(f"       rho={r:.2f}: {base_n} -> {n} per arm "
                          f"({1 - n / base_n:.0%} fewer patients)")
+        for c in dropped:
+            lines.append(f"     ({c.nct_id} {c.arm_label[:22]} excluded: implied rho "
+                         f"{c.rho:+.2f} < 0, i.e. the follow-up spread exceeded the")
+            lines.append("      baseline spread and the equal-SD assumption failed)")
         lines.append("     Free — it is a line in the analysis plan — but it does not rescue"
                      " anything.")
         lines.append("")
 
     # Compare only protocols that actually produced measurable injury. Including the
     # arms where the challenge did nothing would give a true but useless ratio.
-    opts = [o for o in assay.challenge_dose_options(25, sd, rows) if o.injury >= meaningful]
+    opts = [o for o in assay.challenge_dose_options(25, None, rows) if o.injury >= meaningful]
     if len(opts) >= 2:
         strongest = max(opts, key=lambda o: o.injury)
         weakest = min(opts, key=lambda o: o.injury)
@@ -401,10 +434,11 @@ def report() -> str:
         lines.append(f"     Same drug, same endpoint, same analysis: "
                      f"{weakest.n_for_half_protection} patients per arm or "
                      f"{strongest.n_for_half_protection}.")
-        lines.append("     Required N scales with 1/injury^2, so this dominates every other"
-                     " lever.")
+        lines.append("     Still the biggest lever, but it saturates: a harsher challenge")
+        lines.append("     raises the noise as well as the signal, so N falls roughly as")
+        lines.append("     1/injury rather than the 1/injury^2 a constant SD would predict.")
         lines.append("")
-        skipped = [o for o in assay.challenge_dose_options(25, sd, rows)
+        skipped = [o for o in assay.challenge_dose_options(25, None, rows)
                    if o.injury < meaningful]
         for o in skipped:
             lines.append(f"     (excluded: {o.source} {o.label[:26]} moved the mucosa only "

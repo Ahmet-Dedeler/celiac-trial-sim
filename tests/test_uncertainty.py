@@ -14,7 +14,6 @@ import pytest
 from ctsim.model import EmpiricalSD, load_empirical, pooled_sd
 from ctsim.uncertainty import (
     bartlett_homogeneity,
-    leave_one_trial_out,
     pooled_estimate,
     provenance_subsets,
     sd_confidence_interval,
@@ -86,26 +85,45 @@ def test_bartlett_agrees_with_scipy_on_generated_samples():
 
 # --- robustness of the real pool ---------------------------------------------
 
-def test_real_pool_is_homogeneous():
-    """Regression guard on the claim that pooling these arms is legitimate.
+def test_the_pool_is_heterogeneous_which_is_why_one_sd_is_not_quoted():
+    """This test asserts the *failure* that motivates the injury-scaled model.
 
-    If new data breaks this, the right response is to stop quoting one pooled SD, not
-    to relax the test.
+    An earlier version of this file asserted the opposite and passed, because the
+    dataset then contained a bad SE->SD conversion that flattened the differences.
+    With that fixed, the per-arm variances are demonstrably not draws from one common
+    variance — so `ctsim.variance` exists, and no single pooled SD is quoted anywhere.
     """
     h = bartlett_homogeneity()
-    assert h.homogeneous, (
-        f"per-arm variances are no longer mutually consistent (p={h.p_value:.4f}); "
-        "a single pooled SD is no longer the right summary"
+    assert not h.homogeneous, (
+        f"variances now look homogeneous (p={h.p_value:.4f}); if that is real, the "
+        "injury-scaled model may be unnecessary — check before deleting it"
     )
 
 
-def test_no_single_trial_drives_the_headline():
-    """Dropping any one trial must not move the SD enough to change the conclusion."""
-    full = pooled_estimate().sd
-    for s in leave_one_trial_out():
-        assert abs(s.sd - full) / full < 0.15, f"{s.label} moves the pooled SD too much"
-        # The qualitative claim is SD > meaningful change (0.40). It must survive.
-        assert s.sd > 0.40
+def test_the_injury_model_explains_the_heterogeneity():
+    """The whole claim of ctsim.variance: injury accounts for the spread in SDs."""
+    from ctsim.variance import all_arms, fit_injury_variance
+
+    rows = all_arms()
+    m = fit_injury_variance(rows)
+    resid = [r.sd - m.sd_at(r.delta) for r in rows]
+    raw = [r.sd for r in rows]
+    spread_before = max(raw) - min(raw)
+    spread_after = max(resid) - min(resid)
+    assert spread_after < spread_before / 2, (
+        f"injury does not explain the SD spread: {spread_before:.3f} -> {spread_after:.3f}"
+    )
+    assert m.r > 0.75, f"correlation of injury with SD is only {m.r:.2f}"
+    assert m.slope > 2 * m.slope_se, "slope is not distinguishable from zero"
+
+
+def test_the_noise_floor_is_well_determined():
+    """The floor is the number a trial planner actually needs; pin it."""
+    from ctsim.variance import fit_injury_variance
+
+    m = fit_injury_variance()
+    assert 0.30 < m.floor < 0.50
+    assert m.floor_se < 0.06
 
 
 def test_control_arms_agree_with_the_full_pool():

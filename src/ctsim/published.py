@@ -126,6 +126,131 @@ def zed1227_rows() -> list[EmpiricalSD]:
 
 
 # ---------------------------------------------------------------------------
+# Change-from-baseline VH:CD arms published in papers but not the registry
+# ---------------------------------------------------------------------------
+
+# Genuine arithmetic means with genuine SDs of the change score — the same quantity the
+# `posted_sd` registry rows carry, so these merge directly. LS-mean-only trials are
+# deliberately absent: see ALV003-1021 under NOT_AVAILABLE.
+#   (trial, id, arm, n, delta, sd, is_placebo, design)
+PAPER_ARMS = [
+    # Murray et al., Gastroenterology 2022;163:1510-21, Table 2 (mITT).
+    ("IMGX003 CeliacShield", "NCT03585478", "Placebo",   22, -0.35, 0.616, True,  "prevention"),
+    ("IMGX003 CeliacShield", "NCT03585478", "IMGX003",   21, -0.04, 0.466, False, "prevention"),
+    # Murray et al., Gastroenterology 2017;152:787-98, Table 2 (MITT, week 12).
+    # No gluten challenge: real-world exposure on a stable GFD, hence restoration.
+    ("CeliAction", "NCT01917630", "Placebo",            125, 0.27, 0.401, True,  "restoration"),
+    ("CeliAction", "NCT01917630", "Latiglutenase 100mg", 47, 0.12, 0.463, False, "restoration"),
+    ("CeliAction", "NCT01917630", "Latiglutenase 300mg", 77, 0.15, 0.413, False, "restoration"),
+    ("CeliAction", "NCT01917630", "Latiglutenase 450mg", 39, 0.05, 0.501, False, "restoration"),
+    ("CeliAction", "NCT01917630", "Latiglutenase 600mg", 80, 0.14, 0.493, False, "restoration"),
+    ("CeliAction", "NCT01917630", "Latiglutenase 900mg", 37, 0.11, 0.460, False, "restoration"),
+]
+
+PAPER_ARM_SOURCES = {
+    "NCT03585478": Source(
+        citation="Murray JA et al. Latiglutenase Protects the Mucosa and Attenuates "
+                 "Symptom Severity in Patients With Celiac Disease Exposed to a Gluten "
+                 "Challenge. Gastroenterology 2022;163:1510-1521.",
+        locator="Table 2, 'Histologic Efficacy Analysis - mITT Population', "
+                "row 'Change in Vh:Cd', mean (SD)",
+        url="https://pmc.ncbi.nlm.nih.gov/articles/PMC9707643/",
+        quote="Change in Vh:Cd: placebo -0.35 (0.616); IMGX003 -0.04 (0.466); "
+              "between-group P = .0570.",
+    ),
+    "NCT01917630": Source(
+        citation="Murray JA et al. No Difference Between Latiglutenase and Placebo in "
+                 "Reducing Villous Atrophy or Improving Symptoms in Patients With "
+                 "Symptomatic Celiac Disease. Gastroenterology 2017;152:787-798.",
+        locator="Table 2, change in Vh:Cd from baseline to week 12, MITT, mean (SD)",
+        url="https://www.gastrojournal.org/article/S0016-5085(16)35346-X/fulltext",
+        quote="Change in Vh:Cd, mean (SD): placebo 0.27 (0.401); 100 mg 0.12 (0.463); "
+              "300 mg 0.15 (0.413); 450 mg 0.05 (0.501); 600 mg 0.14 (0.493); "
+              "900 mg 0.11 (0.460).",
+    ),
+}
+
+# Trials whose histology is published but whose dispersion is not recoverable. Listed
+# so the absence is a recorded fact rather than an oversight, and so nobody spends a
+# second afternoon looking.
+NOT_AVAILABLE = {
+    "ALV003-1021 (Lahdeaho 2014, Gastroenterology)":
+        "No SD, SE, CI or IQR for VH:CrD anywhere in the paper or its three "
+        "supplements; Figure 4 plots mean +/- SE as graphics only. The paper also "
+        "contradicts itself, calling the same 2.0 value a mean in the abstract and a "
+        "median in the results. Not recoverable from the VCIEL re-analysis either: "
+        "its effect size needs both an unpublished mean difference and an unpublished "
+        "baseline SD, which is one equation in two unknowns.",
+    "Nexvax2 RESET CeD (NCT03644069)":
+        "Histology was an unregistered exploratory/safety endpoint, published only in "
+        "the author manuscript. Table 4 gives SDs on the baseline and end-of-study "
+        "*levels* and an ANCOVA between-arm mean difference of 0.22 (0.06, 0.39), but "
+        "no within-arm SD of the change. The caption says 'Mean (standard deviation)' "
+        "while the results text calls the same values medians.",
+    "AMG 714 (NCT02637141, NCT02633020)":
+        "Registry reports percent change only. Both Lancet Gastro Hepatol 2019 papers "
+        "are closed-access with no repository copy, so whether they give raw ratio "
+        "units is untested rather than known.",
+    "TAK-062 (NCT05353985)":
+        "No raw SD in any source; no per-arm baseline Vh:Cd; IELs measured but reported "
+        "only qualitatively. The residual SD used here comes from the posted ANCOVA "
+        "contrast, which is the only valid route.",
+    "TAK-101 Phase 2b (NCT04530123)":
+        "Has no histology endpoint at all — 'villous', 'crypt' and 'intraepithelial' "
+        "return zero hits across the registry record. No VH:CD data will ever exist.",
+}
+
+
+def paper_rows() -> list[EmpiricalSD]:
+    """Published arms as `EmpiricalSD`, mergeable with the scraped registry rows."""
+    return [
+        EmpiricalSD(
+            nct_id=nct, arm_label=arm, n_arm=n, delta=delta, sd=sd,
+            sd_source="paper_posted_sd", time_frame="", is_placebo=placebo,
+            mechanism="glutenase", design=design, param_type="MEAN",
+        )
+        for _trial, nct, arm, n, delta, sd, placebo, design in PAPER_ARMS
+    ]
+
+
+# ---------------------------------------------------------------------------
+# A measured variance decomposition
+# ---------------------------------------------------------------------------
+
+# Takeda reported a direct decomposition of Vh:Cd variability from the TAK-062 Phase 2
+# — the experiment this repo previously said could not be done from public data.
+# Retrieved from UEG Week 2025 abstract MP739 (Maxwell, Isola, Valimaki, Robert, Cheng,
+# Zarei, Leffler), verbatim:
+#
+#   "Analysis of the source of variability in the Vh:Cd measurement showed that 52% of
+#    the variability was at the patient level and 23% at the biopsy level. Only 1% of
+#    the variability was due to reader effects."
+#
+# Caveat that has to travel with it: the same abstract states Vh:Cd "measurements were
+# made by multiple readers ... and averaged", so 1% is the reader term *after* averaging
+# readers, not the error of a single read. It is a floor, not a like-for-like comparison
+# with Taavela's single-reader figures. The biopsy-level share is the useful number:
+# it is a measured value for what averaging more fragments per timepoint can remove.
+MEASURED_VARIANCE_SHARES = {
+    "patient": 0.52,
+    "biopsy": 0.23,
+    "reader": 0.01,
+}
+
+MEASURED_VARIANCE_SOURCE = Source(
+    citation="Maxwell JR, Isola J, Valimaki A, Robert M, Cheng J, Zarei M, Leffler DA. "
+             "Assessment of histologic endpoints in a phase 2 trial of TAK-062 in "
+             "celiac disease. UEG Week 2025, abstract MP739.",
+    locator="Results, first sentence",
+    url="https://ueg2025.abstract.documedias.systems/api/v1/manager/abstract/multi/"
+        "html/id/4206/template/planner_preview",
+    quote="Analysis of the source of variability in the Vh:Cd measurement showed that "
+          "52% of the variability was at the patient level and 23% at the biopsy level. "
+          "Only 1% of the variability was due to reader effects.",
+)
+
+
+# ---------------------------------------------------------------------------
 # What each trial assumed when it sized itself
 # ---------------------------------------------------------------------------
 

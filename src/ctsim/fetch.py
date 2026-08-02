@@ -11,6 +11,7 @@ the outcome-measure title it came from. Nothing is imputed at this stage.
 from __future__ import annotations
 
 import json
+import math
 import time
 from collections.abc import Iterable
 from dataclasses import dataclass, field
@@ -51,6 +52,8 @@ CURATED: dict[str, list[str]] = {
         "NCT06807463",  # TEV-53408 anti-IL-15 Ph2a
     ],
     "tolerance": [
+        "NCT03738475",  # TAK-101 / TIMP-GLIA Ph2a gluten challenge  [RESULTS]
+        "NCT04530123",  # TAK-101 Ph2b (no histology endpoint at all)
         "NCT03644069",  # Nexvax2 Ph2
         "NCT04248855",  # KAN-101 ACeD Ph1
         "NCT05574010",  # KAN-101 ACeD-it Ph1b/2
@@ -96,6 +99,8 @@ DESIGN_OF: dict[str, str] = {
     "NCT02637141": "prevention",   # AMG 714 Ph2, gluten challenge
     "NCT01396213": "prevention",   # larazotide Ph2b gluten challenge
     "NCT01255696": "prevention",   # ALV003 gluten challenge
+    "NCT03738475": "prevention",   # TAK-101 Ph2a, 14-day gluten challenge
+    "NCT03644069": "prevention",   # Nexvax2 RESET CeD, masked gluten challenge
     "NCT05353985": "restoration",  # TAK-062: active CeD despite GFD, healing expected
     "NCT04424927": "restoration",  # PRV-015: non-responsive CeD on stable GFD
     "NCT02633020": "restoration",  # AMG 714 in refractory CeD type II
@@ -154,6 +159,9 @@ class OutcomeValue:
     lower: float | None
     upper: float | None
     time_frame: str = ""
+    # Residual SD implied by this outcome's posted between-arm contrast, if any.
+    # The trustworthy route for least-squares-mean outcomes; see contrast_residual_sd.
+    contrast_sd: float | None = None
 
 
 @dataclass
@@ -189,6 +197,53 @@ def _i(x: Any) -> int | None:
         return None
 
 
+Z95 = 1.959963985
+
+
+def contrast_residual_sd(om: dict[str, Any], counts: dict[str, int | None]) -> float | None:
+    """Residual SD implied by a posted between-arm contrast.
+
+    This is the *only* valid way to recover a residual SD from a least-squares-mean
+    outcome, and it matters more than it sounds.
+
+    The obvious route — take the arm-level LS-mean SE and multiply by sqrt(n) — is
+    wrong, because an LS-mean SE carries model terms that cancel in the contrast. On
+    TAK-062 the two routes disagree by a factor of 1.85 (0.775 vs 0.418), and the
+    registry's own posted p-value settles which is right: at the contrast SE the test
+    statistic is 4.3 (p = 1.5e-5, matching the posted "<0.001"), while at the arm-SE
+    figure it is 2.35 (p = 0.02, which contradicts it).
+
+    Where a trial posts genuine MEANs with genuine SDs, the two routes agree — KAN-101
+    gives 0.654 here against 0.662 from its raw arm SDs. So this is not a correction
+    that bends the data; it only bites where the naive route was invalid.
+
+        SE_diff = sd * sqrt(1/n1 + 1/n2)  ->  sd = SE_diff / sqrt(1/n1 + 1/n2)
+    """
+    for a in om.get("analyses", []) or []:
+        gids = a.get("groupIds") or []
+        if len(gids) != 2:
+            continue
+        n1, n2 = counts.get(gids[0]), counts.get(gids[1])
+        if not n1 or not n2:
+            continue
+
+        se = None
+        if (a.get("dispersionType") or "").upper().startswith("STANDARD_ERROR"):
+            se = _f(a.get("dispersionValue"))
+        if se is None:
+            lo, hi = _f(a.get("ciLowerLimit")), _f(a.get("ciUpperLimit"))
+            pct = _f(a.get("ciPctValue")) or 95.0
+            if lo is not None and hi is not None:
+                # Two-sided normal quantile for the posted CI level.
+                from scipy import stats as _st
+                z = float(_st.norm.ppf(1 - (1 - pct / 100.0) / 2))
+                se = (hi - lo) / (2 * z)
+        if se is None or se <= 0:
+            continue
+        return se / math.sqrt(1.0 / n1 + 1.0 / n2)
+    return None
+
+
 def extract_outcome_values(study: dict[str, Any], nct_id: str) -> list[OutcomeValue]:
     """Pull every reported per-arm value out of the results section.
 
@@ -214,6 +269,7 @@ def extract_outcome_values(study: dict[str, Any], nct_id: str) -> list[OutcomeVa
         disp = om.get("dispersionType", "")
         unit = om.get("unitOfMeasure", "")
         tf = om.get("timeFrame", "")
+        c_sd = contrast_residual_sd(om, counts)
 
         for cls in om.get("classes", []) or []:
             class_title = cls.get("title", "")
@@ -238,6 +294,7 @@ def extract_outcome_values(study: dict[str, Any], nct_id: str) -> list[OutcomeVa
                             lower=_f(m.get("lowerLimit")),
                             upper=_f(m.get("upperLimit")),
                             time_frame=tf,
+                            contrast_sd=c_sd,
                         )
                     )
     return values
