@@ -114,6 +114,123 @@ class ChallengeDesign:
     n_per_arm_constant_sd: int  # what the old constant-SD answer would have said
 
 
+# ---------------------------------------------------------------------------
+# Holdout: does the model predict trials it has never seen?
+# ---------------------------------------------------------------------------
+
+# The two headline challenge trials. Fit without them; ask whether the injury
+# model still recovers their placebo-arm SDs. If it does, the relationship is not
+# just a within-dataset correlation.
+HEADLINE_HOLDOUT = ("NCT06001177", "NCT03738475")
+
+
+@dataclass
+class HoldoutPrediction:
+    nct_id: str
+    arm_label: str
+    injury: float
+    sd_observed: float
+    sd_predicted: float
+    n_arm: int
+
+    @property
+    def abs_err(self) -> float:
+        return abs(self.sd_observed - self.sd_predicted)
+
+
+@dataclass
+class HoldoutResult:
+    held_out: tuple[str, ...]
+    model: InjuryVarianceModel
+    predictions: list[HoldoutPrediction]
+
+    @property
+    def mae(self) -> float:
+        return float(np.mean([p.abs_err for p in self.predictions]))
+
+    @property
+    def max_abs_err(self) -> float:
+        return max(p.abs_err for p in self.predictions)
+
+
+def holdout_predict(
+    held_out: tuple[str, ...] | list[str],
+    rows: list[EmpiricalSD] | None = None,
+) -> HoldoutResult:
+    """Fit the injury model on every arm except `held_out` trials; predict those."""
+    rows = all_arms() if rows is None else rows
+    held = set(held_out)
+    train = [r for r in rows if r.nct_id not in held]
+    test = [r for r in rows if r.nct_id in held]
+    if len(train) < 4:
+        raise ValueError(f"holdout leaves only {len(train)} training arms")
+    if not test:
+        raise ValueError(f"no arms found for held-out trials {held_out}")
+    model = fit_injury_variance(train)
+    preds = [
+        HoldoutPrediction(
+            nct_id=r.nct_id, arm_label=r.arm_label, injury=abs(r.delta),
+            sd_observed=r.sd, sd_predicted=model.sd_at(r.delta),
+            n_arm=r.n_arm or 0,
+        )
+        for r in test
+    ]
+    return HoldoutResult(held_out=tuple(held_out), model=model, predictions=preds)
+
+
+def leave_one_trial_out(rows: list[EmpiricalSD] | None = None) -> list[HoldoutResult]:
+    """Leave-one-trial-out across every trial that contributes arms."""
+    rows = all_arms() if rows is None else rows
+    trials = sorted({r.nct_id for r in rows})
+    return [holdout_predict((t,), rows) for t in trials]
+
+
+# ---------------------------------------------------------------------------
+# Biopsy averaging, using Takeda's measured variance shares
+# ---------------------------------------------------------------------------
+
+def sd_after_biopsy_averaging(
+    sd: float,
+    n_biopsies: int,
+    *,
+    n_baseline: int = 1,
+    biopsy_share: float | None = None,
+) -> float:
+    """SD after averaging `n_biopsies` independent fragments instead of `n_baseline`.
+
+    Uses Takeda's measured biopsy-level share (23% of total variance in TAK-062) so
+    this is no longer a free knob. The non-biopsy share (patient + reader + residual)
+    does not shrink with more fragments.
+    """
+    from ctsim.published import MEASURED_VARIANCE_SHARES
+
+    if n_biopsies < 1 or n_baseline < 1:
+        raise ValueError("biopsy counts must be >= 1")
+    share = MEASURED_VARIANCE_SHARES["biopsy"] if biopsy_share is None else biopsy_share
+    # σ²' / σ² = (1 - share) + share * (n_baseline / n_biopsies)
+    factor = (1.0 - share) + share * (n_baseline / n_biopsies)
+    return sd * math.sqrt(factor)
+
+
+def biopsy_n_savings(
+    injury: float,
+    protection: float = 0.50,
+    *,
+    n_from: int = 1,
+    n_to: int = 4,
+    model: InjuryVarianceModel | None = None,
+) -> tuple[int, int, float, float]:
+    """(N at n_from biopsies, N at n_to, SD_from, SD_to) for a given challenge."""
+    model = fit_injury_variance() if model is None else model
+    sd0 = model.sd_at(injury)
+    sd1 = sd_after_biopsy_averaging(sd0, n_to, n_baseline=n_from)
+    k = (stats.norm.ppf(1 - 0.05 / 2) + stats.norm.ppf(0.80)) ** 2
+    effect = protection * abs(injury)
+    n_base = math.ceil(2 * k * sd0**2 / effect**2)
+    n_avg = math.ceil(2 * k * sd1**2 / effect**2)
+    return n_base, n_avg, sd0, sd1
+
+
 def required_n(injury: float, protection: float,
                model: InjuryVarianceModel | None = None,
                constant_sd: float | None = None,
@@ -178,7 +295,40 @@ def report(rows: list[EmpiricalSD] | None = None) -> str:
         "  The right-hand column is what this repo used to report. It is too optimistic",
         "  everywhere the challenge is harsher than the one it calibrated on, because a",
         "  bigger injury buys a bigger spread of injuries along with the bigger mean.",
+        "",
+        "-" * 78,
+        "Holdout: fit without KAN-101 and TAK-101, predict their SDs",
+        "-" * 78,
     ]
+    ho = holdout_predict(HEADLINE_HOLDOUT, rows)
+    lines.append(f"  training fit: {ho.model.describe().split(chr(10))[0]}")
+    lines.append(f"  {'trial':<14}{'arm':<28}{'|inj|':>6}{'obs':>7}{'pred':>7}{'err':>7}")
+    for p in sorted(ho.predictions, key=lambda p: p.injury):
+        lines.append(
+            f"  {p.nct_id:<14}{p.arm_label[:28]:<28}"
+            f"{p.injury:>6.2f}{p.sd_observed:>7.3f}{p.sd_predicted:>7.3f}"
+            f"{p.abs_err:>7.3f}"
+        )
+    lines.append(f"  MAE = {ho.mae:.3f}   max |err| = {ho.max_abs_err:.3f}")
+    lines += [
+        "",
+        "-" * 78,
+        "Biopsy lever (Takeda measured 23% of variance at the biopsy level)",
+        "-" * 78,
+        "  relative to a single-fragment assay, at injury 0.61 / 50% protection:",
+    ]
+    for k in (1, 2, 4, 8):
+        n1, nk, sd1, sdk = biopsy_n_savings(0.61, 0.50, n_from=1, n_to=k, model=m)
+        lines.append(
+            f"  {k} biopsies: SD {sdk:.3f}  N/arm {nk}"
+            + (f"  (saves {n1 - nk} vs single biopsy)" if k > 1 else "")
+        )
+    lines.append(
+        "  Caveat: trials already take multiple fragments, so the gain vs current"
+    )
+    lines.append(
+        "  practice is smaller than the gain vs a theoretical single-biopsy assay."
+    )
     return "\n".join(lines)
 
 

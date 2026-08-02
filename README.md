@@ -20,7 +20,7 @@ it didn't. Handed a drug as good as ZED1227's, that trial still reports a null.
 
 ```bash
 uv run python -m ctsim.simulate     # full report
-uv run pytest                       # 59 tests
+uv run pytest                       # 66 tests
 ```
 
 Live version: **[ahmetdedeler.com/celiac](https://ahmetdedeler.com/celiac)**
@@ -83,13 +83,20 @@ data. Those assumptions are public. Almost nobody checks them.
 |---|---|---|---|---|---|
 | **ZED1227** | 0.60 | **0.80** | **0.481** | 80% | ~100% |
 | **KAN-101 SynCeD** | 0.50 | **0.50** | **0.662** | 94% | **78%** |
+| **IMGX003 CeliacShield** | 0.40 | **0.45** | **0.548** | 86% | **73%** |
+| AMG 714 | 40 pp (%-chg) | 36 | n/a — different scale | 89% | — |
 
 ZED1227 assumed 66% more noise than it found and cleared its endpoint with room to
-spare. KAN-101 assumed 25% less than it found, and its SAP's 94% was really 78%.
+spare. KAN-101 and IMGX003 both assumed less than they measured, and both missed.
+AMG 714 powered on %-change in VH:CD (SD = 36) — a different scale from the ratio
+units above, so it cannot be scored in the observed column, but the SAP is public.
 
-Both are quoted verbatim with URLs in [`src/ctsim/published.py`](src/ctsim/published.py).
-Neither sponsor cited a source for its assumed SD. Neither number appears to have come
-from data.
+Three more trials ran VH:CD and never powered on it at all: **TAK-101** sized itself
+on IFN-γ SFUs, **TAK-062** on a CDSD symptom score (Cohen's d = 0.55), **PRV-015** on
+CeD PRO abdominal symptoms. Their histology results were exploratory by design.
+
+Every row is quoted verbatim with a URL in
+[`src/ctsim/published.py`](src/ctsim/published.py).
 
 ## 3. What was available to detect
 
@@ -135,11 +142,14 @@ Takeda then measured it directly (UEG Week 2025, abstract MP739):
 > "52% of the variability was at the patient level and 23% at the biopsy level. Only 1%
 > of the variability was due to reader effects."
 
-That settles the direction and retires limitation #3 below — sampling *can* be separated
-from biology, and the answer is 23%. Caveat: their readers were averaged, so 1% is a
-floor, not a like-for-like comparison. Separately, the Taavela 2021 **inter**observer
-figure implies more reader variance than the entire observed floor, which is impossible —
-real central-reading setups are demonstrably tighter than that study's.
+That settles the direction and retires the old "sampling can't be separated from biology"
+limitation — the answer is 23%. Relative to a single-fragment assay, averaging 4
+biopsies at a typical challenge (injury 0.61) cuts required N from **58 → 48** per arm
+for 50% protection; 8 biopsies get you to 46. It saturates fast because patient-level
+variance (52%) does not shrink with more fragments. Caveat: trials already take multiple
+fragments, so the gain vs current practice is smaller than vs a theoretical single
+biopsy. Their 1% reader share is after averaging readers, so it is a floor, not a
+like-for-like comparison with Taavela's single-reader figures.
 
 **"0.40 is the clinically meaningful change."** It isn't. Taavela derived it from their
 own reader error — *"a cautious new cut-off value of 0.4 ... a clinically relevant
@@ -195,7 +205,23 @@ published — ALV003-1021's dispersion (nowhere, in paper or three supplements),
 raw SD, AMG 714's raw ratio units (both 2019 papers closed-access), Nexvax2's within-arm
 change SDs — so the next person doesn't spend an afternoon rediscovering the gap.
 
-## 7. Honest limitations
+## 7. The model survives holdout
+
+Fit without KAN-101 and TAK-101 — the two headline trials — and ask it to predict their
+arm SDs from injury alone:
+
+| Held-out arm | \|injury\| | SD observed | SD predicted | \|err\| |
+|---|---|---|---|---|
+| TAK-101 drug | 0.18 | 0.381 | 0.450 | 0.069 |
+| KAN-101 placebo | 0.61 | 0.614 | 0.539 | 0.075 |
+| TAK-101 placebo | 0.63 | 0.657 | 0.543 | 0.114 |
+| KAN-101 drug | 0.85 | 0.707 | 0.589 | 0.118 |
+
+MAE = 0.094. The slope stays positive (0.207) and the correlation holds (r = 0.90) on
+the training set alone. Leave-one-trial-out across all six trials never produces MAE
+above 0.30. This is the check that would have caught a coincidence.
+
+## 8. Honest limitations
 
 1. **The injury model is 16 arms from 6 trials.** r = 0.91 and the slope is four SEs from
    zero, but it is a straight line through a modest cloud, and the harshest-challenge
@@ -222,15 +248,15 @@ arithmetically capable of finding what they were looking for.
 
 ## Contributing
 
-1. **More design assumptions.** The planned-vs-observed table is the most useful thing
-   here and has two rows. Every protocol or SAP PDF attached to a ClinicalTrials.gov
-   record with a sample-size section is another row, and almost nobody reads them.
-2. **More arms for the injury model.** Any trial reporting a mean change in VH:CD with a
-   genuine SD extends the fit. Add to `PAPER_ARMS` with a verbatim quote.
-3. **Challenge the variance decomposition.** Takeda's 52/23/1 split is one abstract with
+1. **More arms for the injury model.** Any trial reporting a mean change in VH:CD with a
+   genuine SD extends the fit. Add to `PAPER_ARMS` with a verbatim quote. AMG 714's raw
+   ratio units (both 2019 Lancet Gastro papers are closed-access) would help most.
+2. **Challenge the variance decomposition.** Takeda's 52/23/1 split is one abstract with
    no methods detail. If you have re-read data, that is the number to attack.
-4. **IPD.** Takeda, Sanofi, Pfizer and Regeneron all share individual patient data
+3. **IPD.** Takeda, Sanofi, Pfizer and Regeneron all share individual patient data
    through [Vivli](https://vivli.org). Nobody has requested the celiac trials.
+4. **CeliAction / larazotide sample-size sections.** No SAP is posted on CT.gov for
+   those; if you have the protocol PDF, the planned-vs-observed table wants another row.
 
 Issues and PRs welcome. If you work on celiac clinically or run trials and think this is
 wrong, please open an issue — being wrong in public and corrected quickly is the point.

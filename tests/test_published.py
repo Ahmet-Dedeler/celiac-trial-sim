@@ -125,6 +125,9 @@ def test_assumptions_reproduce_the_power_the_sponsors_claimed():
         # real power, so the fixed-sample formula reads high. Wide tolerance on purpose.
         "ZED1227 (CEC-3)": 0.12,
         "KAN-101 SynCeD": 0.03,
+        "IMGX003 CeliacShield": 0.03,
+        # Their 88.8% is from SAS proc power ANOVA; two-sample z gives ~90%.
+        "AMG 714 CELIM-NRCD-001": 0.03,
     }
     for a in ASSUMPTIONS:
         recomputed = analytic_power(a.n_per_arm, a.target_effect, a.assumed_sd)
@@ -134,6 +137,35 @@ def test_assumptions_reproduce_the_power_the_sponsors_claimed():
         assert abs(recomputed - a.claimed_power) <= tolerances[a.trial], (
             f"{a.trial}: recomputed {recomputed:.2f} vs claimed {a.claimed_power:.2f}"
         )
+
+
+def test_imgx003_assumed_less_noise_than_it_measured():
+    from ctsim.simulate import observed_sd_for
+
+    a = next(x for x in ASSUMPTIONS if x.nct_id == "NCT03585478")
+    observed, _df, _scale = observed_sd_for(a.nct_id)
+    assert observed > a.assumed_sd * 1.15
+    assert analytic_power(a.n_per_arm, a.target_effect, observed) < a.claimed_power - 0.08
+
+
+def test_amg714_is_on_percent_change_scale():
+    a = next(x for x in ASSUMPTIONS if x.nct_id == "NCT02637141")
+    assert a.units == "percent_change"
+    assert a.assumed_sd == 36.0
+    assert a.target_effect == 40.0
+
+
+def test_trials_that_ran_vhcd_but_powered_elsewhere_are_recorded():
+    from ctsim.published import NOT_POWERED_ON_VHCD
+
+    assert set(NOT_POWERED_ON_VHCD) >= {
+        "NCT03738475", "NCT05353985", "NCT04424927",
+    }
+    for nct, src in NOT_POWERED_ON_VHCD.items():
+        assert src.url.startswith("http") and len(src.quote) > 40, nct
+        # None of these quotes should claim a VH:CD SD assumption.
+        assert "Vh:Cd" not in src.quote or "SFUs" in src.quote or "CDSD" in src.quote \
+            or "CeD PRO" in src.quote or "Abdominal" in src.quote
 
 
 def test_kan101_assumed_less_noise_than_it_measured():

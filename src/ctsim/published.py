@@ -264,6 +264,10 @@ class DesignAssumption:
     claimed_power: float
     endpoint_role: str     # PRIMARY | SECONDARY — was VH:CD what it powered on?
     source: Source
+    # "vhcd_ratio" is change in the raw VH:CD ratio (compatible with our observed
+    # arms). "percent_change" is baseline-to-follow-up %-change — a different scale
+    # that cannot be compared to our ratio-unit SDs without an unpublished baseline.
+    units: str = "vhcd_ratio"
 
 
 ASSUMPTIONS: list[DesignAssumption] = [
@@ -305,4 +309,81 @@ ASSUMPTIONS: list[DesignAssumption] = [
                   "between the means is 0.5.",
         ),
     ),
+    DesignAssumption(
+        trial="IMGX003 CeliacShield",
+        nct_id="NCT03585478",
+        target_effect=0.40,
+        assumed_sd=0.45,
+        n_per_arm=25,
+        claimed_power=0.86,
+        endpoint_role="PRIMARY",
+        source=Source(
+            citation="Murray JA et al. Gastroenterology 2022;163:1510-1521.",
+            locator="Statistical analysis / sample size paragraph",
+            url="https://pmc.ncbi.nlm.nih.gov/articles/PMC9707643/",
+            quote="A sample size of 50 ITT patients (25 patients per treatment group) "
+                  "provided 86% power and two-sided 5% Type 1 error to detect a 0.40 "
+                  "between the treatment groups in change from baseline Vh:Cd at "
+                  "Week 6 assuming a standard deviation of 0.45.",
+        ),
+    ),
+    DesignAssumption(
+        trial="AMG 714 CELIM-NRCD-001",
+        nct_id="NCT02637141",
+        target_effect=40.0,   # percentage points of %-change, not ratio units
+        assumed_sd=36.0,
+        n_per_arm=17,         # evaluable completers the power calc used
+        claimed_power=0.888,
+        endpoint_role="PRIMARY",
+        units="percent_change",
+        source=Source(
+            citation="Celimmune. CELIM-NRCD-001 Statistical Analysis Plan v1.0, "
+                     "19 Apr 2017, section 6 'Estimation of sample size'.",
+            locator="Section 6",
+            url="https://cdn.clinicaltrials.gov/large-docs/41/NCT02637141/SAP_001.pdf",
+            quote="Common SD = 36 for the baseline to Week 12 %-change in VH:CD. "
+                  "... close to 90% (88.8%) power to detect a 40-point difference "
+                  "between the placebo arm and the 300mg high-dose arm ... "
+                  "17 completed evaluable subjects/arm ... will be needed for the "
+                  "primary analysis.",
+        ),
+    ),
 ]
+
+
+# Trials that ran histology but sized themselves on a different primary. Recording
+# the absence is the finding: their VH:CD result was never powered, so a miss (or a
+# hit) on histology is not a statement about assay design the way the rows above are.
+NOT_POWERED_ON_VHCD: dict[str, Source] = {
+    "NCT03738475": Source(
+        citation="COUR/Takeda. Protocol TGLIA-5.002 v2.0, section 8.1 Sample Size.",
+        locator="Section 8.1",
+        url="https://cdn.clinicaltrials.gov/large-docs/75/NCT03738475/Prot_001.pdf",
+        quote="For the primary efficacy endpoint, using a 2-sided 0.05 significance "
+              "level, a statistical power of ~70%, and assuming an increase in mean "
+              "IFN-ɣ SFUs in the placebo group of 75 (standard deviation [SD] 100) "
+              "and in the TIMP-GLIA group of 5 (SD 10), 15 subjects per group will "
+              "allow detection of a difference of 70 in mean reductions in SFUs.",
+    ),
+    "NCT05353985": Source(
+        citation="Takeda. TAK-062-2001 Statistical Analysis Plan, section 4.0 "
+                 "Sample-Size Determination.",
+        locator="Section 4.0",
+        url="https://cdn.clinicaltrials.gov/large-docs/85/NCT05353985/SAP_001.pdf",
+        quote="A sample size of 53 subjects per treatment group will provide 80% "
+              "power to detect a standardized mean difference (mean difference/SD) "
+              "of 0.55 between TAK-062 and placebo in the change from baseline "
+              "CDSD weekly score (assuming common SD).",
+    ),
+    "NCT04424927": Source(
+        citation="Provention/Sanofi. PRV-015-002b Statistical Analysis Plan v2.0, "
+                 "section 7 Estimation of Sample Size.",
+        locator="Section 7",
+        url="https://cdn.clinicaltrials.gov/large-docs/27/NCT04424927/SAP_001.pdf",
+        quote="A proposed sample size of approximately 50 evaluable subjects within "
+              "each treatment group would provide approximately 80% power to detect "
+              "a 0.40 difference from placebo and any given active treatment group "
+              "... in the primary endpoint, change through Week 24 in the Abdominal "
+              "Symptoms domain score in CeD PRO.",
+    ),
+}

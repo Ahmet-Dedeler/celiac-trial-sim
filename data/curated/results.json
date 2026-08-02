@@ -1,19 +1,66 @@
 {
   "generated_by": "ctsim.export",
   "endpoint": "change from baseline in villous height : crypt depth ratio (VH:CD)",
-  "pooled_sd": 0.7399,
-  "n_arms": 6,
-  "n_trials": 3,
+  "pooled_sd": 0.5822,
+  "typical_injury": 0.61,
+  "n_arms": 16,
+  "n_trials": 6,
   "clinically_meaningful_change": 0.4,
-  "noise_to_signal": 1.85,
+  "noise_to_signal": 1.455,
+  "injury_variance_model": {
+    "floor": 0.3999,
+    "slope": 0.2987,
+    "floor_se": 0.0238,
+    "slope_se": 0.0726,
+    "r": 0.9081,
+    "formula": "SD = 0.400 + 0.299 \u00d7 |injury|",
+    "n_arms": 16,
+    "n_trials": 6
+  },
   "variance_decomposition": {
-    "total_sd": 0.7399,
-    "reader_sd": 0.2249,
-    "residual_sd": 0.7049,
-    "reader_share": 0.0924,
-    "residual_share": 0.9076
+    "total_sd": 0.5822,
+    "reader_sd": 0.159,
+    "residual_sd": 0.56,
+    "reader_share": 0.0746,
+    "residual_share": 0.9254,
+    "at_injury": 0.61
+  },
+  "measured_variance_shares": {
+    "patient": 0.52,
+    "biopsy": 0.23,
+    "reader": 0.01
   },
   "empirical_arms": [
+    {
+      "nct_id": "NCT05353985",
+      "trial": "TAK-062 (zamaglutenase)",
+      "arm": "Placebo + SIGE Gluten-Bar",
+      "n": 60,
+      "delta": -0.006,
+      "sd": 0.4174,
+      "sd_source": "from_contrast",
+      "sd_fitted": 0.4017
+    },
+    {
+      "nct_id": "NCT03585478",
+      "trial": "IMGX003 CeliacShield",
+      "arm": "IMGX003",
+      "n": 21,
+      "delta": -0.04,
+      "sd": 0.466,
+      "sd_source": "paper_posted_sd",
+      "sd_fitted": 0.4119
+    },
+    {
+      "nct_id": "NCT01917630",
+      "trial": "CeliAction",
+      "arm": "Latiglutenase 450mg",
+      "n": 39,
+      "delta": 0.05,
+      "sd": 0.501,
+      "sd_source": "paper_posted_sd",
+      "sd_fitted": 0.4149
+    },
     {
       "nct_id": "NCT03409796",
       "trial": "Gluten challenge dose-finding",
@@ -21,25 +68,88 @@
       "n": 7,
       "delta": -0.06,
       "sd": 0.516,
-      "sd_source": "posted_sd"
+      "sd_source": "posted_sd",
+      "sd_fitted": 0.4179
     },
     {
-      "nct_id": "NCT03409796",
-      "trial": "Gluten challenge dose-finding",
-      "arm": "Group B: Gluten 10 Gram",
-      "n": 7,
-      "delta": -1.53,
-      "sd": 0.941,
-      "sd_source": "posted_sd"
+      "nct_id": "NCT01917630",
+      "trial": "CeliAction",
+      "arm": "Latiglutenase 900mg",
+      "n": 37,
+      "delta": 0.11,
+      "sd": 0.46,
+      "sd_source": "paper_posted_sd",
+      "sd_fitted": 0.4328
     },
     {
-      "nct_id": "NCT06001177",
-      "trial": "KAN-101 SynCeD",
-      "arm": "0.6 mg/kg KAN-101",
-      "n": 25,
-      "delta": -0.85,
-      "sd": 0.707,
-      "sd_source": "posted_sd"
+      "nct_id": "NCT01917630",
+      "trial": "CeliAction",
+      "arm": "Latiglutenase 100mg",
+      "n": 47,
+      "delta": 0.12,
+      "sd": 0.463,
+      "sd_source": "paper_posted_sd",
+      "sd_fitted": 0.4358
+    },
+    {
+      "nct_id": "NCT01917630",
+      "trial": "CeliAction",
+      "arm": "Latiglutenase 600mg",
+      "n": 80,
+      "delta": 0.14,
+      "sd": 0.493,
+      "sd_source": "paper_posted_sd",
+      "sd_fitted": 0.4418
+    },
+    {
+      "nct_id": "NCT01917630",
+      "trial": "CeliAction",
+      "arm": "Latiglutenase 300mg",
+      "n": 77,
+      "delta": 0.15,
+      "sd": 0.413,
+      "sd_source": "paper_posted_sd",
+      "sd_fitted": 0.4447
+    },
+    {
+      "nct_id": "NCT03738475",
+      "trial": "TAK-101 Phase 2a",
+      "arm": "TIMP-GLIA 8 mg/kg",
+      "n": 13,
+      "delta": -0.18,
+      "sd": 0.381,
+      "sd_source": "posted_sd",
+      "sd_fitted": 0.4537
+    },
+    {
+      "nct_id": "NCT01917630",
+      "trial": "CeliAction",
+      "arm": "Placebo",
+      "n": 125,
+      "delta": 0.27,
+      "sd": 0.401,
+      "sd_source": "paper_posted_sd",
+      "sd_fitted": 0.4806
+    },
+    {
+      "nct_id": "NCT05353985",
+      "trial": "TAK-062 (zamaglutenase)",
+      "arm": "TAK-062 + SIGE Gluten-Bar",
+      "n": 59,
+      "delta": -0.338,
+      "sd": 0.4174,
+      "sd_source": "from_contrast",
+      "sd_fitted": 0.5009
+    },
+    {
+      "nct_id": "NCT03585478",
+      "trial": "IMGX003 CeliacShield",
+      "arm": "Placebo",
+      "n": 22,
+      "delta": -0.35,
+      "sd": 0.616,
+      "sd_source": "paper_posted_sd",
+      "sd_fitted": 0.5045
     },
     {
       "nct_id": "NCT06001177",
@@ -48,179 +158,416 @@
       "n": 25,
       "delta": -0.61,
       "sd": 0.614,
-      "sd_source": "posted_sd"
+      "sd_source": "posted_sd",
+      "sd_fitted": 0.5822
     },
     {
-      "nct_id": "NCT05353985",
-      "trial": "TAK-062 (zamaglutenase)",
-      "arm": "Placebo + SIGE Gluten-Bar",
-      "n": 60,
-      "delta": -0.006,
-      "sd": 0.7746,
-      "sd_source": "from_se"
-    },
-    {
-      "nct_id": "NCT05353985",
-      "trial": "TAK-062 (zamaglutenase)",
-      "arm": "TAK-062 + SIGE Gluten-Bar",
-      "n": 59,
-      "delta": -0.338,
-      "sd": 0.7604,
-      "sd_source": "from_se"
-    }
-  ],
-  "required_n_per_arm": {
-    "0.1": 860,
-    "0.15": 382,
-    "0.2": 215,
-    "0.25": 138,
-    "0.3": 96,
-    "0.35": 71,
-    "0.4": 54,
-    "0.5": 35
-  },
-  "replay": [
-    {
-      "nct_id": "NCT03409796",
-      "label": "Group A vs Group B",
-      "n_per_arm": 7,
-      "sd_used": 0.7399,
-      "mde_80": 1.108,
-      "ratio_to_meaningful": 2.77,
-      "power_for_meaningful": 0.1729,
-      "power_for_half": 0.0798,
-      "trial": "Gluten challenge dose-finding",
-      "sponsor_note": "3 g vs 10 g gluten, 14 days"
-    },
-    {
-      "nct_id": "NCT05353985",
-      "label": "Placebo + SIGE Gluten- vs TAK-062 + SIGE Gluten-",
-      "n_per_arm": 59,
-      "sd_used": 0.7399,
-      "mde_80": 0.3816,
-      "ratio_to_meaningful": 0.954,
-      "power_for_meaningful": 0.8356,
-      "power_for_half": 0.3117,
-      "trial": "TAK-062 (zamaglutenase)",
-      "sponsor_note": "Takeda \u2014 Phase 2, discontinued"
+      "nct_id": "NCT03738475",
+      "trial": "TAK-101 Phase 2a",
+      "arm": "Placebo",
+      "n": 15,
+      "delta": -0.63,
+      "sd": 0.657,
+      "sd_source": "posted_sd",
+      "sd_fitted": 0.5881
     },
     {
       "nct_id": "NCT06001177",
-      "label": "0.6 mg/kg KAN-101 vs Placebo",
-      "n_per_arm": 25,
-      "sd_used": 0.7399,
-      "mde_80": 0.5863,
-      "ratio_to_meaningful": 1.466,
-      "power_for_meaningful": 0.4807,
-      "power_for_half": 0.1594,
       "trial": "KAN-101 SynCeD",
-      "sponsor_note": "Anokion \u2014 Phase 2a, program shelved"
+      "arm": "0.6 mg/kg KAN-101",
+      "n": 25,
+      "delta": -0.85,
+      "sd": 0.707,
+      "sd_source": "posted_sd",
+      "sd_fitted": 0.6539
+    },
+    {
+      "nct_id": "NCT03409796",
+      "trial": "Gluten challenge dose-finding",
+      "arm": "Group B: Gluten 10 Gram",
+      "n": 7,
+      "delta": -1.53,
+      "sd": 0.941,
+      "sd_source": "posted_sd",
+      "sd_fitted": 0.857
+    }
+  ],
+  "challenge_dose_table": [
+    {
+      "injury": 0.2,
+      "sd": 0.4597,
+      "n_per_arm": 332,
+      "n_per_arm_constant_sd": 533
+    },
+    {
+      "injury": 0.61,
+      "sd": 0.5822,
+      "n_per_arm": 58,
+      "n_per_arm_constant_sd": 58
+    },
+    {
+      "injury": 1.0,
+      "sd": 0.6987,
+      "n_per_arm": 31,
+      "n_per_arm_constant_sd": 22
+    },
+    {
+      "injury": 1.53,
+      "sd": 0.857,
+      "n_per_arm": 20,
+      "n_per_arm_constant_sd": 10
+    },
+    {
+      "injury": 2.5,
+      "sd": 1.1468,
+      "n_per_arm": 14,
+      "n_per_arm_constant_sd": 4
+    }
+  ],
+  "biopsy_averaging": [
+    {
+      "n_biopsies": 1,
+      "sd": 0.5822,
+      "n_per_arm_50pct": 58,
+      "saved_vs_single": 0
+    },
+    {
+      "n_biopsies": 2,
+      "sd": 0.5477,
+      "n_per_arm_50pct": 51,
+      "saved_vs_single": 7
+    },
+    {
+      "n_biopsies": 4,
+      "sd": 0.5296,
+      "n_per_arm_50pct": 48,
+      "saved_vs_single": 10
+    },
+    {
+      "n_biopsies": 8,
+      "sd": 0.5203,
+      "n_per_arm_50pct": 46,
+      "saved_vs_single": 12
+    }
+  ],
+  "holdout": {
+    "held_out": [
+      "NCT06001177",
+      "NCT03738475"
+    ],
+    "mae": 0.094,
+    "max_abs_err": 0.1183,
+    "train_floor": 0.4132,
+    "train_slope": 0.2065,
+    "predictions": [
+      {
+        "nct_id": "NCT06001177",
+        "arm": "0.6 mg/kg KAN-101",
+        "injury": 0.85,
+        "sd_observed": 0.707,
+        "sd_predicted": 0.5887,
+        "abs_err": 0.1183
+      },
+      {
+        "nct_id": "NCT06001177",
+        "arm": "Placebo",
+        "injury": 0.61,
+        "sd_observed": 0.614,
+        "sd_predicted": 0.5392,
+        "abs_err": 0.0748
+      },
+      {
+        "nct_id": "NCT03738475",
+        "arm": "TIMP-GLIA 8 mg/kg",
+        "injury": 0.18,
+        "sd_observed": 0.381,
+        "sd_predicted": 0.4504,
+        "abs_err": 0.0694
+      },
+      {
+        "nct_id": "NCT03738475",
+        "arm": "Placebo",
+        "injury": 0.63,
+        "sd_observed": 0.657,
+        "sd_predicted": 0.5433,
+        "abs_err": 0.1137
+      }
+    ]
+  },
+  "assumptions": [
+    {
+      "trial": "ZED1227 (CEC-3)",
+      "nct_id": "EudraCT2017-002241-30",
+      "target_effect": 0.6,
+      "assumed_sd": 0.8,
+      "n_per_arm": 34,
+      "claimed_power": 0.8,
+      "endpoint_role": "PRIMARY",
+      "units": "vhcd_ratio",
+      "source_url": "https://www.nejm.org/doi/10.1056/NEJMoa2032441",
+      "quote": "We estimated that a sample of 136 patients, or 34 patients per group, would provide the trial with 80% power for the primary analysis, assuming an alpha error of 0.05, an effect size of 0.6, and standard deviation of 0.8.",
+      "observed_sd": 0.4809,
+      "actual_power": 0.9993
+    },
+    {
+      "trial": "KAN-101 SynCeD",
+      "nct_id": "NCT06001177",
+      "target_effect": 0.5,
+      "assumed_sd": 0.5,
+      "n_per_arm": 26,
+      "claimed_power": 0.94,
+      "endpoint_role": "PRIMARY",
+      "units": "vhcd_ratio",
+      "source_url": "https://cdn.clinicaltrials.gov/large-docs/77/NCT06001177/SAP_001.pdf",
+      "quote": "the study will have approximately 94% power under a sample size of 26 participants per arm to detect a treatment difference in LSM of 0.50 in change in ratio of Vh:Cd between treatment arms, assuming that the common standard deviation is 0.5 and the difference between the means is 0.5.",
+      "observed_sd": 0.6621,
+      "actual_power": 0.7772
+    },
+    {
+      "trial": "IMGX003 CeliacShield",
+      "nct_id": "NCT03585478",
+      "target_effect": 0.4,
+      "assumed_sd": 0.45,
+      "n_per_arm": 25,
+      "claimed_power": 0.86,
+      "endpoint_role": "PRIMARY",
+      "units": "vhcd_ratio",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9707643/",
+      "quote": "A sample size of 50 ITT patients (25 patients per treatment group) provided 86% power and two-sided 5% Type 1 error to detect a 0.40 between the treatment groups in change from baseline Vh:Cd at Week 6 assuming a standard deviation of 0.45.",
+      "observed_sd": 0.548,
+      "actual_power": 0.7326
+    },
+    {
+      "trial": "AMG 714 CELIM-NRCD-001",
+      "nct_id": "NCT02637141",
+      "target_effect": 40.0,
+      "assumed_sd": 36.0,
+      "n_per_arm": 17,
+      "claimed_power": 0.888,
+      "endpoint_role": "PRIMARY",
+      "units": "percent_change",
+      "source_url": "https://cdn.clinicaltrials.gov/large-docs/41/NCT02637141/SAP_001.pdf",
+      "quote": "Common SD = 36 for the baseline to Week 12 %-change in VH:CD. ... close to 90% (88.8%) power to detect a 40-point difference between the placebo arm and the 300mg high-dose arm ... 17 completed evaluable subjects/arm ... will be needed for the primary analysis.",
+      "observed_sd": null,
+      "actual_power": null
+    }
+  ],
+  "not_powered_on_vhcd": [
+    {
+      "nct_id": "NCT03738475",
+      "quote": "For the primary efficacy endpoint, using a 2-sided 0.05 significance level, a statistical power of ~70%, and assuming an increase in mean IFN-\u0263 SFUs in the placebo group of 75 (standard deviation [SD] 100) and in the TIMP-GLIA group of 5 (SD 10), 15 subjects per group will allow detection of a difference of 70 in mean reductions in SFUs.",
+      "url": "https://cdn.clinicaltrials.gov/large-docs/75/NCT03738475/Prot_001.pdf"
+    },
+    {
+      "nct_id": "NCT05353985",
+      "quote": "A sample size of 53 subjects per treatment group will provide 80% power to detect a standardized mean difference (mean difference/SD) of 0.55 between TAK-062 and placebo in the change from baseline CDSD weekly score (assuming common SD).",
+      "url": "https://cdn.clinicaltrials.gov/large-docs/85/NCT05353985/SAP_001.pdf"
+    },
+    {
+      "nct_id": "NCT04424927",
+      "quote": "A proposed sample size of approximately 50 evaluable subjects within each treatment group would provide approximately 80% power to detect a 0.40 difference from placebo and any given active treatment group ... in the primary endpoint, change through Week 24 in the Abdominal Symptoms domain score in CeD PRO.",
+      "url": "https://cdn.clinicaltrials.gov/large-docs/27/NCT04424927/SAP_001.pdf"
+    }
+  ],
+  "protection_table": [
+    {
+      "trial": "ZED1227 (CEC-3)",
+      "nct_id": "EudraCT2017-002241-30",
+      "n_per_arm": 34,
+      "injury": 0.61,
+      "sd": 0.4809,
+      "protection_delivered": 0.787,
+      "protection_needed": 0.536,
+      "reported": "p < 0.001",
+      "hit": true
+    },
+    {
+      "trial": "TAK-101 Phase 2a",
+      "nct_id": "NCT03738475",
+      "n_per_arm": 13,
+      "injury": 0.63,
+      "sd": 0.5472,
+      "protection_delivered": 0.714,
+      "protection_needed": 0.954,
+      "reported": "p = 0.08",
+      "hit": false
+    },
+    {
+      "trial": "KAN-101 SynCeD",
+      "nct_id": "NCT06001177",
+      "n_per_arm": 25,
+      "injury": 0.61,
+      "sd": 0.6621,
+      "protection_delivered": -0.393,
+      "protection_needed": 0.86,
+      "reported": "null",
+      "hit": false
+    }
+  ],
+  "required_n_per_arm": {
+    "0.1": 533,
+    "0.15": 237,
+    "0.2": 134,
+    "0.25": 86,
+    "0.3": 60,
+    "0.35": 44,
+    "0.4": 34,
+    "0.5": 22
+  },
+  "replay": [
+    {
+      "nct_id": "NCT03738475",
+      "label": "NCT03738475",
+      "trial": "TAK-101 Phase 2a",
+      "sponsor_note": "COUR/Takeda \u2014 p=0.08 on VH:CD",
+      "n_per_arm": 13,
+      "sd_used": 0.5472,
+      "mde_80": 0.6013,
+      "ratio_to_meaningful": 1.503,
+      "power_for_meaningful": 0.4617,
+      "power_for_half": 0.1539
+    },
+    {
+      "nct_id": "NCT06001177",
+      "label": "NCT06001177",
+      "trial": "KAN-101 SynCeD",
+      "sponsor_note": "Anokion \u2014 Phase 2a, program shelved",
+      "n_per_arm": 25,
+      "sd_used": 0.6621,
+      "mde_80": 0.5247,
+      "ratio_to_meaningful": 1.312,
+      "power_for_meaningful": 0.5698,
+      "power_for_half": 0.1874
+    },
+    {
+      "nct_id": "NCT03409796",
+      "label": "NCT03409796",
+      "trial": "Gluten challenge dose-finding",
+      "sponsor_note": "3 g vs 10 g gluten, 14 days",
+      "n_per_arm": 7,
+      "sd_used": 0.7589,
+      "mde_80": 1.1364,
+      "ratio_to_meaningful": 2.841,
+      "power_for_meaningful": 0.1667,
+      "power_for_half": 0.0783
+    },
+    {
+      "nct_id": "NCT03585478",
+      "label": "NCT03585478",
+      "trial": "IMGX003 CeliacShield",
+      "sponsor_note": "Immunogenics \u2014 Phase 2",
+      "n_per_arm": 22,
+      "sd_used": 0.548,
+      "mde_80": 0.4629,
+      "ratio_to_meaningful": 1.157,
+      "power_for_meaningful": 0.6776,
+      "power_for_half": 0.2275
     }
   ],
   "power_curve": [
     {
       "n_per_arm": 10,
-      "mde_80": 0.927,
-      "power_at_0_40": 0.2271,
-      "power_at_0_20": 0.0928
+      "mde_80": 0.7294,
+      "power_at_0_40": 0.3362,
+      "power_at_0_20": 0.1199
     },
     {
       "n_per_arm": 15,
-      "mde_80": 0.7569,
-      "power_at_0_40": 0.3161,
-      "power_at_0_20": 0.1148
+      "mde_80": 0.5956,
+      "power_at_0_40": 0.4689,
+      "power_at_0_20": 0.1559
     },
     {
       "n_per_arm": 20,
-      "mde_80": 0.6555,
-      "power_at_0_40": 0.4013,
-      "power_at_0_20": 0.137
+      "mde_80": 0.5158,
+      "power_at_0_40": 0.5843,
+      "power_at_0_20": 0.1923
     },
     {
       "n_per_arm": 25,
-      "mde_80": 0.5863,
-      "power_at_0_40": 0.4807,
-      "power_at_0_20": 0.1594
+      "mde_80": 0.4613,
+      "power_at_0_40": 0.6806,
+      "power_at_0_20": 0.2288
     },
     {
       "n_per_arm": 30,
-      "mde_80": 0.5352,
-      "power_at_0_40": 0.5533,
-      "power_at_0_20": 0.1819
+      "mde_80": 0.4211,
+      "power_at_0_40": 0.7584,
+      "power_at_0_20": 0.265
     },
     {
       "n_per_arm": 40,
-      "mde_80": 0.4635,
-      "power_at_0_40": 0.6765,
-      "power_at_0_20": 0.2271
+      "mde_80": 0.3647,
+      "power_at_0_40": 0.8671,
+      "power_at_0_20": 0.3362
     },
     {
       "n_per_arm": 50,
-      "mde_80": 0.4146,
-      "power_at_0_40": 0.7713,
-      "power_at_0_20": 0.2719
+      "mde_80": 0.3262,
+      "power_at_0_40": 0.93,
+      "power_at_0_20": 0.4044
     },
     {
       "n_per_arm": 60,
-      "mde_80": 0.3784,
-      "power_at_0_40": 0.8416,
-      "power_at_0_20": 0.3161
+      "mde_80": 0.2978,
+      "power_at_0_40": 0.9643,
+      "power_at_0_20": 0.4689
     },
     {
       "n_per_arm": 80,
-      "mde_80": 0.3277,
-      "power_at_0_40": 0.9278,
-      "power_at_0_20": 0.4013
+      "mde_80": 0.2579,
+      "power_at_0_40": 0.9915,
+      "power_at_0_20": 0.5843
     },
     {
       "n_per_arm": 100,
-      "mde_80": 0.2931,
-      "power_at_0_40": 0.9688,
-      "power_at_0_20": 0.4807
+      "mde_80": 0.2307,
+      "power_at_0_40": 0.9981,
+      "power_at_0_20": 0.6806
     },
     {
       "n_per_arm": 150,
-      "mde_80": 0.2394,
-      "power_at_0_40": 0.9968,
-      "power_at_0_20": 0.6484
+      "mde_80": 0.1883,
+      "power_at_0_40": 1.0,
+      "power_at_0_20": 0.845
     },
     {
       "n_per_arm": 200,
-      "mde_80": 0.2073,
-      "power_at_0_40": 0.9997,
-      "power_at_0_20": 0.7713
+      "mde_80": 0.1631,
+      "power_at_0_40": 1.0,
+      "power_at_0_20": 0.93
     },
     {
       "n_per_arm": 300,
-      "mde_80": 0.1692,
+      "mde_80": 0.1332,
       "power_at_0_40": 1.0,
-      "power_at_0_20": 0.9116
+      "power_at_0_20": 0.9877
     },
     {
       "n_per_arm": 400,
-      "mde_80": 0.1466,
+      "mde_80": 0.1153,
       "power_at_0_40": 1.0,
-      "power_at_0_20": 0.9688
+      "power_at_0_20": 0.9981
     }
   ],
   "literature_constants": {
-    "vhcd_interobserver_sd": {
+    "vhcd_interobserver_sd_of_difference": {
       "value": 0.227,
       "units": "VH:CD ratio units",
       "source": "Taavela 2013 PLoS One",
-      "note": "reported error margin (2SD) = 0.454 on a single read"
+      "note": "error margin (2SD) = 0.454; two different readers"
     },
-    "vhcd_intraobserver_sd": {
+    "vhcd_intraobserver_sd_of_difference": {
       "value": 0.159,
       "units": "VH:CD ratio units",
       "source": "Taavela 2013 PLoS One",
-      "note": "reported error margin (2SD) = 0.318"
+      "note": "error margin (2SD) = 0.318; one reader, re-read"
     },
     "vhcd_clinically_significant": {
       "value": 0.4,
       "units": "VH:CD ratio units",
-      "source": "Taavela 2013 PLoS One",
-      "note": "threshold for a clinically meaningful change"
+      "source": "Taavela 2013 PLoS One (PMID 24146832); adopted by Tampere consensus, Gut 2018",
+      "note": "2SD intraobserver reading error, rounded up. Grade D. Not an anchor-based MCID"
     },
     "iel_intraobserver_cv_cd3_paraffin": {
       "value": 0.342,
@@ -237,8 +584,26 @@
     "iel_clinically_significant": {
       "value": 0.3,
       "units": "fraction",
-      "source": "Taavela 2013 PLoS One",
-      "note": "30% change in T-cell IEL density"
+      "source": "Pollock 1992 Ann Clin Biochem, via Taavela 2013 PLoS One",
+      "note": "30% change in T-cell IEL density; not celiac-specific in origin"
+    },
+    "vhcd_intraobserver_sd_of_difference_2021_he": {
+      "value": 0.264,
+      "units": "VH:CD ratio units",
+      "source": "Taavela 2021 Front Immunol",
+      "note": "H&E error range (2SD) = 0.528"
+    },
+    "vhcd_intraobserver_sd_of_difference_2021_apoa4": {
+      "value": 0.194,
+      "units": "VH:CD ratio units",
+      "source": "Taavela 2021 Front Immunol",
+      "note": "APOA4-stained error range (2SD) = 0.388"
+    },
+    "vhcd_interobserver_sd_of_difference_2021_he": {
+      "value": 0.5085,
+      "units": "VH:CD ratio units",
+      "source": "Taavela 2021 Front Immunol",
+      "note": "H&E average interobserver error range (2SD)"
     },
     "marsh_interobserver_kappa": {
       "value": 0.35,

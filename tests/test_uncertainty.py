@@ -126,6 +126,56 @@ def test_the_noise_floor_is_well_determined():
     assert m.floor_se < 0.06
 
 
+def test_headline_holdout_predicts_kan101_and_tak101():
+    """Fit without the two headline trials; their SDs should still be recoverable.
+
+    If MAE blows up, the injury–SD line is an in-sample coincidence, not a model.
+    """
+    from ctsim.variance import HEADLINE_HOLDOUT, holdout_predict
+
+    ho = holdout_predict(HEADLINE_HOLDOUT)
+    assert ho.mae < 0.15, f"holdout MAE too large: {ho.mae:.3f}"
+    assert ho.max_abs_err < 0.25
+    # Slope must stay positive and detectable even without those trials.
+    assert ho.model.slope > 0
+    assert ho.model.r > 0.70
+
+
+def test_leave_one_trial_out_never_catastrophically_misses():
+    from ctsim.variance import leave_one_trial_out
+
+    results = leave_one_trial_out()
+    assert len(results) >= 5
+    # No single trial's absence should make predictions useless.
+    assert max(r.mae for r in results) < 0.30
+
+
+def test_biopsy_averaging_shrinks_sd_by_the_measured_share():
+    from ctsim.published import MEASURED_VARIANCE_SHARES
+    from ctsim.variance import sd_after_biopsy_averaging
+
+    share = MEASURED_VARIANCE_SHARES["biopsy"]
+    sd1 = 0.60
+    sd4 = sd_after_biopsy_averaging(sd1, 4, n_baseline=1)
+    expected = sd1 * (1 - share + share / 4) ** 0.5
+    assert sd4 == pytest.approx(expected)
+    assert sd4 < sd1
+    # Infinite biopsies cannot remove more than the biopsy share.
+    sd_inf = sd_after_biopsy_averaging(sd1, 10_000, n_baseline=1)
+    assert sd_inf == pytest.approx(sd1 * (1 - share) ** 0.5, rel=1e-4)
+
+
+def test_biopsy_lever_saves_patients_but_saturates():
+    from ctsim.variance import biopsy_n_savings
+
+    n1, n4, _s1, _s4 = biopsy_n_savings(0.61, 0.50, n_from=1, n_to=4)
+    n1b, n8, _a, _b = biopsy_n_savings(0.61, 0.50, n_from=1, n_to=8)
+    assert n4 < n1
+    assert n8 <= n4
+    # 23% biopsy share cannot cut sample size in half.
+    assert n4 > n1 * 0.5
+
+
 def test_control_arms_agree_with_the_full_pool():
     """Noise must look the same in placebo arms as everywhere else.
 

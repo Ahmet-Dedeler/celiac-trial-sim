@@ -197,9 +197,12 @@ def observed_sd_for(nct_id: str) -> tuple[float, int, str]:
         return sd, df, "ancova_residual"
     arms = [r for r in load_empirical() if r.nct_id == nct_id]
     if not arms:
+        arms = [r for r in published.paper_rows() if r.nct_id == nct_id]
+    if not arms:
         return float("nan"), 0, "unknown"
     df = sum((a.n_arm - 1) for a in arms if a.n_arm and a.n_arm > 1)
-    return pooled_sd(arms), df, arms[0].sd_scale
+    scale = getattr(arms[0], "sd_scale", "change_score")
+    return pooled_sd(arms), df, scale
 
 
 def planned_vs_actual() -> str:
@@ -218,19 +221,40 @@ def planned_vs_actual() -> str:
         "  Every assumption below is quoted verbatim from a public protocol or SAP;",
         "  see ctsim.published for the exact sentence and URL.",
         "",
-        (f"  {'trial':<20}{'target':>8}{'assumed SD':>12}{'observed':>10}"
+        (f"  {'trial':<24}{'target':>8}{'assumed SD':>12}{'observed':>10}"
          f"{'claimed':>9}{'actual power':>14}"),
     ]
     for a in published.ASSUMPTIONS:
+        if a.units != "vhcd_ratio":
+            lines.append(
+                f"  {a.trial:<24}{a.target_effect:>8.1f}{a.assumed_sd:>12.1f}"
+                f"{'n/a':>10}{a.claimed_power:>9.0%}{'  (%-chg scale)':>14}"
+            )
+            continue
         obs, _df, _scale = observed_sd_for(a.nct_id)
         actual = analytic_power(a.n_per_arm, a.target_effect, obs)
         lines.append(
-            f"  {a.trial:<20}{a.target_effect:>8.2f}{a.assumed_sd:>12.2f}"
+            f"  {a.trial:<24}{a.target_effect:>8.2f}{a.assumed_sd:>12.2f}"
             f"{obs:>10.3f}{a.claimed_power:>9.0%}{actual:>14.0%}"
         )
     lines += [
         "",
         "  The one trial that overestimated its own noise is the one that worked.",
+        "  IMGX003 assumed 0.45 and measured 0.55 — optimistic, like KAN-101.",
+        "  AMG 714 powered on %-change (SD=36), a different scale from the ratio",
+        "  units above, so it cannot be scored in the observed column.",
+        "",
+        "  Trials that ran VH:CD but sized themselves on something else:",
+    ]
+    labels = {
+        "NCT03738475": "TAK-101 Ph2a — powered on IFN-γ SFUs, not VH:CD",
+        "NCT05353985": "TAK-062 — powered on CDSD symptom score (Cohen's d=0.55)",
+        "NCT04424927": "PRV-015 — powered on CeD PRO abdominal symptoms",
+    }
+    for nct, note in labels.items():
+        assert nct in published.NOT_POWERED_ON_VHCD
+        lines.append(f"    {note}")
+    lines += [
         "",
         "-" * 78,
         "Could each trial have detected the field's best drug?",
@@ -378,18 +402,21 @@ def report() -> str:
     lines.append("")
 
     lines.append("-" * 78)
-    lines.append("Sensitivity: if X% of variance is biopsy sampling, averaging k fragments")
+    lines.append("Sensitivity: averaging k biopsy fragments (Takeda biopsy share = 23%)")
     lines.append("-" * 78)
-    for share in (0.2, 0.4):
-        row = [f"  sampling_share={share:.0%}: "]
-        for k in (1, 2, 4, 8):
-            s = simulate_trial(50, meaningful, sd, n_biopsies=k,
-                               sampling_share=share, n_sims=20_000, seed=11)
-            row.append(f"k={k}:{s.power:.2f}")
-        lines.append("  ".join(row))
+    from ctsim.published import MEASURED_VARIANCE_SHARES
+    from ctsim.variance import sd_after_biopsy_averaging
+    share = MEASURED_VARIANCE_SHARES["biopsy"]
+    row = [f"  measured biopsy share={share:.0%}: "]
+    for k in (1, 2, 4, 8):
+        sdk = sd_after_biopsy_averaging(sd, k, n_baseline=1)
+        s = simulate_trial(50, meaningful, sdk, n_sims=20_000, seed=11)
+        row.append(f"k={k}:{s.power:.2f}")
+    lines.append("  ".join(row))
     lines.append("")
-    lines.append("  (n=50/arm, true effect 0.40. sampling_share is an assumption, not a")
-    lines.append("   measurement — public data cannot separate sampling from biology.)")
+    lines.append("  (n=50/arm, true effect 0.40, injury-matched SD at 0.61. Relative to a")
+    lines.append("   single-fragment assay; trials already take multiple fragments, so the")
+    lines.append("   gain vs current practice is smaller.)")
     lines.append("")
 
     lines.append("-" * 78)
