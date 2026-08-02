@@ -167,6 +167,50 @@ classified prevention vs restoration and scored accordingly.
 The 30% IEL threshold originates in Pollock 1992 (*Ann Clin Biochem*), not Taavela.
 `NCT03766445` does not exist. ZED1227 is EudraCT **2017-002241-30**, not 2018-002603-14.
 
+## 4b. Predictions about three trials that have not reported yet
+
+Everything above is retrospective, which is the easy direction — a model that explains
+finished trials has had every chance to be fitted to them. So this repo also states,
+before the fact, what three running trials can resolve. They read out between **September
+2026 and mid-2027**.
+
+```bash
+uv run python -m ctsim.prospective
+```
+
+None of the load-bearing design detail is on ClinicalTrials.gov. It comes from the
+sponsors' own protocols on the EU Clinical Trials Information System, and two were partly
+redacted and recovered elsewhere in the same package: Sanofi's gluten dose is blacked out
+in the protocol but printed in the patient information sheet, and Dr Falk's is blacked out
+in protocol v9.0 but readable in the tracked-changes v8.0.
+
+| | Teva TEV-53408 | Sanofi amlitelimab | Dr Falk ZED1227 |
+|---|---|---|---|
+| Gluten | **3 g/day** | ~250 mg/day | ~214 mg/day |
+| Duration | 6 wk | 12 wk | 15 wk |
+| Entry | Vh:Cd **≥2.0** (healed) | Vh:Cd **<2.5** (atrophic) | Vh:Cd **≤2.5** (atrophic) |
+| n (contrast) | 20 v 20 | 34 v 34 | 72 v 48 |
+| VH:CD powered? | **No** (precision, SD 0.65) | Yes, assumptions redacted | **No** — rides on a symptom score |
+| MDE (80%) | 0.52 | 0.27 | 0.21 |
+
+**The gluten dose spans 14-fold and runs opposite to the damage at entry.** The trial
+delivering the largest challenge is the one enrolling healed patients; the two delivering
+the smallest are enrolling patients who already have atrophy.
+
+**Teva** is the only one built to manufacture a histologic signal — 3 g/day is the dose
+behind every positive VH:CD result on record, into a mucosa with room to fall — and it is
+the only one that openly declines to power for the endpoint. Its exposure is arithmetic:
+at 20 evaluable per arm it needs **85% protection**, where ZED1227 delivered 79%. Its own
+±0.40 precision target spans everything from no effect to complete protection.
+
+**Sanofi and Dr Falk** need healing of **0.27** and **0.21**. The largest VH:CD
+improvement any restoration-design celiac trial has produced is **+0.14** (ZED1227's own
+CEC-004, 397 patients). Both need more than has ever been achieved — 1.9× and 1.5×.
+
+That is the prediction, and it is falsifiable. Pinned in
+[`tests/test_prospective.py`](tests/test_prospective.py) so it cannot drift toward
+whatever the results turn out to be.
+
 ## 5. Levers
 
 **ANCOVA instead of a change score.** Baseline–follow-up correlation recovered from
