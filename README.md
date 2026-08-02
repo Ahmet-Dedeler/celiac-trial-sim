@@ -20,7 +20,7 @@ it didn't. Handed a drug as good as ZED1227's, that trial still reports a null.
 
 ```bash
 uv run python -m ctsim.simulate     # full report
-uv run pytest                       # 66 tests
+uv run pytest                       # 80 tests
 ```
 
 Live version: **[ahmetdedeler.com/celiac](https://ahmetdedeler.com/celiac)**
@@ -187,7 +187,7 @@ in protocol v9.0 but readable in the tracked-changes v8.0.
 | | Teva TEV-53408 | Sanofi amlitelimab | Dr Falk ZED1227 |
 |---|---|---|---|
 | Gluten | **3 g/day** | ~250 mg/day | ~214 mg/day |
-| Duration | 6 wk | 12 wk | 15 wk |
+| Challenge window | 6 wk | 12 wk (of a 24-wk period) | 15 wk |
 | Entry | Vh:Cd **≥2.0** (healed) | Vh:Cd **<2.5** (atrophic) | Vh:Cd **≤2.5** (atrophic) |
 | n (contrast) | 20 v 20 | 34 v 34 | 72 v 48 |
 | VH:CD powered? | **No** (precision, SD 0.65) | Yes, assumptions redacted | **No** — rides on a symptom score |
@@ -200,16 +200,27 @@ the smallest are enrolling patients who already have atrophy.
 **Teva** is the only one built to manufacture a histologic signal — 3 g/day is the dose
 behind every positive VH:CD result on record, into a mucosa with room to fall — and it is
 the only one that openly declines to power for the endpoint. Its exposure is arithmetic:
-at 20 evaluable per arm it needs **85% protection**, where ZED1227 delivered 79%. Its own
-±0.40 precision target spans everything from no effect to complete protection.
+at 20 evaluable per arm it needs **85% protection**, where the best ZED1227 arm delivered
+80%. Its own ±0.40 precision target spans everything from no effect to complete
+protection.
 
-**Sanofi and Dr Falk** need healing of **0.27** and **0.21**. The largest VH:CD
-improvement any restoration-design celiac trial has produced is **+0.14** (ZED1227's own
-CEC-004, 397 patients). Both need more than has ever been achieved — 1.9× and 1.5×.
+**Sanofi and Dr Falk** need healing of **0.27** and **0.21**. The largest drug-minus-placebo
+VH:CD difference any restoration-design celiac trial has produced is **+0.14** — ZED1227's
+own CEC-004 in 397 patients (0.26 vs 0.12), from a trial that still missed its primary
+endpoint. Both need more than has ever been achieved — 1.9× and 1.5×.
 
 That is the prediction, and it is falsifiable. Pinned in
 [`tests/test_prospective.py`](tests/test_prospective.py) so it cannot drift toward
 whatever the results turn out to be.
+
+Every protocol number above is quoted in
+[`src/ctsim/prospective.py`](src/ctsim/prospective.py) with the CTIS document id it came
+from, because CTIS serves these PDFs through a signed-URL handshake rather than a plain
+link — which is most of the reason this corpus goes unread:
+
+```bash
+curl -s https://euclinicaltrials.eu/ctis-public-api/documents/<ct-number>/<uuid>/download
+```
 
 ## 5. Levers
 

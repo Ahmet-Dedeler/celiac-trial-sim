@@ -13,25 +13,38 @@ import pytest
 from ctsim.prospective import (
     AMLITELIMAB,
     BEST_RESTORATION_EFFECT,
+    CTIS_DOCUMENTS,
     GLUTEN_DOSE_RESPONSE,
     LIVE_TRIALS,
     RESTORATION_BENCHMARKS,
     TEV_53408,
     ZED1227_CEC013,
+    best_known_protection,
     predict,
 )
 
 # --- the predictions themselves ---------------------------------------------
 
 def test_tev53408_would_miss_the_best_known_drug():
-    """Pinned prediction: reads out 2026-09."""
+    """Pinned prediction: reads out 2026-09.
+
+    Compared against the *best* ZED1227 arm, not the middle of its dose range, so the
+    claim is the hard version: TEV-53408 cannot see a drug as good as the best one
+    anybody has managed.
+    """
     p = predict(TEV_53408)
     assert p.trial.design == "prevention"
     assert p.min_protection is not None
-    assert p.min_protection > 0.79, (
-        "prediction is that TEV-53408 needs more protection than ZED1227 delivered"
+    assert p.min_protection > best_known_protection(), (
+        "prediction is that TEV-53408 needs more protection than the best ZED1227 "
+        "arm delivered"
     )
     assert 0.80 < p.min_protection < 0.95
+
+
+def test_best_known_protection_comes_from_the_best_arm():
+    """Guards the comparison above from silently reverting to a weaker arm."""
+    assert best_known_protection() == pytest.approx(1 - 0.12 / 0.61, abs=1e-9)
 
 
 def test_both_restoration_trials_need_more_than_has_ever_been_achieved():
@@ -122,6 +135,31 @@ def test_restoration_benchmarks_include_the_negative_case():
     values = [v for v, _n in RESTORATION_BENCHMARKS]
     assert any(v < 0 for v in values), "TAK-062's wrong-direction result must stay in"
     assert max(values) >= BEST_RESTORATION_EFFECT
+
+
+def test_the_bar_is_set_by_a_between_arm_difference():
+    """The easy mistake, guarded.
+
+    CeliAction's placebo arm improved by +0.27 on its own, which is larger than the
+    +0.14 bar. It is a single-arm change, not a drug-minus-placebo difference, so it
+    cannot be what a trial's MDE is compared against.
+    """
+    differences = [v for v, n in RESTORATION_BENCHMARKS if n.startswith("difference:")]
+    single_arm = [v for v, n in RESTORATION_BENCHMARKS if n.startswith("single arm:")]
+    assert differences and single_arm, "both kinds must stay labelled"
+    assert BEST_RESTORATION_EFFECT == max(differences)
+    assert max(single_arm) > BEST_RESTORATION_EFFECT, (
+        "the trap this test exists for has gone away; check the framing still needs it"
+    )
+
+
+def test_protocol_documents_are_pinned_by_id():
+    """CTIS quotes are only checkable if the exact document is identified."""
+    assert len(CTIS_DOCUMENTS) >= 4
+    cts = {t.ct_number for t in LIVE_TRIALS}
+    for ct, uuid in CTIS_DOCUMENTS.values():
+        assert ct in cts, f"{ct} is not one of the audited trials"
+        assert len(uuid) == 36
 
 
 def test_effective_n_handles_unequal_allocation():
