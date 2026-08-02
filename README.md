@@ -2,23 +2,26 @@
 
 ## TL;DR
 
-Three gluten-challenge trials, one endpoint, near-identical injury to the placebo arm's
-gut (−0.61, −0.61, −0.63 of villous height : crypt depth).
+Three trials fed patients gluten and measured how badly it wrecked the lining of their
+gut. Two of the drugs worked about as well as each other: ZED1227 prevented 79% of the
+damage, TAK-101 prevented 71%. ZED1227 is the only celiac drug that has ever passed this
+test. TAK-101 was written up as a failure.
 
-- **The finding.** Two of the drugs protected the gut about as well as each other, 79% and
-  71%. One of them is the only celiac drug ever to hit a histologic primary endpoint. The
-  other was written up as a miss. What separates them is sample size, not biology.
-- **Why it happens.** Noise on this endpoint is not a constant, which is exactly what
-  these protocols assumed it was. It grows with how hard the challenge injures the gut:
-  **SD = 0.400 + 0.299 × |injury|** (16 arms, 6 trials, r = 0.91). Guess that number wrong
-  in the protocol and the trial is settled before the first patient enrolls.
-- **The result.** Judged against its own measured noise, TAK-101 needed 95% protection at
-  13 per arm and delivered 71%. At ZED1227's 34 per arm it would have had **92% power
-  instead of 55%**. KAN-101 was sized such that a drug as good as ZED1227's would still
-  have come back null.
-- **What this is not.** Nothing here shows that any of these drugs work. It shows what
-  these trials were capable of seeing. **Underpowered is not the same as ineffective**,
-  and a field with very few shots on goal has been reading one as the other.
+The difference is that TAK-101 only had 13 patients per arm. That small, the drug had to
+prevent 95% of the damage for the trial to have a fair shot at showing anything, and no
+celiac drug has ever come close to 95%. Give TAK-101 the 34 patients per arm that
+ZED1227 had and it passes comfortably. KAN-101 had the same problem at 25 per arm: it
+needed 86%, so even a drug as good as ZED1227's would have come back looking like nothing.
+
+These trials keep coming out too small because they assume the measurement noise is a
+fixed number. It isn't. The harder the gluten hits, the more patients differ from one
+another, so the noise grows right along with the damage
+(**SD = 0.400 + 0.299 × injury**, from 16 arms across 6 trials). Get that number wrong
+when you write the protocol and you have decided the outcome before anyone enrolls.
+
+None of this shows the drugs work. It shows we don't know. A trial too small to see
+anything is not evidence that there was nothing to see, and that is how the field has
+been reading these.
 
 | Trial | n/arm | Protection **delivered** | Protection **needed** for 80% power | Reported |
 |---|---|---|---|---|
