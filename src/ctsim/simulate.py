@@ -20,7 +20,16 @@ from dataclasses import dataclass
 import numpy as np
 from scipy import stats
 
-from ctsim.model import LIT, decompose_vhcd, load_empirical, pooled_sd
+from ctsim.model import (
+    LIT,
+    ancova_variance_ratio,
+    baseline_correlation,
+    decompose_vhcd,
+    endpoint_comparison,
+    load_empirical,
+    pooled_sd,
+    reader_share_range,
+)
 
 
 def _z(p: float) -> float:
@@ -179,9 +188,94 @@ def replay_trials(sd: float | None = None) -> list[Replay]:
     return out
 
 
+def observed_sd_for(nct_id: str) -> tuple[float, int, str]:
+    """The SD a trial actually got, on the scale its own analysis used."""
+    from ctsim import published
+
+    if nct_id.startswith("EudraCT"):
+        sd, df = published.zed1227_residual_sd()
+        return sd, df, "ancova_residual"
+    arms = [r for r in load_empirical() if r.nct_id == nct_id]
+    if not arms:
+        return float("nan"), 0, "unknown"
+    df = sum((a.n_arm - 1) for a in arms if a.n_arm and a.n_arm > 1)
+    return pooled_sd(arms), df, arms[0].sd_scale
+
+
+def planned_vs_actual() -> str:
+    """Did the trials assume the right amount of noise?
+
+    This is the question the rest of the repo backs into. A trial's sample size is a
+    function of its assumed SD, and that assumption is written down in the protocol
+    before anyone sees data. Comparing it to what the trial then measured turns
+    "these trials were underpowered" into something falsifiable and attributable.
+    """
+    from ctsim import assay, published
+
+    lines = [
+        "Did the trials assume the right amount of noise?",
+        "-" * 78,
+        "  Every assumption below is quoted verbatim from a public protocol or SAP;",
+        "  see ctsim.published for the exact sentence and URL.",
+        "",
+        (f"  {'trial':<20}{'target':>8}{'assumed SD':>12}{'observed':>10}"
+         f"{'claimed':>9}{'actual power':>14}"),
+    ]
+    for a in published.ASSUMPTIONS:
+        obs, _df, _scale = observed_sd_for(a.nct_id)
+        actual = analytic_power(a.n_per_arm, a.target_effect, obs)
+        lines.append(
+            f"  {a.trial:<20}{a.target_effect:>8.2f}{a.assumed_sd:>12.2f}"
+            f"{obs:>10.3f}{a.claimed_power:>9.0%}{actual:>14.0%}"
+        )
+    lines += [
+        "",
+        "  The one trial that overestimated its own noise is the one that worked.",
+        "",
+        "-" * 78,
+        "Could each trial have detected the field's best drug?",
+        "-" * 78,
+    ]
+
+    # ZED1227's placebo arm lost 0.61 of VH:CD; its 100 mg arm gave back 0.48 of that.
+    delta, _lo, _hi = published.zed1227_control_injury()
+    best_diff = 0.48  # ZED1227 100 mg vs placebo, NEJM 2021 Table 2
+    benchmark = best_diff / abs(delta)
+    lines.append(f"  Benchmark: ZED1227 100 mg prevented {best_diff:.2f} of a "
+                 f"{abs(delta):.2f} injury = {benchmark:.0%} protection —")
+    lines.append("  the largest protective effect demonstrated on this endpoint.")
+    lines.append("")
+
+    zed_sd, _df = published.zed1227_residual_sd()
+    lines.append(f"  {'trial':<24}{'n/arm':>6}{'SD':>8}{'injury':>9}"
+                 f"{'needs':>8}{'would it see 79%?':>20}")
+    lines.append(f"  {'ZED1227 (CEC-3)':<24}{34:>6}{zed_sd:>8.3f}{abs(delta):>9.2f}"
+                 f"{mde(34, zed_sd) / abs(delta):>7.0%}"
+                 f"{'yes — it did':>20}")
+    for c in assay.could_detect_benchmark(benchmark):
+        own_sd, _d, _s = observed_sd_for(c.nct_id)
+        needs = mde(c.n_per_arm, own_sd) / c.injury
+        lines.append(
+            f"  {c.nct_id:<24}{c.n_per_arm:>6}{own_sd:>8.3f}{c.injury:>9.2f}"
+            f"{needs:>7.0%}{('yes' if benchmark >= needs else 'NO'):>20}"
+        )
+    lines += [
+        "",
+        "  KAN-101's placebo arm sustained exactly the same injury as ZED1227's (-0.61).",
+        "  Judged on its own measured noise, it would have missed a drug as good as the",
+        "  best one in the field. Its null result is not evidence about KAN-101.",
+    ]
+    return "\n".join(lines)
+
+
 def report() -> str:
+    # Imported here rather than at module scope: `assay` imports `mde` from this
+    # module, so a top-level import would be circular.
+    from ctsim import assay, uncertainty
+
     rows = load_empirical()
-    sd = pooled_sd(rows)
+    est = uncertainty.pooled_estimate(rows)
+    sd = est.sd
     meaningful = LIT["vhcd_clinically_significant"].value
     dec = decompose_vhcd(sd)
 
@@ -189,11 +283,18 @@ def report() -> str:
     lines.append("=" * 78)
     lines.append("CELIAC TRIAL SIMULATOR — ΔVH:CD endpoint")
     lines.append("=" * 78)
-    lines.append(f"pooled between-patient SD (empirical, {len(rows)} arms): {sd:.3f}")
+    lines.append(f"pooled between-patient SD (empirical, {len(rows)} arms): {sd:.3f}"
+                 f"  [95% CI {est.ci_low:.3f}-{est.ci_high:.3f}]")
     lines.append(f"clinically meaningful change:                        {meaningful:.2f}")
     lines.append(f"noise-to-signal ratio:                               {sd / meaningful:.2f}x")
     lines.append("")
     lines.append(dec.describe())
+    lines.append("")
+    lines.append("  reader share under every published estimate of reader error:")
+    for label, reader_sd, share in reader_share_range(sd):
+        lines.append(f"    {label:<62} sd={reader_sd:.3f}  {share:>5.1%}")
+    lines.append("")
+    lines.append(uncertainty.report(rows))
     lines.append("")
 
     lines.append("-" * 78)
@@ -222,6 +323,20 @@ def report() -> str:
             f"{r.power_for_half:>12.1%}{flag}"
         )
     lines.append("")
+    lines.append("  the same trials judged against the ends of the SD confidence interval:")
+    lines.append(f"  {'trial':<14}{'power@0.40 (SD low)':>22}{'(point)':>10}{'(SD high)':>12}")
+    for r in replay_trials(sd):
+        lines.append(
+            f"  {r.nct_id:<14}"
+            f"{analytic_power(r.n_per_arm, meaningful, est.ci_low):>22.1%}"
+            f"{r.power_for_meaningful:>10.1%}"
+            f"{analytic_power(r.n_per_arm, meaningful, est.ci_high):>12.1%}"
+        )
+    lines.append("")
+    lines.append(assay.report(rows))
+    lines.append("")
+    lines.append(planned_vs_actual())
+    lines.append("")
 
     lines.append("-" * 78)
     lines.append("Monte Carlo cross-check (should match the analytic column)")
@@ -247,6 +362,68 @@ def report() -> str:
     lines.append("")
     lines.append("  (n=50/arm, true effect 0.40. sampling_share is an assumption, not a")
     lines.append("   measurement — public data cannot separate sampling from biology.)")
+    lines.append("")
+
+    lines.append("-" * 78)
+    lines.append("Design levers, ranked by what they actually buy")
+    lines.append("-" * 78)
+    base_n = required_n(meaningful, sd)
+    lines.append(f"  baseline: {base_n} per arm to detect 0.40 with a change-score analysis")
+    lines.append("")
+
+    corrs = baseline_correlation()
+    if corrs:
+        rhos = sorted(c.rho for c in corrs)
+        lines.append("  1. Analyse by ANCOVA on baseline instead of a change score.")
+        lines.append(f"     baseline-follow-up correlation recovered from posted SDs: "
+                     f"rho = {rhos[0]:.2f}-{rhos[-1]:.2f}")
+        for r in (rhos[0], rhos[-1]):
+            ratio = ancova_variance_ratio(r)
+            n = required_n(meaningful, sd * math.sqrt(ratio))
+            lines.append(f"       rho={r:.2f}: {base_n} -> {n} per arm "
+                         f"({1 - n / base_n:.0%} fewer patients)")
+        lines.append("     Free — it is a line in the analysis plan — but it does not rescue"
+                     " anything.")
+        lines.append("")
+
+    # Compare only protocols that actually produced measurable injury. Including the
+    # arms where the challenge did nothing would give a true but useless ratio.
+    opts = [o for o in assay.challenge_dose_options(25, sd, rows) if o.injury >= meaningful]
+    if len(opts) >= 2:
+        strongest = max(opts, key=lambda o: o.injury)
+        weakest = min(opts, key=lambda o: o.injury)
+        lines.append("  2. Use a gluten challenge that actually injures the mucosa.")
+        for o in (weakest, strongest):
+            lines.append(
+                f"     {o.source} {o.label[:30]:<32} injury {o.injury:.3f}  -> "
+                f"{o.n_for_half_protection} per arm to catch 50% protection"
+            )
+        lines.append(f"     Same drug, same endpoint, same analysis: "
+                     f"{weakest.n_for_half_protection} patients per arm or "
+                     f"{strongest.n_for_half_protection}.")
+        lines.append("     Required N scales with 1/injury^2, so this dominates every other"
+                     " lever.")
+        lines.append("")
+        skipped = [o for o in assay.challenge_dose_options(25, sd, rows)
+                   if o.injury < meaningful]
+        for o in skipped:
+            lines.append(f"     (excluded: {o.source} {o.label[:26]} moved the mucosa only "
+                         f"{o.injury:.3f} — no usable signal at any N)")
+        if skipped:
+            lines.append("")
+
+    eps = endpoint_comparison()
+    if eps:
+        lines.append("  3. Switch endpoint to IEL density. (It does not help.)")
+        for e in eps:
+            lines.append(
+                f"     {e.endpoint:<12} meaningful={e.meaningful:>7.3f}  "
+                f"SD={e.pooled_sd:>7.3f}  standardized={e.standardized_effect:.3f}  "
+                f"-> {required_n(e.meaningful, e.pooled_sd)} per arm"
+            )
+        lines.append("     Same population, same patients. The noise is in the biology and"
+                     " the biopsy,")
+        lines.append("     not in the choice of what to measure on the slide.")
 
     return "\n".join(lines)
 

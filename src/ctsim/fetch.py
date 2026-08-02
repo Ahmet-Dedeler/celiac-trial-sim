@@ -12,9 +12,10 @@ from __future__ import annotations
 
 import json
 import time
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 import httpx
 
@@ -36,7 +37,12 @@ CURATED: dict[str, list[str]] = {
         "NCT03569007",  # larazotide Ph3 (discontinued)
     ],
     "tg2_inhibitor": [
-        "NCT03766445",  # ZED1227 / TAK-227 proof of concept (NEJM 2021)
+        # The pivotal ZED1227 proof-of-concept trial (CEC-3, Schuppan et al. NEJM 2021)
+        # is registered ONLY in EudraCT as 2018-002603-14 — it has no NCT number, so it
+        # cannot be reached from this API at all. Its results are entered by hand in
+        # `ctsim.published`. These are the ZED1227/TAK-227 records that do exist here.
+        "NCT05818956",  # TAK-227 PK in healthy adults
+        "NCT07298343",  # ZED1227 in non-responsive celiac disease
     ],
     "il15_axis": [
         "NCT02637141",  # AMG 714 Ph2 gluten challenge  [RESULTS]
@@ -63,6 +69,38 @@ ALL_NCT: list[str] = [n for group in CURATED.values() for n in group]
 
 MECHANISM_OF: dict[str, str] = {
     n: mech for mech, ids in CURATED.items() for n in ids
+}
+
+
+# Endpoint *direction*, which decides what caps the detectable effect. This is a
+# judgement call per trial, so it lives here in the open rather than being inferred
+# from a title regex.
+#
+#   prevention  — patients start with a healed or near-healed mucosa and are then
+#                 challenged with gluten. The drug's job is to stop the damage, so the
+#                 largest possible between-arm difference is the damage the control arm
+#                 actually sustains. That number is posted, which makes the ceiling
+#                 directly computable.
+#
+#   restoration — patients start with active villous atrophy and the drug's job is to
+#                 let it heal. The ceiling is the headroom between baseline VH:CD and a
+#                 normal mucosa, which needs a posted baseline VH:CD. None of these
+#                 trials post one, so the ceiling is NOT computable from public data and
+#                 must not be faked by reusing the control-arm change.
+#
+# Getting this wrong in the permissive direction would mean declaring a trial
+# "impossible" on the strength of a flat control arm that was never supposed to move.
+DESIGN_OF: dict[str, str] = {
+    "NCT03409796": "prevention",   # 3g vs 10g gluten challenge, GFD-controlled patients
+    "NCT06001177": "prevention",   # KAN-101 SynCeD, 2-week gluten challenge
+    "NCT02637141": "prevention",   # AMG 714 Ph2, gluten challenge
+    "NCT01396213": "prevention",   # larazotide Ph2b gluten challenge
+    "NCT01255696": "prevention",   # ALV003 gluten challenge
+    "NCT05353985": "restoration",  # TAK-062: active CeD despite GFD, healing expected
+    "NCT04424927": "restoration",  # PRV-015: non-responsive CeD on stable GFD
+    "NCT02633020": "restoration",  # AMG 714 in refractory CeD type II
+    "NCT00620451": "restoration",  # larazotide in active CeD
+    "NCT01917630": "restoration",  # CeliAction, symptomatic CeD on GFD
 }
 
 
@@ -123,6 +161,7 @@ class TrialRecord:
     nct_id: str
     title: str
     mechanism: str
+    design: str  # prevention | restoration | unknown  (see DESIGN_OF)
     sponsor: str
     phase: str
     status: str
@@ -219,6 +258,7 @@ def extract(study: dict[str, Any]) -> TrialRecord:
         nct_id=nct,
         title=ident.get("officialTitle") or ident.get("briefTitle", ""),
         mechanism=MECHANISM_OF.get(nct, "unknown"),
+        design=DESIGN_OF.get(nct, "unknown"),
         sponsor=(p.get("sponsorCollaboratorsModule", {}).get("leadSponsor", {}) or {}).get(
             "name", ""
         ),

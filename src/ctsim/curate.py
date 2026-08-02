@@ -28,8 +28,8 @@ ROOT = Path(__file__).resolve().parents[2]
 RAW = ROOT / "data" / "raw" / "ctgov_studies.json"
 OUT = ROOT / "data" / "curated"
 
-VHCD_PAT = re.compile(r"villous height|villus height|vh:cd|vh/cd", re.I)
-IEL_PAT = re.compile(r"intraepithelial lymphocyte", re.I)
+VHCD_PAT = re.compile(r"villous height|villus height|vh:cd|vh/cd", re.IGNORECASE)
+IEL_PAT = re.compile(r"intraepithelial lymphocyte", re.IGNORECASE)
 
 # z for a two-sided 95% CI
 Z95 = 1.959963985
@@ -39,10 +39,12 @@ Z95 = 1.959963985
 class Row:
     nct_id: str
     mechanism: str
+    design: str  # prevention | restoration | unknown
     trial_n: int | None
     endpoint: str  # VHCD | IEL
     scale: str  # ratio | percent_change | cells_per_100
     outcome_type: str  # PRIMARY | SECONDARY
+    param_type: str  # MEAN | LEAST_SQUARES_MEAN | ... — decides the SD's scale
     outcome_title: str
     time_frame: str
     arm_label: str
@@ -119,10 +121,12 @@ def build() -> list[Row]:
                 Row(
                     nct_id=rec.nct_id,
                     mechanism=rec.mechanism,
+                    design=rec.design,
                     trial_n=rec.enrollment,
                     endpoint=ep,
                     scale=classify_scale(v.unit, v.outcome_title),
                     outcome_type=v.outcome_type,
+                    param_type=v.param_type,
                     outcome_title=v.outcome_title,
                     time_frame=v.time_frame,
                     arm_label=v.arm_label,

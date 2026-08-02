@@ -3870,6 +3870,292 @@
   {
     "protocolSection": {
       "identificationModule": {
+        "nctId": "NCT07298343",
+        "orgStudyIdInfo": {
+          "id": "CEC-013/CEL"
+        },
+        "secondaryIdInfos": [
+          {
+            "id": "2023-506150-21",
+            "type": "EUDRACT_NUMBER"
+          }
+        ],
+        "organization": {
+          "fullName": "Dr. Falk Pharma GmbH",
+          "class": "INDUSTRY"
+        },
+        "briefTitle": "Evaluating the Efficacy and Tolerability of ZED1227 in Subjects With Non-responsive Celiac Disease",
+        "officialTitle": "A Phase II, Double-blind, Randomised, Placebo-controlled Trial to Evaluate the Efficacy and Tolerability of ZED1227 in Celiac Disease Subjects Experiencing Symptoms Despite Gluten-free Diet",
+        "acronym": "CEC-013/CEL"
+      },
+      "statusModule": {
+        "statusVerifiedDate": "2026-04",
+        "overallStatus": "RECRUITING",
+        "expandedAccessInfo": {
+          "hasExpandedAccess": false
+        },
+        "startDateStruct": {
+          "date": "2024-06-10",
+          "type": "ACTUAL"
+        },
+        "primaryCompletionDateStruct": {
+          "date": "2027-08",
+          "type": "ESTIMATED"
+        },
+        "completionDateStruct": {
+          "date": "2027-08",
+          "type": "ESTIMATED"
+        },
+        "studyFirstSubmitDate": "2025-12-17",
+        "studyFirstSubmitQcDate": "2025-12-19",
+        "studyFirstPostDateStruct": {
+          "date": "2025-12-23",
+          "type": "ACTUAL"
+        },
+        "lastUpdateSubmitDate": "2026-04-01",
+        "lastUpdatePostDateStruct": {
+          "date": "2026-04-02",
+          "type": "ACTUAL"
+        }
+      },
+      "sponsorCollaboratorsModule": {
+        "responsibleParty": {
+          "type": "SPONSOR"
+        },
+        "leadSponsor": {
+          "name": "Dr. Falk Pharma GmbH",
+          "class": "INDUSTRY"
+        },
+        "collaborators": [
+          {
+            "name": "Takeda Development Center Americas, Inc.",
+            "class": "INDUSTRY"
+          }
+        ]
+      },
+      "oversightModule": {
+        "isFdaRegulatedDrug": true,
+        "isFdaRegulatedDevice": false,
+        "isUsExport": false
+      },
+      "descriptionModule": {
+        "briefSummary": "A study to discover if ZED1227 can improve continued celiac disease symptoms despite a gluten-free diet"
+      },
+      "conditionsModule": {
+        "conditions": [
+          "Celiac Disease"
+        ],
+        "keywords": [
+          "Celiac Disease",
+          "non-responsive Celiac Disease"
+        ]
+      },
+      "designModule": {
+        "studyType": "INTERVENTIONAL",
+        "phases": [
+          "PHASE2"
+        ],
+        "designInfo": {
+          "allocation": "RANDOMIZED",
+          "interventionModel": "PARALLEL",
+          "primaryPurpose": "TREATMENT",
+          "maskingInfo": {
+            "masking": "DOUBLE",
+            "whoMasked": [
+              "PARTICIPANT",
+              "INVESTIGATOR"
+            ]
+          }
+        },
+        "enrollmentInfo": {
+          "count": 356,
+          "type": "ESTIMATED"
+        }
+      },
+      "armsInterventionsModule": {
+        "armGroups": [
+          {
+            "label": "low Dose 1 ZED1227 + SIGE",
+            "type": "EXPERIMENTAL",
+            "interventionNames": [
+              "Drug: ZED1227 + SIGE"
+            ]
+          },
+          {
+            "label": "Placebo + SIGE",
+            "type": "PLACEBO_COMPARATOR",
+            "interventionNames": [
+              "Other: Placebo"
+            ]
+          },
+          {
+            "label": "medium Dose ZED1227 + SIGE",
+            "type": "EXPERIMENTAL",
+            "interventionNames": [
+              "Drug: ZED1227 + SIGE"
+            ]
+          },
+          {
+            "label": "high dose ZED1227 + SIGE",
+            "type": "EXPERIMENTAL",
+            "interventionNames": [
+              "Drug: ZED1227 + SIGE"
+            ]
+          },
+          {
+            "label": "low Dose 2 ZED1227 + SIGE",
+            "type": "EXPERIMENTAL",
+            "interventionNames": [
+              "Drug: ZED1227 + SIGE"
+            ]
+          }
+        ],
+        "interventions": [
+          {
+            "type": "DRUG",
+            "name": "ZED1227 + SIGE",
+            "description": "oral treatment with different daily doses of ZED1227 vs placebo",
+            "armGroupLabels": [
+              "high dose ZED1227 + SIGE",
+              "low Dose 1 ZED1227 + SIGE",
+              "low Dose 2 ZED1227 + SIGE",
+              "medium Dose ZED1227 + SIGE"
+            ]
+          },
+          {
+            "type": "OTHER",
+            "name": "Placebo",
+            "description": "Placebo + SIGE",
+            "armGroupLabels": [
+              "Placebo + SIGE"
+            ]
+          }
+        ]
+      },
+      "outcomesModule": {
+        "primaryOutcomes": [
+          {
+            "measure": "Change in CDSD GI Specific Symptom Score",
+            "timeFrame": "12 weeks"
+          }
+        ],
+        "secondaryOutcomes": [
+          {
+            "measure": "Change in PRO: Change from baseline in the percentage of Symptom Free Days (SFD)",
+            "timeFrame": "V5 (Wk 15) over a 14-day period"
+          },
+          {
+            "measure": "Histological assessment of villous height to crypt depth ratio (VH:CrD)",
+            "timeFrame": "15 weeks"
+          },
+          {
+            "measure": "Change in CDSD Non-Stool GI Symptom Score (abdominal pain, bloating, nausea)",
+            "timeFrame": "12 weeks"
+          },
+          {
+            "measure": "Proportion of subjects with histologic non-worsening, defined as change in VH:CrD \u2265 0",
+            "timeFrame": "15 weeks"
+          },
+          {
+            "measure": "Change in duodenal mucosal inflammation measured as the density of CD3positive intraepithelial lymphocytes (IELs)",
+            "timeFrame": "15 weeks"
+          },
+          {
+            "measure": "Change in serological markers TG2-IgA, TG2-IgG, DGP-IgA, DGP-IgG, and EmA-IgA",
+            "timeFrame": "12 weeks"
+          }
+        ]
+      },
+      "eligibilityModule": {
+        "eligibilityCriteria": "Inclusion Criteria:\n\n* Signed informed consent\n* Men or women between 18 and 80 years of age, inclusively\n* Documented initial biopsy-proven diagnosis of celiac disease or, in case of missing histological documentation, TG2-IgA \\> 10 x upper limit of normal (ULN) at diagnosis at least 12 months prior to V0\n* Adherence to a gluten-free diet (GFD) for at least 12 months prior to V0\n* Human leukocyte antigen DQ (HLA-DQ) typing compatible with celiac disease\n\nExclusion Criteria:\n\n* Presence of hypo- or hyperthyroidism. A patient with a well-controlled thyroid disorder during the previous 3 months can be included\n* Patients diagnosed to have confirmed refractory celiac disease type I (RCDI) or II (RCDII), with the exception that patients with a diagnosis of RCDI can be considered for inclusion if they do not have clear signs of T cell monoclonality or atypical T cells (e.g., as revealed by CD3/CD8 immunohistochemistry) and if they do not present with very severe symptoms and/or parameters of significant malabsorption and if they have not received prior treatment with immunosuppressants such as budesonide or azathioprine,\n* Severe complications of celiac disease\n* Concomitant diseases of the intestinal tract in addition to celiac disease, such as Crohn's disease, ulcerative colitis, other forms of inflammatory bowel disease, severe irritable bowel syndrome, microscopic colitis, small intestinal bacterial overgrowth (SIBO), exocrine pancreatic insufficiency; any other active diseases of the intestinal tract (e.g., active, untreated peptic ulcer, esophagitis, gastroesophageal reflux disease) that might, in the investigator's opinion, interfere with assessment of symptoms of abdominal pain, diarrhoea, or other components of celiac disease\n* History or presence of dermatitis herpetiformis",
+        "healthyVolunteers": false,
+        "sex": "ALL",
+        "minimumAge": "18 Years",
+        "maximumAge": "80 Years",
+        "stdAges": [
+          "ADULT",
+          "OLDER_ADULT"
+        ]
+      },
+      "contactsLocationsModule": {
+        "locations": [
+          {
+            "facility": "University Medical Center Mainz",
+            "status": "RECRUITING",
+            "city": "Mainz",
+            "country": "Germany",
+            "contacts": [
+              {
+                "name": "Detlef Schuppan, Professor",
+                "role": "CONTACT",
+                "phone": "+49 (6131) 17-0",
+                "phoneExt": "7356",
+                "email": "detlef.schuppan@unimedizin-mainz.de"
+              }
+            ],
+            "geoPoint": {
+              "lat": 49.98185,
+              "lon": 8.28008
+            }
+          }
+        ]
+      },
+      "ipdSharingStatementModule": {
+        "ipdSharing": "NO"
+      }
+    },
+    "derivedSection": {
+      "miscInfoModule": {
+        "versionHolder": "2026-07-31"
+      },
+      "conditionBrowseModule": {
+        "meshes": [
+          {
+            "id": "D002446",
+            "term": "Celiac Disease"
+          }
+        ],
+        "ancestors": [
+          {
+            "id": "D008286",
+            "term": "Malabsorption Syndromes"
+          },
+          {
+            "id": "D007410",
+            "term": "Intestinal Diseases"
+          },
+          {
+            "id": "D005767",
+            "term": "Gastrointestinal Diseases"
+          },
+          {
+            "id": "D004066",
+            "term": "Digestive System Diseases"
+          },
+          {
+            "id": "D008659",
+            "term": "Metabolic Diseases"
+          },
+          {
+            "id": "D009750",
+            "term": "Nutritional and Metabolic Diseases"
+          }
+        ]
+      },
+      "interventionBrowseModule": {
+        "meshes": [
+          {
+            "id": "C000718207",
+            "term": "ZED1227"
+          }
+        ]
+      }
+    },
+    "hasResults": false
+  },
+  {
+    "protocolSection": {
+      "identificationModule": {
         "nctId": "NCT01917630",
         "orgStudyIdInfo": {
           "id": "ALV003-1221"
@@ -6962,6 +7248,2422 @@
       }
     },
     "hasResults": false
+  },
+  {
+    "protocolSection": {
+      "identificationModule": {
+        "nctId": "NCT05818956",
+        "orgStudyIdInfo": {
+          "id": "TAK-227-1001"
+        },
+        "organization": {
+          "fullName": "Takeda",
+          "class": "INDUSTRY"
+        },
+        "briefTitle": "A Study of TAK-227 in Healthy Adults",
+        "officialTitle": "A Randomized, Open-label, Single-dose, Three-way Crossover Evaluation of the Effect of Food on the Pharmacokinetics, Safety, and Tolerability of TAK-227 in Healthy Adult Participants"
+      },
+      "statusModule": {
+        "statusVerifiedDate": "2024-02",
+        "overallStatus": "COMPLETED",
+        "expandedAccessInfo": {
+          "hasExpandedAccess": false
+        },
+        "startDateStruct": {
+          "date": "2023-05-25",
+          "type": "ACTUAL"
+        },
+        "primaryCompletionDateStruct": {
+          "date": "2023-06-19",
+          "type": "ACTUAL"
+        },
+        "completionDateStruct": {
+          "date": "2023-06-26",
+          "type": "ACTUAL"
+        },
+        "studyFirstSubmitDate": "2023-04-06",
+        "studyFirstSubmitQcDate": "2023-04-06",
+        "studyFirstPostDateStruct": {
+          "date": "2023-04-19",
+          "type": "ACTUAL"
+        },
+        "resultsFirstSubmitDate": "2024-02-27",
+        "resultsFirstSubmitQcDate": "2024-02-27",
+        "resultsFirstPostDateStruct": {
+          "date": "2024-08-06",
+          "type": "ACTUAL"
+        },
+        "lastUpdateSubmitDate": "2024-02-27",
+        "lastUpdatePostDateStruct": {
+          "date": "2024-08-06",
+          "type": "ACTUAL"
+        }
+      },
+      "sponsorCollaboratorsModule": {
+        "responsibleParty": {
+          "type": "SPONSOR"
+        },
+        "leadSponsor": {
+          "name": "Takeda",
+          "class": "INDUSTRY"
+        }
+      },
+      "oversightModule": {
+        "oversightHasDmc": false,
+        "isFdaRegulatedDrug": true,
+        "isFdaRegulatedDevice": false,
+        "isUsExport": false
+      },
+      "descriptionModule": {
+        "briefSummary": "The main aim of this study is to test the effects of food consumption with sponsor compound TAK-227 in healthy participants. The study will also measure side effects, and to check how much TAK-227 stays in the blood over time to work out the best dose.",
+        "detailedDescription": "The drug being tested in this study is called TAK-227. This study will assess the effect of food on single-dose of TAK-227 in healthy participants.\n\nThe study will enroll approximately 24 participants. A single dose of 50 milligram (mg) TAK-227 will be administered orally under one of 3 different feeding conditions.\n\n* Fasting (Treatment A),\n* Fed following a high-fat or high-calorie meal prior to dosing (Treatment B), and\n* Fed following a high-fat or high-calorie meal after dosing (Treatment C)\n\nParticipants will be randomly assigned to 1 of the 6 treatments sequences based on the 3 feeding conditions.\n\n* Sequence 1: (Treatment A + Treatment B + Treatment C)\n* Sequence 2: (Treatment B + Treatment C + Treatment A)\n* Sequence 3: (Treatment C + Treatment A + Treatment B)\n* Sequence 4: (Treatment A + Treatment C + Treatment B)\n* Sequence 5: (Treatment B + Treatment A + Treatment C)\n* Sequence 6: (Treatment C + Treatment B + Treatment A)\n\nAll participants will receive all 6 treatment regimens. This is a single-center trial. Participants will be followed up for up to 7 days after the last dose of study drug for a follow-up assessment. The overall time to participate in this study is approximately 40 days including screening period and follow-up period."
+      },
+      "conditionsModule": {
+        "conditions": [
+          "Healthy Volunteers"
+        ],
+        "keywords": [
+          "Drug Therapy"
+        ]
+      },
+      "designModule": {
+        "studyType": "INTERVENTIONAL",
+        "phases": [
+          "PHASE1"
+        ],
+        "designInfo": {
+          "allocation": "RANDOMIZED",
+          "interventionModel": "CROSSOVER",
+          "primaryPurpose": "OTHER",
+          "maskingInfo": {
+            "masking": "NONE"
+          }
+        },
+        "enrollmentInfo": {
+          "count": 24,
+          "type": "ACTUAL"
+        }
+      },
+      "armsInterventionsModule": {
+        "armGroups": [
+          {
+            "label": "Sequence 1: (Treatment A + Treatment B + Treatment C)",
+            "type": "EXPERIMENTAL",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 under fasting condition as Treatment A, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C. There will be a washout period of at least 4 days between each dosing.",
+            "interventionNames": [
+              "Drug: TAK-227"
+            ]
+          },
+          {
+            "label": "Sequence 2: (Treatment B + Treatment C + Treatment A)",
+            "type": "EXPERIMENTAL",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 under fasting condition as Treatment A . There will be a washout period of at least 4 days between each dosing.",
+            "interventionNames": [
+              "Drug: TAK-227"
+            ]
+          },
+          {
+            "label": "Sequence 3: (Treatment C + Treatment A + Treatment B)",
+            "type": "EXPERIMENTAL",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 under fasting condition as Treatment A, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B. There will be a washout period of at least 4 days between each dosing.",
+            "interventionNames": [
+              "Drug: TAK-227"
+            ]
+          },
+          {
+            "label": "Sequence 4: (Treatment A + Treatment C + Treatment B)",
+            "type": "EXPERIMENTAL",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 under fasting condition as Treatment A, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B. There will be a washout period of at least 4 days between each dosing.",
+            "interventionNames": [
+              "Drug: TAK-227"
+            ]
+          },
+          {
+            "label": "Sequence 5: (Treatment B + Treatment A + Treatment C)",
+            "type": "EXPERIMENTAL",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 under fasting condition as Treatment A, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C. There will be a washout period of at least 4 days between each dosing.",
+            "interventionNames": [
+              "Drug: TAK-227"
+            ]
+          },
+          {
+            "label": "Sequence 6: (Treatment C + Treatment B + Treatment A)",
+            "type": "EXPERIMENTAL",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 under fasting condition as Treatment A. There will be a washout period of at least 4 days between each dosing.",
+            "interventionNames": [
+              "Drug: TAK-227"
+            ]
+          }
+        ],
+        "interventions": [
+          {
+            "type": "DRUG",
+            "name": "TAK-227",
+            "description": "TAK-227 capsules.",
+            "armGroupLabels": [
+              "Sequence 1: (Treatment A + Treatment B + Treatment C)",
+              "Sequence 2: (Treatment B + Treatment C + Treatment A)",
+              "Sequence 3: (Treatment C + Treatment A + Treatment B)",
+              "Sequence 4: (Treatment A + Treatment C + Treatment B)",
+              "Sequence 5: (Treatment B + Treatment A + Treatment C)",
+              "Sequence 6: (Treatment C + Treatment B + Treatment A)"
+            ]
+          }
+        ]
+      },
+      "outcomesModule": {
+        "primaryOutcomes": [
+          {
+            "measure": "Cmax: Maximum Observed Plasma Concentration for TAK-227",
+            "timeFrame": "Day 1 pre-dose and at multiple time points (up to 36 hours) post-dose"
+          },
+          {
+            "measure": "AUClast: Area Under the Plasma Concentration-time Curve From Time 0 to the Time of the Last Quantifiable Concentration for TAK-227",
+            "timeFrame": "Day 1 pre-dose and at multiple time points (up to 36 hours) post-dose"
+          },
+          {
+            "measure": "AUC\u221e: Area Under the Plasma Concentration-time Curve From Time 0 to Infinity for TAK-227",
+            "timeFrame": "Day 1 pre-dose and at multiple time points (up to 36 hours) post-dose"
+          }
+        ],
+        "secondaryOutcomes": [
+          {
+            "measure": "Number of Participants Reporting One or More Treatment-emergent Adverse Events (TEAEs) and Serious TEAEs",
+            "description": "An adverse event (AE) was defined as any untoward medical occurrence in a clinical investigation participant who had signed the informed consent form (ICF) to participate in a study; it did not necessarily have to have a causal relationship with the treatment. An SAE was any untoward medical occurrence that at any dose met one or more of the following criteria: resulted in death, life-threatening, required inpatient hospitalization or prolongation of existing hospitalization, resulted in persistent, significant disability/incapacity, a congenital abnormality/birth defect, an important medical event. A TEAE was defined as an adverse event with an onset that occurs after receiving study drug.",
+            "timeFrame": "From start of study drug administration up to 7 days after the last dose (up to Day 20)"
+          },
+          {
+            "measure": "Number of Participants Based on Severity of TEAE",
+            "description": "Severity of a TEAEs were determined by following criteria: Mild: event that did not generally interfere with usual activities of daily living; Moderate: event that interfere with usual activities of daily living, causing discomfort, permanent risk of harm; Severe: AE that interrupt usual activities of daily living, significantly affects clinical status, or might require intensive therapeutic intervention.",
+            "timeFrame": "From start of study drug administration up to 7 days after the last dose (up to Day 20)"
+          },
+          {
+            "measure": "Number of Participants Based on Causality of TEAEs",
+            "description": "Causality of TEAEs to the study medication was assessed using the following categories: Related: An AE that followed a reasonable temporal sequence from administration of a drug (including the course after withdrawal of the drug), or for which a causal relationship was at least a reasonable possibility, that is, the relationship cannot be ruled out, although factors other than the drug, such as underlying diseases, complications, concomitant drugs and concurrent treatments, might also be responsible; Not Related: An AE that did not follow a reasonable temporal sequence from administration of a drug and/or that can reasonably be explained by other factors, such as underlying diseases, complications, concomitant medications and concurrent treatments.",
+            "timeFrame": "From start of study drug administration up to 7 days after the last dose (up to Day 20)"
+          },
+          {
+            "measure": "Number of Participants With Clinically Significant Change From Baseline in Vital Signs Values",
+            "description": "Vital signs included body temperature (oral or tympanic measurement), respiratory rate, blood pressure \\[systolic blood pressure (SBP) and diastolic blood pressure (DBP)\\], and pulse (beats per minute). The clinically significant change assessment was based on investigator's judgment. Number of participants with clinically significant change from baseline in vital signs values were reported.",
+            "timeFrame": "Baseline to Day 13"
+          },
+          {
+            "measure": "Number of Participants With Clinically Significant Change From Baseline in 12-Lead Electrocardiograms (ECG) Values",
+            "description": "ECGs was performed with participants in a supine position. All ECG tracings were reviewed by the investigator or designee. Number of participants with clinically significant change from baseline in ECG values were reported.",
+            "timeFrame": "Baseline to Day 13"
+          },
+          {
+            "measure": "Number of Participants With Clinically Significant Change From Baseline in Laboratory Parameters",
+            "description": "The clinically significant change assessment was based on investigator's judgment. Number of participants with clinically significant change from baseline in laboratory values (hematology, serum chemistry, and urinalysis) were reported.",
+            "timeFrame": "Baseline to Day 13"
+          },
+          {
+            "measure": "Number of Participants With Clinically Significant Change From Baseline in Physical Examination",
+            "description": "Physical examination included the following body systems: (1) respiratory system; (2) cardiovascular system; (3) nervous system (4) dermatologic system; and (5) gastrointestinal system. The clinically significant change assessment was based on investigator's judgment. Number of participants with clinically significant change from baseline in physical examination values were reported.",
+            "timeFrame": "Baseline to Day 13"
+          }
+        ]
+      },
+      "eligibilityModule": {
+        "eligibilityCriteria": "Inclusion Criteria\n\nParticipants must fulfill the following inclusion criteria to be eligible for participation in the study:\n\n* Body mass index (BMI) greater than or equal to (\\>=) 18 and less than or equal to (\\<=) 32.0 kilogram per square meter (kg/m\\^2) at screening visit.\n* Continuous non-smoker who has not used nicotine and tobacco containing products for at least 3 months prior to the first dosing based on participant self-reporting.\n\nExclusion Criteria:\n\nParticipants must not be enrolled in the study if they meet any of the following criteria:\n\n* Is mentally or legally incapacitated or has significant emotional problems at the time of the screening visit or expected during the conduct of the study.\n* Drink alcohol in excess of 21 units per week for males or 14 units per week for females, with one unit equal to (=) 150 milliliter (mL) of wine or 360 mL of beer or 45 mL of 45 percent (%) alcohol.\n* Positive results at screening for human immunodeficiency virus (HIV), hepatitis B surface antigen (HBsAg), or hepatitis C virus (HCV).\n* Unable to refrain from or anticipates the use of:\n\n  * Any drug, including prescription and non-prescription medications, herbal remedies, or vitamin supplements within 14 days prior to the first dosing and throughout the study. Medication listed as part of acceptable birth control methods will be allowed. Thyroid hormone replacement medication may be permitted if the participant has been on the same stable dose for the immediate 3 months prior to first study drug administration. Hormone replacement therapy will also be allowed.\n  * Any drugs known to be significant inducers or inhibitors of Cytochrome P450 (CYP)3A4 enzymes and/or P-glycoprotein (gp), including St. John's Wort, within 28 days prior to the first dosing and throughout the study. Appropriate sources (example, Flockhart Table TM) will be consulted to confirm lack of pharmacokinetic (PK)/pharmacodynamics interaction with study drug.\n  * Chronic use of non-steroidal anti-inflammatory (define as more that 7 days of use) within 2 weeks prior to screening and throughout the study.\n* Donation of blood or significant blood loss within 56 days prior to the first dosing.\n* Plasma donation within 7 days prior to the first dosing.",
+        "healthyVolunteers": true,
+        "sex": "ALL",
+        "minimumAge": "18 Years",
+        "maximumAge": "55 Years",
+        "stdAges": [
+          "ADULT"
+        ]
+      },
+      "contactsLocationsModule": {
+        "overallOfficials": [
+          {
+            "name": "Study Director",
+            "affiliation": "Takeda",
+            "role": "STUDY_DIRECTOR"
+          }
+        ],
+        "locations": [
+          {
+            "facility": "Celerion, Inc.",
+            "city": "Tempe",
+            "state": "Arizona",
+            "zip": "85283",
+            "country": "United States",
+            "geoPoint": {
+              "lat": 33.41477,
+              "lon": -111.90931
+            }
+          }
+        ]
+      },
+      "referencesModule": {
+        "seeAlsoLinks": [
+          {
+            "label": "To obtain more information about this study, click this link.",
+            "url": "https://clinicaltrials.takeda.com/study-detail/7a014b6ccea84ef4?idFilter=%5B%22TAK-227-1001%22%5D"
+          }
+        ]
+      },
+      "ipdSharingStatementModule": {
+        "ipdSharing": "YES",
+        "description": "Takeda provides access to the de-identified individual participant data (IPD) for eligible studies to aid qualified researchers in addressing legitimate scientific objectives (Takeda's data sharing commitment is available on https://clinicaltrials.takeda.com/takedas-commitment?commitment=5). These IPDs will be provided in a secure research environment following approval of a data sharing request, and under the terms of a data sharing agreement.",
+        "infoTypes": [
+          "STUDY_PROTOCOL",
+          "SAP",
+          "ICF",
+          "CSR"
+        ],
+        "accessCriteria": "IPD from eligible studies will be shared with qualified researchers according to the criteria and process described on https://vivli.org/ourmember/takeda/. For approved requests, the researchers will be provided access to anonymized data (to respect patient privacy in line with applicable laws and regulations) and with information necessary to address the research objectives under the terms of a data sharing agreement.",
+        "url": "https://vivli.org/ourmember/takeda/"
+      }
+    },
+    "resultsSection": {
+      "participantFlowModule": {
+        "preAssignmentDetails": "Healthy participants were randomized in each of the 6 treatment sequences of this 3-period cross over study to receive a 50 milligram (mg) capsule of TAK-227 in the fasting state (Treatment A), fed predose state following a high-fat/high-calorie meal 30 minutes prior to dosing (Treatment B), or fed postdose state following a high-fat/high-calorie meal 30 minutes after dosing (Treatment C).",
+        "recruitmentDetails": "Participants took part in the study at single investigative site in the United States from 25 May 2023 to 26 June 2023.",
+        "groups": [
+          {
+            "id": "FG000",
+            "title": "Treatment Sequence 1: (Treatment A + Treatment B + Treatment C)",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 under fasting condition as Treatment A, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C. There was a washout period of not less than 4 days between each treatment period."
+          },
+          {
+            "id": "FG001",
+            "title": "Treatment Sequence 2: (Treatment B + Treatment C + Treatment A)",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 under fasting condition as Treatment A . There was a washout period of not less than 4 days between each treatment period."
+          },
+          {
+            "id": "FG002",
+            "title": "Treatment Sequence 3: (Treatment C + Treatment A + Treatment B)",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 under fasting condition as Treatment A, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B. There was a washout period of not less than 4 days between each treatment period."
+          },
+          {
+            "id": "FG003",
+            "title": "Treatment Sequence 4: (Treatment A + Treatment C + Treatment B)",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 under fasting condition as Treatment A, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B. There was a washout period of not less than 4 days between each treatment period."
+          },
+          {
+            "id": "FG004",
+            "title": "Treatment Sequence 5: (Treatment B + Treatment A + Treatment C)",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 under fasting condition as Treatment A, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C. There will be a washout period of not less than 4 days between each treatment period."
+          },
+          {
+            "id": "FG005",
+            "title": "Treatment Sequence 6: (Treatment C + Treatment B + Treatment A)",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 under fasting condition as Treatment A. There will be a washout period of not less than 4 days between each treatment period."
+          }
+        ],
+        "periods": [
+          {
+            "title": "Treatment Period 1 (2 Days)",
+            "milestones": [
+              {
+                "type": "STARTED",
+                "achievements": [
+                  {
+                    "groupId": "FG000",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG001",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG002",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG003",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG004",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG005",
+                    "numSubjects": "4"
+                  }
+                ]
+              },
+              {
+                "type": "COMPLETED",
+                "achievements": [
+                  {
+                    "groupId": "FG000",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG001",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG002",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG003",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG004",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG005",
+                    "numSubjects": "4"
+                  }
+                ]
+              },
+              {
+                "type": "NOT COMPLETED",
+                "achievements": [
+                  {
+                    "groupId": "FG000",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG001",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG002",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG003",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG004",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG005",
+                    "numSubjects": "0"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Washout Period 1 (4 Days)",
+            "milestones": [
+              {
+                "type": "STARTED",
+                "achievements": [
+                  {
+                    "groupId": "FG000",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG001",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG002",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG003",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG004",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG005",
+                    "numSubjects": "4"
+                  }
+                ]
+              },
+              {
+                "type": "COMPLETED",
+                "achievements": [
+                  {
+                    "groupId": "FG000",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG001",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG002",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG003",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG004",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG005",
+                    "numSubjects": "4"
+                  }
+                ]
+              },
+              {
+                "type": "NOT COMPLETED",
+                "achievements": [
+                  {
+                    "groupId": "FG000",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG001",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG002",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG003",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG004",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG005",
+                    "numSubjects": "0"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Treatment Period 2 (2 Days)",
+            "milestones": [
+              {
+                "type": "STARTED",
+                "achievements": [
+                  {
+                    "groupId": "FG000",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG001",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG002",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG003",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG004",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG005",
+                    "numSubjects": "4"
+                  }
+                ]
+              },
+              {
+                "type": "COMPLETED",
+                "achievements": [
+                  {
+                    "groupId": "FG000",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG001",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG002",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG003",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG004",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG005",
+                    "numSubjects": "4"
+                  }
+                ]
+              },
+              {
+                "type": "NOT COMPLETED",
+                "achievements": [
+                  {
+                    "groupId": "FG000",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG001",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG002",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG003",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG004",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG005",
+                    "numSubjects": "0"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Washout Period 2 (4 Days)",
+            "milestones": [
+              {
+                "type": "STARTED",
+                "achievements": [
+                  {
+                    "groupId": "FG000",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG001",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG002",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG003",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG004",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG005",
+                    "numSubjects": "4"
+                  }
+                ]
+              },
+              {
+                "type": "COMPLETED",
+                "achievements": [
+                  {
+                    "groupId": "FG000",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG001",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG002",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG003",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG004",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG005",
+                    "numSubjects": "4"
+                  }
+                ]
+              },
+              {
+                "type": "NOT COMPLETED",
+                "achievements": [
+                  {
+                    "groupId": "FG000",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG001",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG002",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG003",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG004",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG005",
+                    "numSubjects": "0"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Treatment Period 3 (2 Days)",
+            "milestones": [
+              {
+                "type": "STARTED",
+                "achievements": [
+                  {
+                    "groupId": "FG000",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG001",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG002",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG003",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG004",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG005",
+                    "numSubjects": "4"
+                  }
+                ]
+              },
+              {
+                "type": "COMPLETED",
+                "achievements": [
+                  {
+                    "groupId": "FG000",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG001",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG002",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG003",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG004",
+                    "numSubjects": "4"
+                  },
+                  {
+                    "groupId": "FG005",
+                    "numSubjects": "4"
+                  }
+                ]
+              },
+              {
+                "type": "NOT COMPLETED",
+                "achievements": [
+                  {
+                    "groupId": "FG000",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG001",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG002",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG003",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG004",
+                    "numSubjects": "0"
+                  },
+                  {
+                    "groupId": "FG005",
+                    "numSubjects": "0"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "baselineCharacteristicsModule": {
+        "populationDescription": "The safety set included all participants who received at least one dose of the study drug and were included in the safety evaluations.",
+        "groups": [
+          {
+            "id": "BG000",
+            "title": "Treatment Sequence 1: (Treatment A + Treatment B + Treatment C)",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 under fasting condition as Treatment A, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C. There was a washout period of not less than 4 days between each treatment period."
+          },
+          {
+            "id": "BG001",
+            "title": "Sequence 2: (Treatment B + Treatment C + Treatment A)",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 under fasting condition as Treatment A . There was a washout period of not less than 4 days between each treatment period."
+          },
+          {
+            "id": "BG002",
+            "title": "Treatment Sequence 3: (Treatment C + Treatment A + Treatment B)",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 under fasting condition as Treatment A, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B. There was a washout period of not less than 4 days between each treatment period."
+          },
+          {
+            "id": "BG003",
+            "title": "Treatment Sequence 4: (Treatment A + Treatment C + Treatment B)",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 under fasting condition as Treatment A, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B. There was a washout period of not less than 4 days between each treatment period."
+          },
+          {
+            "id": "BG004",
+            "title": "Treatment Sequence 5: (Treatment B + Treatment A + Treatment C)",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 under fasting condition as Treatment A, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C. There will be a washout period of not less than 4 days between each treatment period."
+          },
+          {
+            "id": "BG005",
+            "title": "Sequence 6: (Treatment C + Treatment B + Treatment A)",
+            "description": "TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 1 administered with a high fat/high calorie meal 30 minutes after dosing as Treatment C, followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 2 administered with a high fat or high calorie meal 30 minutes prior to dosing as Treatment B, and further followed by TAK-227 50 mg, capsule, single oral dose on Day 1 of Treatment Period 3 under fasting condition as Treatment A. There will be a washout period of not less than 4 days between each treatment period."
+          },
+          {
+            "id": "BG006",
+            "title": "Total",
+            "description": "Total of all reporting groups"
+          }
+        ],
+        "denoms": [
+          {
+            "units": "Participants",
+            "counts": [
+              {
+                "groupId": "BG000",
+                "value": "4"
+              },
+              {
+                "groupId": "BG001",
+                "value": "4"
+              },
+              {
+                "groupId": "BG002",
+                "value": "4"
+              },
+              {
+                "groupId": "BG003",
+                "value": "4"
+              },
+              {
+                "groupId": "BG004",
+                "value": "4"
+              },
+              {
+                "groupId": "BG005",
+                "value": "4"
+              },
+              {
+                "groupId": "BG006",
+                "value": "24"
+              }
+            ]
+          }
+        ],
+        "measures": [
+          {
+            "title": "Age, Continuous",
+            "paramType": "MEAN",
+            "dispersionType": "STANDARD_DEVIATION",
+            "unitOfMeasure": "years",
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "49.0",
+                        "spread": "6.38"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "43.0",
+                        "spread": "10.23"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "39.5",
+                        "spread": "4.20"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "42.8",
+                        "spread": "8.10"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "43.0",
+                        "spread": "7.70"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "36.5",
+                        "spread": "10.47"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "42.3",
+                        "spread": "8.19"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Sex: Female, Male",
+            "paramType": "COUNT_OF_PARTICIPANTS",
+            "unitOfMeasure": "Participants",
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "title": "Female",
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "2"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "3"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "2"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "1"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "2"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "1"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "11"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "Male",
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "2"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "1"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "2"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "3"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "2"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "3"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "13"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Ethnicity (NIH/OMB)",
+            "paramType": "COUNT_OF_PARTICIPANTS",
+            "unitOfMeasure": "Participants",
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "title": "Hispanic or Latino",
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "4"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "3"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "4"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "2"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "3"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "3"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "19"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "Not Hispanic or Latino",
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "1"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "2"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "1"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "1"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "5"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "Unknown or Not Reported",
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "0"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Race (NIH/OMB)",
+            "paramType": "COUNT_OF_PARTICIPANTS",
+            "unitOfMeasure": "Participants",
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "title": "American Indian or Alaska Native",
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "0"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "Asian",
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "1"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "1"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "Native Hawaiian or Other Pacific Islander",
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "0"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "Black or African American",
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "1"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "1"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "2"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "White",
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "3"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "4"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "4"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "3"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "4"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "3"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "21"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "More than one race",
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "0"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "Unknown or Not Reported",
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "0"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Region of Enrollment",
+            "paramType": "COUNT_OF_PARTICIPANTS",
+            "unitOfMeasure": "Participants",
+            "classes": [
+              {
+                "title": "United States",
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "4"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "4"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "4"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "4"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "4"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "4"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "24"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Body Mass Index (BMI)",
+            "paramType": "MEAN",
+            "dispersionType": "STANDARD_DEVIATION",
+            "unitOfMeasure": "kilogram per square meter (kg/m^2)",
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "28.613",
+                        "spread": "2.1689"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "27.055",
+                        "spread": "3.4694"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "27.795",
+                        "spread": "4.6085"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "27.640",
+                        "spread": "2.7334"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "27.380",
+                        "spread": "3.2070"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "26.280",
+                        "spread": "2.0572"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "27.460",
+                        "spread": "2.8896"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Height",
+            "paramType": "MEAN",
+            "dispersionType": "STANDARD_DEVIATION",
+            "unitOfMeasure": "centimeter (cm)",
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "164.5",
+                        "spread": "8.43"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "165.0",
+                        "spread": "10.03"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "162.3",
+                        "spread": "12.71"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "171.3",
+                        "spread": "11.15"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "169.8",
+                        "spread": "15.65"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "173.8",
+                        "spread": "6.65"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "167.8",
+                        "spread": "10.72"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Weight",
+            "paramType": "MEAN",
+            "dispersionType": "STANDARD_DEVIATION",
+            "unitOfMeasure": "kilogram (kg)",
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "BG000",
+                        "value": "77.43",
+                        "spread": "7.135"
+                      },
+                      {
+                        "groupId": "BG001",
+                        "value": "74.18",
+                        "spread": "15.436"
+                      },
+                      {
+                        "groupId": "BG002",
+                        "value": "74.07",
+                        "spread": "18.007"
+                      },
+                      {
+                        "groupId": "BG003",
+                        "value": "80.78",
+                        "spread": "5.038"
+                      },
+                      {
+                        "groupId": "BG004",
+                        "value": "80.00",
+                        "spread": "19.588"
+                      },
+                      {
+                        "groupId": "BG005",
+                        "value": "79.33",
+                        "spread": "4.640"
+                      },
+                      {
+                        "groupId": "BG006",
+                        "value": "77.63",
+                        "spread": "11.986"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "outcomeMeasuresModule": {
+        "outcomeMeasures": [
+          {
+            "type": "PRIMARY",
+            "title": "Cmax: Maximum Observed Plasma Concentration for TAK-227",
+            "populationDescription": "The pharmacokinetic (PK) set included all participants who complied sufficiently with the protocol and displayed an evaluable PK profile (for example, exposure to treatment, availability of measurements, and absence of major protocol violations) were included in the PK analyses.",
+            "reportingStatus": "POSTED",
+            "paramType": "GEOMETRIC_MEAN",
+            "dispersionType": "Geometric Coefficient of Variation",
+            "unitOfMeasure": "nanogram per milliliter (ng/mL)",
+            "timeFrame": "Day 1 pre-dose and at multiple time points (up to 36 hours) post-dose",
+            "groups": [
+              {
+                "id": "OG000",
+                "title": "Treatment A: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 under fasted condition."
+              },
+              {
+                "id": "OG001",
+                "title": "Treatment B: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes prior to dosing."
+              },
+              {
+                "id": "OG002",
+                "title": "Treatment C: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes after dosing."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG000",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG001",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG002",
+                    "value": "24"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG000",
+                        "value": "464.4",
+                        "spread": "89.8"
+                      },
+                      {
+                        "groupId": "OG001",
+                        "value": "190.9",
+                        "spread": "50.6"
+                      },
+                      {
+                        "groupId": "OG002",
+                        "value": "370.0",
+                        "spread": "102.6"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "PRIMARY",
+            "title": "AUClast: Area Under the Plasma Concentration-time Curve From Time 0 to the Time of the Last Quantifiable Concentration for TAK-227",
+            "populationDescription": "The PK set included all participants who complied sufficiently with the protocol and displayed an evaluable PK profile (for example, exposure to treatment, availability of measurements, and absence of major protocol violations) were included in the PK analyses.",
+            "reportingStatus": "POSTED",
+            "paramType": "GEOMETRIC_MEAN",
+            "dispersionType": "Geometric Coefficient of Variation",
+            "unitOfMeasure": "nanogram*hour per milliliter(ng*hr/mL)",
+            "timeFrame": "Day 1 pre-dose and at multiple time points (up to 36 hours) post-dose",
+            "groups": [
+              {
+                "id": "OG000",
+                "title": "Treatment A: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 under fasted condition."
+              },
+              {
+                "id": "OG001",
+                "title": "Treatment B: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes prior to dosing."
+              },
+              {
+                "id": "OG002",
+                "title": "Treatment C: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes after dosing."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG000",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG001",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG002",
+                    "value": "24"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG000",
+                        "value": "1582",
+                        "spread": "65.9"
+                      },
+                      {
+                        "groupId": "OG001",
+                        "value": "969.2",
+                        "spread": "51.2"
+                      },
+                      {
+                        "groupId": "OG002",
+                        "value": "1056",
+                        "spread": "53.0"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "PRIMARY",
+            "title": "AUC\u221e: Area Under the Plasma Concentration-time Curve From Time 0 to Infinity for TAK-227",
+            "populationDescription": "The PK set included all participants who complied sufficiently with the protocol and displayed an evaluable PK profile (for example, exposure to treatment, availability of measurements, and absence of major protocol violations) were included in the PK analyses. Here, \"Overall number of participants analyzed\" signifies participants who were evaluable for this outcome measure.",
+            "reportingStatus": "POSTED",
+            "paramType": "GEOMETRIC_MEAN",
+            "dispersionType": "Geometric Coefficient of Variation",
+            "unitOfMeasure": "nanogram*hour per milliliter(ng*hr/mL)",
+            "timeFrame": "Day 1 pre-dose and at multiple time points (up to 36 hours) post-dose",
+            "groups": [
+              {
+                "id": "OG000",
+                "title": "Treatment A: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 under fasted condition."
+              },
+              {
+                "id": "OG001",
+                "title": "Treatment B: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes prior to dosing."
+              },
+              {
+                "id": "OG002",
+                "title": "Treatment C: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes after dosing."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG000",
+                    "value": "23"
+                  },
+                  {
+                    "groupId": "OG001",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG002",
+                    "value": "24"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG000",
+                        "value": "1708",
+                        "spread": "52.0"
+                      },
+                      {
+                        "groupId": "OG001",
+                        "value": "983.7",
+                        "spread": "50.8"
+                      },
+                      {
+                        "groupId": "OG002",
+                        "value": "1070",
+                        "spread": "51.8"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "SECONDARY",
+            "title": "Number of Participants Reporting One or More Treatment-emergent Adverse Events (TEAEs) and Serious TEAEs",
+            "description": "An adverse event (AE) was defined as any untoward medical occurrence in a clinical investigation participant who had signed the informed consent form (ICF) to participate in a study; it did not necessarily have to have a causal relationship with the treatment. An SAE was any untoward medical occurrence that at any dose met one or more of the following criteria: resulted in death, life-threatening, required inpatient hospitalization or prolongation of existing hospitalization, resulted in persistent, significant disability/incapacity, a congenital abnormality/birth defect, an important medical event. A TEAE was defined as an adverse event with an onset that occurs after receiving study drug.",
+            "populationDescription": "The safety set included all participants who received at least one dose of the study drug and were included in the safety evaluations.",
+            "reportingStatus": "POSTED",
+            "paramType": "COUNT_OF_PARTICIPANTS",
+            "unitOfMeasure": "Participants",
+            "timeFrame": "From start of study drug administration up to 7 days after the last dose (up to Day 20)",
+            "groups": [
+              {
+                "id": "OG000",
+                "title": "Treatment A: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 under fasted condition."
+              },
+              {
+                "id": "OG001",
+                "title": "Treatment B: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes prior to dosing."
+              },
+              {
+                "id": "OG002",
+                "title": "Treatment C: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes after dosing."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG000",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG001",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG002",
+                    "value": "24"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "title": "TEAEs",
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG000",
+                        "value": "4"
+                      },
+                      {
+                        "groupId": "OG001",
+                        "value": "5"
+                      },
+                      {
+                        "groupId": "OG002",
+                        "value": "2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Serious TEAEs",
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG000",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "OG001",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "OG002",
+                        "value": "0"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "SECONDARY",
+            "title": "Number of Participants Based on Severity of TEAE",
+            "description": "Severity of a TEAEs were determined by following criteria: Mild: event that did not generally interfere with usual activities of daily living; Moderate: event that interfere with usual activities of daily living, causing discomfort, permanent risk of harm; Severe: AE that interrupt usual activities of daily living, significantly affects clinical status, or might require intensive therapeutic intervention.",
+            "populationDescription": "The safety set included all participants who received at least one dose of the study drug and were included in the safety evaluations.",
+            "reportingStatus": "POSTED",
+            "paramType": "COUNT_OF_PARTICIPANTS",
+            "unitOfMeasure": "Participants",
+            "timeFrame": "From start of study drug administration up to 7 days after the last dose (up to Day 20)",
+            "groups": [
+              {
+                "id": "OG000",
+                "title": "Treatment A: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 under fasted condition."
+              },
+              {
+                "id": "OG001",
+                "title": "Treatment B: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes prior to dosing."
+              },
+              {
+                "id": "OG002",
+                "title": "Treatment C: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes after dosing."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG000",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG001",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG002",
+                    "value": "24"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "title": "Mild",
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG000",
+                        "value": "3"
+                      },
+                      {
+                        "groupId": "OG001",
+                        "value": "5"
+                      },
+                      {
+                        "groupId": "OG002",
+                        "value": "2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Moderate",
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG000",
+                        "value": "1"
+                      },
+                      {
+                        "groupId": "OG001",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "OG002",
+                        "value": "0"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Severe",
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG000",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "OG001",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "OG002",
+                        "value": "0"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "SECONDARY",
+            "title": "Number of Participants Based on Causality of TEAEs",
+            "description": "Causality of TEAEs to the study medication was assessed using the following categories: Related: An AE that followed a reasonable temporal sequence from administration of a drug (including the course after withdrawal of the drug), or for which a causal relationship was at least a reasonable possibility, that is, the relationship cannot be ruled out, although factors other than the drug, such as underlying diseases, complications, concomitant drugs and concurrent treatments, might also be responsible; Not Related: An AE that did not follow a reasonable temporal sequence from administration of a drug and/or that can reasonably be explained by other factors, such as underlying diseases, complications, concomitant medications and concurrent treatments.",
+            "populationDescription": "The safety set included all participants who received at least one dose of the study drug and were included in the safety evaluations.",
+            "reportingStatus": "POSTED",
+            "paramType": "COUNT_OF_PARTICIPANTS",
+            "unitOfMeasure": "Participants",
+            "timeFrame": "From start of study drug administration up to 7 days after the last dose (up to Day 20)",
+            "groups": [
+              {
+                "id": "OG000",
+                "title": "Treatment A: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 under fasted condition."
+              },
+              {
+                "id": "OG001",
+                "title": "Treatment B: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes prior to dosing."
+              },
+              {
+                "id": "OG002",
+                "title": "Treatment C: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes after dosing."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG000",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG001",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG002",
+                    "value": "24"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "title": "Related TEAEs",
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG000",
+                        "value": "3"
+                      },
+                      {
+                        "groupId": "OG001",
+                        "value": "3"
+                      },
+                      {
+                        "groupId": "OG002",
+                        "value": "2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Not Related TEAEs",
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG000",
+                        "value": "1"
+                      },
+                      {
+                        "groupId": "OG001",
+                        "value": "2"
+                      },
+                      {
+                        "groupId": "OG002",
+                        "value": "0"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "SECONDARY",
+            "title": "Number of Participants With Clinically Significant Change From Baseline in Vital Signs Values",
+            "description": "Vital signs included body temperature (oral or tympanic measurement), respiratory rate, blood pressure \\[systolic blood pressure (SBP) and diastolic blood pressure (DBP)\\], and pulse (beats per minute). The clinically significant change assessment was based on investigator's judgment. Number of participants with clinically significant change from baseline in vital signs values were reported.",
+            "populationDescription": "The safety set included all participants who received at least one dose of the study drug and were included in the safety evaluations.",
+            "reportingStatus": "POSTED",
+            "paramType": "COUNT_OF_PARTICIPANTS",
+            "unitOfMeasure": "Participants",
+            "timeFrame": "Baseline to Day 13",
+            "groups": [
+              {
+                "id": "OG000",
+                "title": "Treatment A: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 under fasted condition."
+              },
+              {
+                "id": "OG001",
+                "title": "Treatment B: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes prior to dosing."
+              },
+              {
+                "id": "OG002",
+                "title": "Treatment C: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes after dosing."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG000",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG001",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG002",
+                    "value": "24"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG000",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "OG001",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "OG002",
+                        "value": "0"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "SECONDARY",
+            "title": "Number of Participants With Clinically Significant Change From Baseline in 12-Lead Electrocardiograms (ECG) Values",
+            "description": "ECGs was performed with participants in a supine position. All ECG tracings were reviewed by the investigator or designee. Number of participants with clinically significant change from baseline in ECG values were reported.",
+            "populationDescription": "The safety set included all participants who received at least one dose of the study drug and were included in the safety evaluations.",
+            "reportingStatus": "POSTED",
+            "paramType": "COUNT_OF_PARTICIPANTS",
+            "unitOfMeasure": "Participants",
+            "timeFrame": "Baseline to Day 13",
+            "groups": [
+              {
+                "id": "OG000",
+                "title": "Treatment A: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 under fasted condition."
+              },
+              {
+                "id": "OG001",
+                "title": "Treatment B: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes prior to dosing."
+              },
+              {
+                "id": "OG002",
+                "title": "Treatment C: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes after dosing."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG000",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG001",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG002",
+                    "value": "24"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG000",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "OG001",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "OG002",
+                        "value": "0"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "SECONDARY",
+            "title": "Number of Participants With Clinically Significant Change From Baseline in Laboratory Parameters",
+            "description": "The clinically significant change assessment was based on investigator's judgment. Number of participants with clinically significant change from baseline in laboratory values (hematology, serum chemistry, and urinalysis) were reported.",
+            "populationDescription": "The safety set included all participants who received at least one dose of the study drug and were included in the safety evaluations.",
+            "reportingStatus": "POSTED",
+            "paramType": "COUNT_OF_PARTICIPANTS",
+            "unitOfMeasure": "Participants",
+            "timeFrame": "Baseline to Day 13",
+            "groups": [
+              {
+                "id": "OG000",
+                "title": "Treatment A: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 under fasted condition."
+              },
+              {
+                "id": "OG001",
+                "title": "Treatment B: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes prior to dosing."
+              },
+              {
+                "id": "OG002",
+                "title": "Treatment C: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes after dosing."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG000",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG001",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG002",
+                    "value": "24"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG000",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "OG001",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "OG002",
+                        "value": "0"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "SECONDARY",
+            "title": "Number of Participants With Clinically Significant Change From Baseline in Physical Examination",
+            "description": "Physical examination included the following body systems: (1) respiratory system; (2) cardiovascular system; (3) nervous system (4) dermatologic system; and (5) gastrointestinal system. The clinically significant change assessment was based on investigator's judgment. Number of participants with clinically significant change from baseline in physical examination values were reported.",
+            "populationDescription": "The safety set included all participants who received at least one dose of the study drug and were included in the safety evaluations.",
+            "reportingStatus": "POSTED",
+            "paramType": "COUNT_OF_PARTICIPANTS",
+            "unitOfMeasure": "Participants",
+            "timeFrame": "Baseline to Day 13",
+            "groups": [
+              {
+                "id": "OG000",
+                "title": "Treatment A: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 under fasted condition."
+              },
+              {
+                "id": "OG001",
+                "title": "Treatment B: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes prior to dosing."
+              },
+              {
+                "id": "OG002",
+                "title": "Treatment C: TAK-227 50 mg",
+                "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes after dosing."
+              }
+            ],
+            "denoms": [
+              {
+                "units": "Participants",
+                "counts": [
+                  {
+                    "groupId": "OG000",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG001",
+                    "value": "24"
+                  },
+                  {
+                    "groupId": "OG002",
+                    "value": "24"
+                  }
+                ]
+              }
+            ],
+            "classes": [
+              {
+                "categories": [
+                  {
+                    "measurements": [
+                      {
+                        "groupId": "OG000",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "OG001",
+                        "value": "0"
+                      },
+                      {
+                        "groupId": "OG002",
+                        "value": "0"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "adverseEventsModule": {
+        "frequencyThreshold": "5",
+        "timeFrame": "From start of study drug administration up to 7 days after the last dose (up to Day 20)",
+        "description": "At each visit the investigator had to document any occurrence of adverse events and abnormal laboratory findings. Any event spontaneously reported by the participant or observed by the investigator was recorded, irrespective of the relation to study treatment.",
+        "eventGroups": [
+          {
+            "id": "EG000",
+            "title": "Treatment A: TAK-227 50 mg",
+            "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 under fasted condition.",
+            "deathsNumAffected": 0,
+            "deathsNumAtRisk": 24,
+            "seriousNumAffected": 0,
+            "seriousNumAtRisk": 24,
+            "otherNumAffected": 2,
+            "otherNumAtRisk": 24
+          },
+          {
+            "id": "EG001",
+            "title": "Treatment B: TAK-227 50 mg",
+            "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes prior to dosing.",
+            "deathsNumAffected": 0,
+            "deathsNumAtRisk": 24,
+            "seriousNumAffected": 0,
+            "seriousNumAtRisk": 24,
+            "otherNumAffected": 0,
+            "otherNumAtRisk": 24
+          },
+          {
+            "id": "EG002",
+            "title": "Treatment C: TAK-227 50 mg",
+            "description": "TAK-227 50 mg, capsule, orally, once on Day 1 of Treatment Periods 1, 2 and 3 with a high fat or high calorie meal 30 minutes after dosing.",
+            "deathsNumAffected": 0,
+            "deathsNumAtRisk": 24,
+            "seriousNumAffected": 0,
+            "seriousNumAtRisk": 24,
+            "otherNumAffected": 0,
+            "otherNumAtRisk": 24
+          }
+        ],
+        "otherEvents": [
+          {
+            "term": "Headache",
+            "organSystem": "Nervous system disorders",
+            "sourceVocabulary": "MedDRA 26",
+            "assessmentType": "SYSTEMATIC_ASSESSMENT",
+            "stats": [
+              {
+                "groupId": "EG000",
+                "numAffected": 2,
+                "numAtRisk": 24
+              },
+              {
+                "groupId": "EG001",
+                "numAffected": 0,
+                "numAtRisk": 24
+              },
+              {
+                "groupId": "EG002",
+                "numAffected": 0,
+                "numAtRisk": 24
+              }
+            ]
+          }
+        ]
+      },
+      "moreInfoModule": {
+        "certainAgreement": {
+          "piSponsorEmployee": false,
+          "restrictionType": "OTHER",
+          "restrictiveAgreement": true,
+          "otherDetails": "Research Organization shall not publish any articles or papers nor make any presentations, nor assist any other person in publishing any articles or papers or in making any presentations relating or referring to the Study or any results, data or insights from or any data, information or materials obtained or generated in the performance of its obligations without the prior written consent of Takeda, which consent may be granted or withheld in Takeda's sole discretion."
+        },
+        "pointOfContact": {
+          "title": "Study Director",
+          "organization": "Takeda",
+          "email": "TrialDisclosures@takeda.com",
+          "phone": "+1-877-825-3327"
+        }
+      }
+    },
+    "documentSection": {
+      "largeDocumentModule": {
+        "largeDocs": [
+          {
+            "typeAbbrev": "Prot",
+            "hasProtocol": true,
+            "hasSap": false,
+            "hasIcf": false,
+            "label": "Study Protocol",
+            "date": "2023-02-15",
+            "uploadDate": "2024-02-27T01:58",
+            "filename": "Prot_000.pdf",
+            "size": 1272248
+          },
+          {
+            "typeAbbrev": "SAP",
+            "hasProtocol": false,
+            "hasSap": true,
+            "hasIcf": false,
+            "label": "Statistical Analysis Plan",
+            "date": "2023-03-02",
+            "uploadDate": "2024-02-27T01:58",
+            "filename": "SAP_001.pdf",
+            "size": 1257345
+          }
+        ]
+      }
+    },
+    "derivedSection": {
+      "miscInfoModule": {
+        "versionHolder": "2026-07-31"
+      }
+    },
+    "hasResults": true
   },
   {
     "protocolSection": {

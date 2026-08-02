@@ -55,6 +55,30 @@ def test_reader_error_is_a_minority_of_variance():
     assert dec.reader_share < 0.25
 
 
+def test_reader_term_is_the_paired_difference_sd_not_a_single_read_sd():
+    """Guard against re-introducing a sqrt(2) that would double-count reader noise.
+
+    Taavela's error margins are Bland-Altman repeatability coefficients on paired
+    reads. A change score is also a paired difference, so it inherits that SD directly.
+    """
+    dec = decompose_vhcd(0.74)
+    assert dec.reader_sd == pytest.approx(0.318 / 2)
+    assert dec.reader_share == pytest.approx(0.046, abs=0.002)
+
+
+def test_taavela_limits_of_agreement_are_self_consistent():
+    """The constant's units are inferred, so pin the inference to the paper's own LoA.
+
+    Reported interobserver limits of agreement are -0.516 to +0.375. That span is only
+    reproducible if the reported 0.227 is the SD of the paired difference.
+    """
+    sd_of_difference = LIT["vhcd_interobserver_sd_of_difference"].value
+    span = 0.375 - (-0.516)
+    assert 2 * 1.96 * sd_of_difference == pytest.approx(span, abs=0.005)
+    # The single-read reading would imply a span half again as wide.
+    assert 2 * 1.96 * sd_of_difference * math.sqrt(2) > span * 1.3
+
+
 def test_averaging_biopsies_only_helps_if_sampling_variance_exists():
     base = simulate_trial(50, 0.4, 0.74, n_biopsies=8, sampling_share=0.0,
                           n_sims=20_000, seed=5).power
