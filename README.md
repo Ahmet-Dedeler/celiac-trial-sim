@@ -46,7 +46,8 @@ didn't.
 uv run python -m ctsim.simulate     # full report
 uv run python -m ctsim.challenge    # dose, duration, and what they cost in patients
 uv run python -m ctsim.prospective  # predictions about trials that haven't reported
-uv run pytest                       # 98 tests
+uv run python -m ctsim.endpoint     # when the composite endpoint is worth using
+uv run pytest                       # 106 tests
 ```
 
 Live version: **[ahmetdedeler.com/celiac](https://ahmetdedeler.com/celiac)**
@@ -317,12 +318,52 @@ So endpoint choice isn't a dead lever. It's probably the cheapest live one, sinc
 composite costs nothing beyond measurements trials already take, and it beat both of its
 own components in both trials.
 
-Two caveats worth keeping. Syage's effect size is the *observed* drug effect over a
+One caveat worth keeping: Syage's effect size is the *observed* drug effect over a
 baseline SD, so it's partly a function of how well each drug worked rather than a pure
-assay property, and a well-powered head-to-head on a fixed target would be much better
-evidence. And **the literature contradicts itself here.** Takeda's MP739 reports *"no
-endpoint outperformed Vh:Cd"* on TAK-062, directly against Syage on two other trials.
-Nobody has reconciled that. It's an open question, not a settled one.
+assay property, and a well-powered head-to-head on a fixed target would be better evidence.
+
+### The contradiction in the literature, and where it goes away
+
+Takeda's MP739 reports *"no endpoint outperformed Vh:Cd"* on TAK-062, flatly against
+Syage on two other trials. I used to leave that standing as an open question. It has an
+answer, and it's arithmetic.
+
+```bash
+uv run python -m ctsim.endpoint
+```
+
+VCIEL standardises each measure by its own SD and adds them. Averaging two measurements
+beats either alone only if both carry signal — a composite of two uncorrelated measures
+pays √2 in noise to gain the second one's contribution. So the composite is worth using
+exactly when
+
+> **d(IEL) > (√2 − 1) × d(VH:CD)**, i.e. IEL must carry at least **41%** of VH:CD's
+> standardized signal.
+
+The "uncorrelated" part isn't an assumption. Syage measured it: R² between the two
+measures is 0.005–0.023, so |ρ| is 0.07–0.15. Backing ρ out of his own reported effect
+sizes gives −0.07 and +0.16. Two routes, same answer.
+
+That threshold sorts the two claims, because they scored different designs:
+
+| Trial | Design | d(VH:CD) | d(IEL) | Ratio | N vs VH:CD alone |
+|---|---|---|---|---|---|
+| IMGX003 CeliacShield | prevention, 2 g/day × 6 wk | 0.566 | 0.757 | **1.34** | **37%** |
+| TAK-101 Phase 2a | prevention, 12→6 g/day × 14 d | 0.822 | 0.336 | **0.41** | 101% |
+
+A gluten challenge drives both endpoints, so the ratio lands well above 0.414 and the
+composite wins — Syage's regime. A restoration design against SIGE is *built* so the
+control arm doesn't deteriorate, so neither endpoint has an injury to measure and the
+ratio collapses — Takeda's regime. Both groups reported the right answer for the design in
+front of them.
+
+Two things I'd flag against myself here. **TAK-101 sits exactly on the threshold** (0.41
+against 0.414), so the composite would have done nothing for it. That's the trial this
+whole repo argues was underpowered, and the obvious fix is not the fix — it needed
+patients, not a better endpoint. And the reconciliation is a **prediction, not a
+demonstration**: it says TAK-062's ratio should fall below 0.414, and Takeda measured
+those IELs but published them only qualitatively. The single number that would settle a
+public disagreement in the field is the one that isn't public. It's one table.
 
 ## 5b. The challenge is a dose *and* a duration, and the duration is doing the work
 
