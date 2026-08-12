@@ -185,11 +185,18 @@ LIVE_TRIALS = [TEV_53408, AMLITELIMAB, ZED1227_CEC013]
 # The threshold literature is the only public basis for predicting the injury a given
 # challenge will cause. It is unusually clean because the studies were built to find a
 # safe dose, so they bracket the interesting range.
+# Every entry is a (dose, duration) pair, because the duration turns out to matter at
+# least as much as the dose — see `ctsim.challenge`. Quoting a dose without its
+# challenge length, which is what this list used to do, is what let an earlier version
+# of this file record KAN-101 as a 3 g/day trial. Its protocol says 9 g/day for 2 weeks.
 GLUTEN_DOSE_RESPONSE = [
-    (10.0,   -0.01, "Catassi 2007: 10 mg/day for 90 days, ~1% VH:CD reduction"),
-    (50.0,   -0.20, "Catassi 2007: 50 mg/day for 90 days, ~20% VH:CD reduction"),
-    (3000.0, -0.61, "ZED1227 CEC-3 and KAN-101 SynCeD placebo arms: 3 g/day, -0.61"),
-    (10000.0, -1.53, "Leonard 2021: 10 g/day for 14 days, -1.53"),
+    (10.0,    90, -0.01, "Catassi 2007: 10 mg/day for 90 days, ~1% VH:CD reduction"),
+    (50.0,    90, -0.44, "Catassi 2007: 50 mg/day for 90 days, ~20% of a 2.20 baseline"),
+    (2000.0,  42, -0.35, "IMGX003 CeliacShield placebo: 2 g/day for 6 weeks"),
+    (3000.0,  42, -0.61, "ZED1227 CEC-3 placebo: 3 g/day for 6 weeks"),
+    (3110.0,  78, -1.14, "Lahdeaho 2011: 3.1 g/day mean for 12 weeks, n=21"),
+    (9000.0,  14, -0.61, "KAN-101 SynCeD placebo: 9 g/day gluten protein for 2 weeks"),
+    (10000.0, 14, -1.53, "Leonard 2021: 10 g/day for 14 days, n=7"),
 ]
 
 DOSE_RESPONSE_SOURCE = Source(
@@ -284,9 +291,15 @@ def predict(trial: LiveTrial) -> Prediction:
     model = fit_injury_variance()
 
     if trial.design == "prevention":
-        # 3 g/day for 6 weeks is exactly the challenge that produced -0.61 in ZED1227's
-        # placebo arm, and -0.61 again in KAN-101's. That is a direct read-across, not
-        # an extrapolation.
+        # Teva runs 3 g/day for 6 weeks, which is exactly ZED1227 CEC-3's challenge —
+        # same dose, same duration — and CEC-3's placebo arm lost 0.61 (n=30). So this
+        # is a read-across from one matched design, not an extrapolation.
+        #
+        # An earlier version claimed KAN-101 as a second 3 g/day trial landing on the
+        # same 0.61. It is not: its protocol specifies 9 g/day for 2 weeks. The two
+        # agreeing at 0.61 across a threefold difference in dose and duration is a
+        # coincidence of equal cumulative exposure, not a replication. `ctsim.challenge`
+        # has the corrected dose-and-duration record.
         injury = 0.61
         sd = model.sd_at(injury)
         m = mde(int(trial.effective_n), sd)

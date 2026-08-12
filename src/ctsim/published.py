@@ -201,9 +201,34 @@ NOT_AVAILABLE = {
 }
 
 
+# Academic challenge studies with no drug in them. They belong in the variance model
+# for the same reason a placebo arm does — they are a mucosa under gluten with a
+# published change score — and they are the only arms at the high-injury end that are
+# not n = 7.
+#   (trial, id, arm, n, delta, sd, is_placebo, design)
+CHALLENGE_STUDY_ARMS = [
+    ("Lahdeaho 2011", "PMID22115041", "12-week gluten challenge", 21, -1.143, 1.053,
+     True, "prevention"),
+]
+
+CHALLENGE_STUDY_SOURCES = {
+    "PMID22115041": Source(
+        citation="Lahdeaho ML et al. Small-bowel mucosal changes and antibody responses "
+                 "after low- and moderate-dose gluten challenge in celiac disease. "
+                 "BMC Gastroenterol 2011;11:129. PMID 22115041.",
+        locator="Table 2, per-patient Vh/CrD before (I) and after (II); mean and SD of "
+                "the change computed over the 21 completers",
+        url="https://pmc.ncbi.nlm.nih.gov/articles/PMC3240817/",
+        quote="Twenty-five celiac disease adults were challenged with low (1-3 g) or "
+              "moderate (3-5g) doses of gluten daily for 12 weeks. ... Complete "
+              "challenge lasted 12 weeks (84 +/- 14 days).",
+    ),
+}
+
+
 def paper_rows() -> list[EmpiricalSD]:
     """Published arms as `EmpiricalSD`, mergeable with the scraped registry rows."""
-    return [
+    drug_rows = [
         EmpiricalSD(
             nct_id=nct, arm_label=arm, n_arm=n, delta=delta, sd=sd,
             sd_source="paper_posted_sd", time_frame="", is_placebo=placebo,
@@ -211,6 +236,16 @@ def paper_rows() -> list[EmpiricalSD]:
         )
         for _trial, nct, arm, n, delta, sd, placebo, design in PAPER_ARMS
     ]
+    # Kept separate only so the mechanism label stays honest: there is no drug here.
+    challenge_rows = [
+        EmpiricalSD(
+            nct_id=nct, arm_label=arm, n_arm=n, delta=delta, sd=sd,
+            sd_source="paper_posted_sd", time_frame="", is_placebo=placebo,
+            mechanism="none", design=design, param_type="MEAN",
+        )
+        for _trial, nct, arm, n, delta, sd, placebo, design in CHALLENGE_STUDY_ARMS
+    ]
+    return drug_rows + challenge_rows
 
 
 # ---------------------------------------------------------------------------

@@ -48,23 +48,31 @@ def test_best_known_protection_comes_from_the_best_arm():
     assert best_known_protection() == pytest.approx(1 - 0.12 / 0.61, abs=1e-9)
 
 
-def test_the_teva_verdict_is_conditional_on_evaluable_n():
-    """The sharpest claim here is also the most fragile, and that has to stay visible.
+def test_the_teva_verdict_now_holds_across_every_n_the_protocol_permits():
+    """This claim used to be conditional. Adding Lahdeaho 2011 made it unconditional.
 
-    TEV-53408's protocol targets 40 evaluable (20 per arm) but permits up to 48
-    randomised (24 per arm), and the registry lists 50 enrolled. The flip point sits
-    inside that range, so the prediction is conditional on a number the protocol
-    leaves open — not on anything about the drug.
+    The flip point — evaluable N per arm at which a 3 g/day, 6-week trial could detect
+    a drug as good as the best one known — was 23 under the old variance model, which
+    sat inside the 20-24 per arm the protocol permits. So the honest form was "it
+    depends what N they report."
+
+    With a steeper, better-anchored variance slope the flip point is 26. That is above
+    24 per arm (48 randomised, the protocol maximum) and above 25 per arm (50 enrolled,
+    what the registry currently lists). The conditional is gone: at every sample size
+    TEV-53408 can plausibly deliver, it could not have seen a best-in-class drug.
+
+    Pinned tightly on purpose. If the flip point ever drops back to 25 or below, the
+    README has to go back to the conditional wording.
     """
     flip = protection_flip_n()
-    assert TEV_53408.n_per_arm < flip, (
-        "the trial is only predicted to miss because its planned evaluable N is below "
-        "the flip point; if that stops being true the verdict must be restated"
+    assert TEV_53408.n_per_arm < flip
+    assert flip >= 26, (
+        f"flip point fell to {flip}, back inside the range the protocol permits "
+        "(20-24 per arm) or the 25 per arm the registry implies. The verdict must be "
+        "restated as conditional if that happens."
     )
-    assert 21 <= flip <= 25, (
-        f"flip point moved to {flip}: the range the protocol permits is 20-24 per arm, "
-        "so a flip point outside it would change how conditional this claim is"
-    )
+    # 50 enrolled is the largest number anyone could read off the registry today.
+    assert flip > 50 // 2, "must still hold at the enrolment the registry lists"
 
 
 def test_both_restoration_trials_need_more_than_has_ever_been_achieved():
@@ -122,11 +130,33 @@ def test_sige_doses_sit_below_the_documented_injury_range():
     assert all(t.gluten_mg_per_day >= 3000 for t in prevention)
 
 
-def test_dose_response_is_monotonic():
-    doses = [d for d, _v, _n in GLUTEN_DOSE_RESPONSE]
-    injuries = [v for _d, v, _n in GLUTEN_DOSE_RESPONSE]
-    assert doses == sorted(doses)
-    assert injuries == sorted(injuries, reverse=True), "more gluten must mean more injury"
+def test_dose_alone_does_not_order_the_injury():
+    """The old version of this test asserted the opposite, and the data refute it.
+
+    Sorting the record by daily dose does not sort it by injury: 3.1 g/day for 12 weeks
+    does more damage than 10 g/day for 2 weeks. Duration is carried in the tuple now so
+    that a dose can never again be quoted without the challenge length attached.
+    """
+    doses = [d for d, _days, _v, _n in GLUTEN_DOSE_RESPONSE]
+    injuries = [v for _d, _days, v, _n in GLUTEN_DOSE_RESPONSE]
+    assert doses == sorted(doses), "keep the table ordered by dose for readability"
+    assert injuries != sorted(injuries, reverse=True), (
+        "if daily dose ever does order injury, the duration argument in ctsim.challenge "
+        "needs rechecking against whatever new data made that true"
+    )
+
+
+def test_kan101_is_recorded_as_a_9_gram_two_week_challenge():
+    """Guards the correction. KAN-101 was entered as a 3 g/day trial and is not one.
+
+    It mattered: it was the second of the two arms that supposedly agreed at -0.61 for
+    3 g/day, which is what the Teva read-across leaned on.
+    """
+    kan = [r for r in GLUTEN_DOSE_RESPONSE if "KAN-101" in r[3]]
+    assert len(kan) == 1
+    dose_mg, days, injury, _note = kan[0]
+    assert dose_mg == 9000.0 and days == 14
+    assert injury == -0.61
 
 
 def test_only_one_trial_powers_on_the_histology_endpoint():

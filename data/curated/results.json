@@ -1,28 +1,28 @@
 {
   "generated_by": "ctsim.export",
   "endpoint": "change from baseline in villous height : crypt depth ratio (VH:CD)",
-  "pooled_sd": 0.5822,
+  "pooled_sd": 0.6301,
   "typical_injury": 0.61,
-  "n_arms": 16,
-  "n_trials": 6,
+  "n_arms": 17,
+  "n_trials": 7,
   "clinically_meaningful_change": 0.4,
-  "noise_to_signal": 1.455,
+  "noise_to_signal": 1.575,
   "injury_variance_model": {
-    "floor": 0.3999,
-    "slope": 0.2987,
-    "floor_se": 0.0238,
-    "slope_se": 0.0726,
-    "r": 0.9081,
-    "formula": "SD = 0.400 + 0.299 \u00d7 |injury|",
-    "n_arms": 16,
-    "n_trials": 6
+    "floor": 0.3803,
+    "slope": 0.4095,
+    "floor_se": 0.0269,
+    "slope_se": 0.071,
+    "r": 0.9044,
+    "formula": "SD = 0.380 + 0.410 \u00d7 |injury|",
+    "n_arms": 17,
+    "n_trials": 7
   },
   "variance_decomposition": {
-    "total_sd": 0.5822,
+    "total_sd": 0.6301,
     "reader_sd": 0.159,
-    "residual_sd": 0.56,
-    "reader_share": 0.0746,
-    "residual_share": 0.9254,
+    "residual_sd": 0.6097,
+    "reader_share": 0.0637,
+    "residual_share": 0.9363,
     "at_injury": 0.61
   },
   "measured_variance_shares": {
@@ -39,7 +39,7 @@
       "delta": -0.006,
       "sd": 0.4174,
       "sd_source": "from_contrast",
-      "sd_fitted": 0.4017
+      "sd_fitted": 0.3827
     },
     {
       "nct_id": "NCT03585478",
@@ -49,7 +49,7 @@
       "delta": -0.04,
       "sd": 0.466,
       "sd_source": "paper_posted_sd",
-      "sd_fitted": 0.4119
+      "sd_fitted": 0.3967
     },
     {
       "nct_id": "NCT01917630",
@@ -59,7 +59,7 @@
       "delta": 0.05,
       "sd": 0.501,
       "sd_source": "paper_posted_sd",
-      "sd_fitted": 0.4149
+      "sd_fitted": 0.4008
     },
     {
       "nct_id": "NCT03409796",
@@ -69,7 +69,7 @@
       "delta": -0.06,
       "sd": 0.516,
       "sd_source": "posted_sd",
-      "sd_fitted": 0.4179
+      "sd_fitted": 0.4049
     },
     {
       "nct_id": "NCT01917630",
@@ -79,7 +79,7 @@
       "delta": 0.11,
       "sd": 0.46,
       "sd_source": "paper_posted_sd",
-      "sd_fitted": 0.4328
+      "sd_fitted": 0.4253
     },
     {
       "nct_id": "NCT01917630",
@@ -89,7 +89,7 @@
       "delta": 0.12,
       "sd": 0.463,
       "sd_source": "paper_posted_sd",
-      "sd_fitted": 0.4358
+      "sd_fitted": 0.4294
     },
     {
       "nct_id": "NCT01917630",
@@ -99,7 +99,7 @@
       "delta": 0.14,
       "sd": 0.493,
       "sd_source": "paper_posted_sd",
-      "sd_fitted": 0.4418
+      "sd_fitted": 0.4376
     },
     {
       "nct_id": "NCT01917630",
@@ -109,7 +109,7 @@
       "delta": 0.15,
       "sd": 0.413,
       "sd_source": "paper_posted_sd",
-      "sd_fitted": 0.4447
+      "sd_fitted": 0.4417
     },
     {
       "nct_id": "NCT03738475",
@@ -119,7 +119,7 @@
       "delta": -0.18,
       "sd": 0.381,
       "sd_source": "posted_sd",
-      "sd_fitted": 0.4537
+      "sd_fitted": 0.454
     },
     {
       "nct_id": "NCT01917630",
@@ -129,7 +129,7 @@
       "delta": 0.27,
       "sd": 0.401,
       "sd_source": "paper_posted_sd",
-      "sd_fitted": 0.4806
+      "sd_fitted": 0.4909
     },
     {
       "nct_id": "NCT05353985",
@@ -139,7 +139,7 @@
       "delta": -0.338,
       "sd": 0.4174,
       "sd_source": "from_contrast",
-      "sd_fitted": 0.5009
+      "sd_fitted": 0.5187
     },
     {
       "nct_id": "NCT03585478",
@@ -149,7 +149,7 @@
       "delta": -0.35,
       "sd": 0.616,
       "sd_source": "paper_posted_sd",
-      "sd_fitted": 0.5045
+      "sd_fitted": 0.5236
     },
     {
       "nct_id": "NCT06001177",
@@ -159,7 +159,7 @@
       "delta": -0.61,
       "sd": 0.614,
       "sd_source": "posted_sd",
-      "sd_fitted": 0.5822
+      "sd_fitted": 0.6301
     },
     {
       "nct_id": "NCT03738475",
@@ -169,7 +169,7 @@
       "delta": -0.63,
       "sd": 0.657,
       "sd_source": "posted_sd",
-      "sd_fitted": 0.5881
+      "sd_fitted": 0.6383
     },
     {
       "nct_id": "NCT06001177",
@@ -179,7 +179,17 @@
       "delta": -0.85,
       "sd": 0.707,
       "sd_source": "posted_sd",
-      "sd_fitted": 0.6539
+      "sd_fitted": 0.7284
+    },
+    {
+      "nct_id": "PMID22115041",
+      "trial": "Lahdeaho 2011",
+      "arm": "12-week gluten challenge",
+      "n": 21,
+      "delta": -1.143,
+      "sd": 1.053,
+      "sd_source": "paper_posted_sd",
+      "sd_fitted": 0.8484
     },
     {
       "nct_id": "NCT03409796",
@@ -189,65 +199,65 @@
       "delta": -1.53,
       "sd": 0.941,
       "sd_source": "posted_sd",
-      "sd_fitted": 0.857
+      "sd_fitted": 1.0068
     }
   ],
   "challenge_dose_table": [
     {
       "injury": 0.2,
-      "sd": 0.4597,
-      "n_per_arm": 332,
-      "n_per_arm_constant_sd": 533
+      "sd": 0.4622,
+      "n_per_arm": 336,
+      "n_per_arm_constant_sd": 624
     },
     {
       "injury": 0.61,
-      "sd": 0.5822,
-      "n_per_arm": 58,
-      "n_per_arm_constant_sd": 58
+      "sd": 0.6301,
+      "n_per_arm": 67,
+      "n_per_arm_constant_sd": 67
     },
     {
       "injury": 1.0,
-      "sd": 0.6987,
-      "n_per_arm": 31,
-      "n_per_arm_constant_sd": 22
+      "sd": 0.7898,
+      "n_per_arm": 40,
+      "n_per_arm_constant_sd": 25
     },
     {
       "injury": 1.53,
-      "sd": 0.857,
-      "n_per_arm": 20,
-      "n_per_arm_constant_sd": 10
+      "sd": 1.0068,
+      "n_per_arm": 28,
+      "n_per_arm_constant_sd": 11
     },
     {
       "injury": 2.5,
-      "sd": 1.1468,
-      "n_per_arm": 14,
+      "sd": 1.4041,
+      "n_per_arm": 20,
       "n_per_arm_constant_sd": 4
     }
   ],
   "biopsy_averaging": [
     {
       "n_biopsies": 1,
-      "sd": 0.5822,
-      "n_per_arm_50pct": 58,
+      "sd": 0.6301,
+      "n_per_arm_50pct": 67,
       "saved_vs_single": 0
     },
     {
       "n_biopsies": 2,
-      "sd": 0.5477,
-      "n_per_arm_50pct": 51,
+      "sd": 0.5928,
+      "n_per_arm_50pct": 60,
       "saved_vs_single": 7
     },
     {
       "n_biopsies": 4,
-      "sd": 0.5296,
-      "n_per_arm_50pct": 48,
-      "saved_vs_single": 10
+      "sd": 0.5732,
+      "n_per_arm_50pct": 56,
+      "saved_vs_single": 11
     },
     {
       "n_biopsies": 8,
-      "sd": 0.5203,
-      "n_per_arm_50pct": 46,
-      "saved_vs_single": 12
+      "sd": 0.5631,
+      "n_per_arm_50pct": 54,
+      "saved_vs_single": 13
     }
   ],
   "holdout": {
@@ -255,42 +265,42 @@
       "NCT06001177",
       "NCT03738475"
     ],
-    "mae": 0.094,
-    "max_abs_err": 0.1183,
-    "train_floor": 0.4132,
-    "train_slope": 0.2065,
+    "mae": 0.035,
+    "max_abs_err": 0.0752,
+    "train_floor": 0.3808,
+    "train_slope": 0.4191,
     "predictions": [
       {
         "nct_id": "NCT06001177",
         "arm": "0.6 mg/kg KAN-101",
         "injury": 0.85,
         "sd_observed": 0.707,
-        "sd_predicted": 0.5887,
-        "abs_err": 0.1183
+        "sd_predicted": 0.737,
+        "abs_err": 0.03
       },
       {
         "nct_id": "NCT06001177",
         "arm": "Placebo",
         "injury": 0.61,
         "sd_observed": 0.614,
-        "sd_predicted": 0.5392,
-        "abs_err": 0.0748
+        "sd_predicted": 0.6364,
+        "abs_err": 0.0224
       },
       {
         "nct_id": "NCT03738475",
         "arm": "TIMP-GLIA 8 mg/kg",
         "injury": 0.18,
         "sd_observed": 0.381,
-        "sd_predicted": 0.4504,
-        "abs_err": 0.0694
+        "sd_predicted": 0.4562,
+        "abs_err": 0.0752
       },
       {
         "nct_id": "NCT03738475",
         "arm": "Placebo",
         "injury": 0.63,
         "sd_observed": 0.657,
-        "sd_predicted": 0.5433,
-        "abs_err": 0.1137
+        "sd_predicted": 0.6448,
+        "abs_err": 0.0122
       }
     ]
   },
@@ -405,14 +415,14 @@
     }
   ],
   "required_n_per_arm": {
-    "0.1": 533,
-    "0.15": 237,
-    "0.2": 134,
-    "0.25": 86,
-    "0.3": 60,
-    "0.35": 44,
-    "0.4": 34,
-    "0.5": 22
+    "0.1": 624,
+    "0.15": 277,
+    "0.2": 156,
+    "0.25": 100,
+    "0.3": 70,
+    "0.35": 51,
+    "0.4": 39,
+    "0.5": 25
   },
   "replay": [
     {
@@ -467,87 +477,87 @@
   "power_curve": [
     {
       "n_per_arm": 10,
-      "mde_80": 0.7294,
-      "power_at_0_40": 0.3362,
-      "power_at_0_20": 0.1199
+      "mde_80": 0.7894,
+      "power_at_0_40": 0.2948,
+      "power_at_0_20": 0.1094
     },
     {
       "n_per_arm": 15,
-      "mde_80": 0.5956,
-      "power_at_0_40": 0.4689,
-      "power_at_0_20": 0.1559
+      "mde_80": 0.6446,
+      "power_at_0_40": 0.4125,
+      "power_at_0_20": 0.14
     },
     {
       "n_per_arm": 20,
-      "mde_80": 0.5158,
-      "power_at_0_40": 0.5843,
-      "power_at_0_20": 0.1923
+      "mde_80": 0.5582,
+      "power_at_0_40": 0.519,
+      "power_at_0_20": 0.171
     },
     {
       "n_per_arm": 25,
-      "mde_80": 0.4613,
-      "power_at_0_40": 0.6806,
-      "power_at_0_20": 0.2288
+      "mde_80": 0.4993,
+      "power_at_0_40": 0.612,
+      "power_at_0_20": 0.2021
     },
     {
       "n_per_arm": 30,
-      "mde_80": 0.4211,
-      "power_at_0_40": 0.7584,
-      "power_at_0_20": 0.265
+      "mde_80": 0.4558,
+      "power_at_0_40": 0.691,
+      "power_at_0_20": 0.2332
     },
     {
       "n_per_arm": 40,
-      "mde_80": 0.3647,
-      "power_at_0_40": 0.8671,
-      "power_at_0_20": 0.3362
+      "mde_80": 0.3947,
+      "power_at_0_40": 0.8103,
+      "power_at_0_20": 0.2948
     },
     {
       "n_per_arm": 50,
-      "mde_80": 0.3262,
-      "power_at_0_40": 0.93,
-      "power_at_0_20": 0.4044
+      "mde_80": 0.3531,
+      "power_at_0_40": 0.8877,
+      "power_at_0_20": 0.3548
     },
     {
       "n_per_arm": 60,
-      "mde_80": 0.2978,
-      "power_at_0_40": 0.9643,
-      "power_at_0_20": 0.4689
+      "mde_80": 0.3223,
+      "power_at_0_40": 0.9354,
+      "power_at_0_20": 0.4125
     },
     {
       "n_per_arm": 80,
-      "mde_80": 0.2579,
-      "power_at_0_40": 0.9915,
-      "power_at_0_20": 0.5843
+      "mde_80": 0.2791,
+      "power_at_0_40": 0.9801,
+      "power_at_0_20": 0.519
     },
     {
       "n_per_arm": 100,
-      "mde_80": 0.2307,
-      "power_at_0_40": 0.9981,
-      "power_at_0_20": 0.6806
+      "mde_80": 0.2496,
+      "power_at_0_40": 0.9943,
+      "power_at_0_20": 0.612
     },
     {
       "n_per_arm": 150,
-      "mde_80": 0.1883,
-      "power_at_0_40": 1.0,
-      "power_at_0_20": 0.845
+      "mde_80": 0.2038,
+      "power_at_0_40": 0.9998,
+      "power_at_0_20": 0.7849
     },
     {
       "n_per_arm": 200,
-      "mde_80": 0.1631,
+      "mde_80": 0.1765,
       "power_at_0_40": 1.0,
-      "power_at_0_20": 0.93
+      "power_at_0_20": 0.8877
     },
     {
       "n_per_arm": 300,
-      "mde_80": 0.1332,
+      "mde_80": 0.1441,
       "power_at_0_40": 1.0,
-      "power_at_0_20": 0.9877
+      "power_at_0_20": 0.973
     },
     {
       "n_per_arm": 400,
-      "mde_80": 0.1153,
+      "mde_80": 0.1248,
       "power_at_0_40": 1.0,
-      "power_at_0_20": 0.9981
+      "power_at_0_20": 0.9943
     }
   ],
   "literature_constants": {
@@ -623,5 +633,251 @@
       "source": "Bonamico 2010 AJG",
       "note": "variable lesions within a single biopsy fragment"
     }
+  },
+  "challenge": {
+    "arms": [
+      {
+        "label": "Catassi 2007, 10 mg/day",
+        "g_protein_per_day": 0.01,
+        "days": 90,
+        "cumulative_g": 0.9,
+        "injury": 0.02,
+        "sd": null,
+        "n": 13,
+        "baseline_vhcd": 2.2,
+        "dose_as_stated": "10 mg gluten in a capsule, daily",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/17209192/",
+        "quote": "patients were assigned to ingest daily for 90 d a capsule containing 0, 10, or 50 mg gluten. ... baseline Vh/Cd 2.20; 10 mg: -1% change."
+      },
+      {
+        "label": "Leonard 2021, 3 g/day",
+        "g_protein_per_day": 3.0,
+        "days": 14,
+        "cumulative_g": 42.0,
+        "injury": 0.06,
+        "sd": 0.516,
+        "n": 7,
+        "baseline_vhcd": 2.1,
+        "dose_as_stated": "3 g gluten protein (4.5 g Bob's Red Mill flour)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7878429/",
+        "quote": "Flour protein fraction was 66% of the total flour content and all protein was gluten (3 g dose = 4.5 g flour; 10 g dose = 15 g flour)."
+      },
+      {
+        "label": "IMGX003 CeliacShield placebo, 2 g/day",
+        "g_protein_per_day": 2.0,
+        "days": 42,
+        "cumulative_g": 84.0,
+        "injury": 0.35,
+        "sd": 0.616,
+        "n": 22,
+        "baseline_vhcd": 2.95,
+        "dose_as_stated": "2 g gluten per day for 6 weeks",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9707643/",
+        "quote": "2 g of gluten per day for 6 weeks. ... Change in Vh:Cd: placebo -0.35 (0.616)."
+      },
+      {
+        "label": "Catassi 2007, 50 mg/day",
+        "g_protein_per_day": 0.05,
+        "days": 90,
+        "cumulative_g": 4.5,
+        "injury": 0.44,
+        "sd": null,
+        "n": 13,
+        "baseline_vhcd": 2.2,
+        "dose_as_stated": "50 mg gluten in a capsule, daily",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/17209192/",
+        "quote": "50 mg: -20% decline in Vh/Cd from a baseline of 2.20 over 90 days (0.20 x 2.20 = 0.44 in ratio units)."
+      },
+      {
+        "label": "ZED1227 CEC-3 placebo, 3 g/day",
+        "g_protein_per_day": 3.0,
+        "days": 42,
+        "cumulative_g": 126.0,
+        "injury": 0.61,
+        "sd": 0.481,
+        "n": 30,
+        "baseline_vhcd": 1.98,
+        "dose_as_stated": "3 g gluten per day for 6 weeks",
+        "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2032441",
+        "quote": "daily gluten challenge (3 g/day) for 6 weeks; placebo-arm estimated change in VH:CD -0.61 (95% CI -0.78 to -0.44)."
+      },
+      {
+        "label": "KAN-101 SynCeD placebo, 9 g/day",
+        "g_protein_per_day": 9.0,
+        "days": 14,
+        "cumulative_g": 126.0,
+        "injury": 0.61,
+        "sd": 0.614,
+        "n": 25,
+        "baseline_vhcd": null,
+        "dose_as_stated": "9 g/day gluten protein as 12 g vital wheat gluten",
+        "url": "https://cdn.clinicaltrials.gov/large-docs/77/NCT06001177/Prot_000.pdf",
+        "quote": "Participants will undergo a 2-week GC in which they will ingest 9 g/day of gluten protein in the form of 12 g vital wheat gluten. ... Screening intestinal biopsy demonstrating Vh:Cd ratio of 2.3 or higher."
+      },
+      {
+        "label": "TAK-101 Ph2a placebo, 12->6 g/day",
+        "g_protein_per_day": 7.285714285714286,
+        "days": 14,
+        "cumulative_g": 102.0,
+        "injury": 0.63,
+        "sd": 0.657,
+        "n": 15,
+        "baseline_vhcd": 3.01,
+        "dose_as_stated": "12 g gluten x 3 days, then 6 g/day x 11 days",
+        "url": "https://cdn.clinicaltrials.gov/large-docs/75/NCT03738475/Prot_000.pdf",
+        "quote": "Bob's Red Mill Vital Wheat Gluten (75-80% Protein) powder will be used for the gluten challenge. It will be supplied by the sponsor in individual foil packets, each containing approximately 6 g gluten (approximately 8.5 g of powder) per packet. Subjects will consume 12 g of gluten for the first 3 days of the gluten challenge (Days 15-17); 2 packets per day. For the remainder of the gluten challenge (Days 18-28), subjects will consume 6 g of gluten per day; 1 packet."
+      },
+      {
+        "label": "Lahdeaho 2011, 3.1 g/day mean",
+        "g_protein_per_day": 3.11,
+        "days": 78,
+        "cumulative_g": 242.6,
+        "injury": 1.14,
+        "sd": 1.053,
+        "n": 21,
+        "baseline_vhcd": 2.97,
+        "dose_as_stated": "low (1-3 g) or moderate (3-5 g) gluten daily for 12 weeks",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3240817/",
+        "quote": "Twenty-five celiac disease adults were challenged with low (1-3 g) or moderate (3-5g) doses of gluten daily for 12 weeks. ... the gluten challenge lasted a median of 84 days (range 29-103 days) with an average of 3.1 g daily gluten consumption (range 1.3-5.0 g/day)."
+      },
+      {
+        "label": "Leonard 2021, 10 g/day",
+        "g_protein_per_day": 10.0,
+        "days": 14,
+        "cumulative_g": 140.0,
+        "injury": 1.53,
+        "sd": 0.941,
+        "n": 7,
+        "baseline_vhcd": 2.3,
+        "dose_as_stated": "10 g gluten protein (15 g Bob's Red Mill flour)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7878429/",
+        "quote": "10 g dose = 15 g flour; change from baseline in VH:CD -1.53 (0.941), n = 7."
+      }
+    ],
+    "three_gram_series": [
+      {
+        "label": "Leonard 2021, 3 g/day",
+        "days": 14,
+        "injury": 0.06,
+        "n": 7
+      },
+      {
+        "label": "ZED1227 CEC-3 placebo, 3 g/day",
+        "days": 42,
+        "injury": 0.61,
+        "n": 30
+      },
+      {
+        "label": "Lahdeaho 2011, 3.1 g/day mean",
+        "days": 78,
+        "injury": 1.14,
+        "n": 21
+      }
+    ],
+    "duration_model": {
+      "per_day": 0.01605,
+      "per_day_se": 0.00158,
+      "intercept": -0.0937,
+      "r": 0.9966,
+      "n_studies": 3,
+      "formula": "injury = -0.094 + 0.01605 \u00d7 days",
+      "dose_g_per_day": 3.0
+    },
+    "within_study_design_effect": {
+      "n": 21,
+      "r_dose": 0.138,
+      "r_duration": -0.094,
+      "r2_joint": 0.0192,
+      "injury_mean": 1.143,
+      "injury_sd": 1.053
+    },
+    "duration_design_table": [
+      {
+        "weeks": 2,
+        "days": 14,
+        "injury": 0.131,
+        "sd": 0.434,
+        "mde_80": 0.0655,
+        "n_per_arm": 689,
+        "extrapolated": false
+      },
+      {
+        "weeks": 4,
+        "days": 28,
+        "injury": 0.356,
+        "sd": 0.526,
+        "mde_80": 0.1774,
+        "n_per_arm": 138,
+        "extrapolated": false
+      },
+      {
+        "weeks": 6,
+        "days": 42,
+        "injury": 0.581,
+        "sd": 0.618,
+        "mde_80": 0.2886,
+        "n_per_arm": 72,
+        "extrapolated": false
+      },
+      {
+        "weeks": 8,
+        "days": 56,
+        "injury": 0.805,
+        "sd": 0.7101,
+        "mde_80": 0.4019,
+        "n_per_arm": 49,
+        "extrapolated": false
+      },
+      {
+        "weeks": 12,
+        "days": 84,
+        "injury": 1.255,
+        "sd": 0.8941,
+        "mde_80": 0.6262,
+        "n_per_arm": 32,
+        "extrapolated": true
+      },
+      {
+        "weeks": 16,
+        "days": 112,
+        "injury": 1.704,
+        "sd": 1.0782,
+        "mde_80": 0.8378,
+        "n_per_arm": 26,
+        "extrapolated": true
+      }
+    ],
+    "long_challenge_dose_response": {
+      "imax": 1.1402,
+      "d50_g_per_day": 0.06168,
+      "hill": 2.213,
+      "note": "three anchors, three parameters: interpolation, not a fit"
+    },
+    "sige_arms": [
+      {
+        "label": "TAK-062 placebo (observed)",
+        "g_protein_per_day": null,
+        "days": 168,
+        "entry": "Vh:Cd <2.5",
+        "dose_as_stated": "gluten content of the SIGE bar is redacted throughout the protocol",
+        "fraction_of_max": null
+      },
+      {
+        "label": "Sanofi ASPIRION SIGE",
+        "g_protein_per_day": 0.175,
+        "days": 84,
+        "entry": "Vh:Cd <2.5",
+        "dose_as_stated": "approximately 250 mg of vital wheat gluten daily for 12 weeks",
+        "fraction_of_max": 0.909
+      },
+      {
+        "label": "Dr Falk CEC-013 SIGE",
+        "g_protein_per_day": 0.214,
+        "days": 105,
+        "entry": "Vh:CrD <=2.5",
+        "dose_as_stated": "approximately 500 mg three times a week, not more than 2.2 g per week",
+        "fraction_of_max": 0.94
+      }
+    ]
   }
 }

@@ -16,8 +16,15 @@ needed 86%, so even a drug as good as ZED1227's would have come back looking lik
 These trials keep coming out too small because they assume the measurement noise is a
 fixed number. It isn't. The harder the gluten hits, the more patients differ from one
 another, so the noise grows right along with the damage
-(**SD = 0.400 + 0.299 × injury**, from 16 arms across 6 trials). Get that number wrong
+(**SD = 0.380 + 0.410 × injury**, from 17 arms across 7 trials). Get that number wrong
 when you write the protocol and you have decided the outcome before anyone enrolls.
+
+There's a second thing everyone gets backwards, and it's in §5b. A gluten challenge is a
+dose *and* a duration, and the duration is doing most of the work. Three studies have run
+3 g/day for 14, 42 and 78 days: the mucosa lost 0.06, 0.61 and 1.14. Meanwhile, inside the
+one study where dose and duration vary independently, a fourfold spread in dose explains
+2% of who ends up atrophic. Trials keep reaching for a harsher challenge when a longer one
+is cheaper, better evidenced, and easier on the patient.
 
 None of this shows the drugs work. It shows we don't know. A trial too small to see
 anything is not evidence that there was nothing to see, and that is how the field has
@@ -37,7 +44,9 @@ didn't.
 
 ```bash
 uv run python -m ctsim.simulate     # full report
-uv run pytest                       # 81 tests
+uv run python -m ctsim.challenge    # dose, duration, and what they cost in patients
+uv run python -m ctsim.prospective  # predictions about trials that haven't reported
+uv run pytest                       # 98 tests
 ```
 
 Live version: **[ahmetdedeler.com/celiac](https://ahmetdedeler.com/celiac)**
@@ -51,21 +60,33 @@ That was wrong twice: once in the arithmetic (§4) and once in the idea itself.
 
 Plot every published arm's SD against how much its mucosa actually moved:
 
-**SD = 0.400 (±0.024) + 0.299 (±0.073) × |injury|** (16 arms, 6 trials, r = 0.91)
+**SD = 0.380 (±0.027) + 0.410 (±0.071) × |injury|** (17 arms, 7 trials, r = 0.90)
 
 | |injury| | SD observed | SD fitted | n | arm |
 |---|---|---|---|---|
-| 0.006 | 0.417 | 0.402 | 60 | TAK-062 placebo |
-| 0.06 | 0.516 | 0.418 | 7 | 3 g gluten × 14 d |
-| 0.15 | 0.413 | 0.445 | 77 | latiglutenase 300 mg |
-| 0.27 | 0.401 | 0.481 | 125 | CeliAction placebo |
-| 0.35 | 0.616 | 0.504 | 22 | IMGX003 placebo |
-| 0.61 | 0.614 | 0.582 | 25 | KAN-101 placebo |
-| 0.63 | 0.657 | 0.588 | 15 | TAK-101 placebo |
-| 0.85 | 0.707 | 0.654 | 25 | KAN-101 drug |
-| 1.53 | 0.941 | 0.857 | 7 | 10 g gluten × 14 d |
+| 0.006 | 0.417 | 0.383 | 60 | TAK-062 placebo |
+| 0.06 | 0.516 | 0.405 | 7 | 3 g gluten × 14 d |
+| 0.15 | 0.413 | 0.442 | 77 | latiglutenase 300 mg |
+| 0.27 | 0.401 | 0.491 | 125 | CeliAction placebo |
+| 0.35 | 0.616 | 0.524 | 22 | IMGX003 placebo |
+| 0.61 | 0.614 | 0.630 | 25 | KAN-101 placebo |
+| 0.63 | 0.657 | 0.638 | 15 | TAK-101 placebo |
+| 0.85 | 0.707 | 0.728 | 25 | KAN-101 drug |
+| **1.14** | **1.053** | **0.848** | **21** | **Lähdeaho 12-week challenge** |
+| 1.53 | 0.941 | 1.007 | 7 | 10 g gluten × 14 d |
 
-This shouldn't be surprising. The **floor (0.40)** is what the assay costs you when
+The bolded row is new, and it arrived as a failure rather than a confirmation. Lähdeaho
+2011 is an academic challenge study with no drug in it, so nothing here had ever used it.
+Fitted without it, the model predicted its SD at **0.741** against an observed **1.053** —
+a 42% miss, the largest error anywhere in the dataset. Folding it in steepens the slope
+from 0.299 to 0.410, and every design number below moved *against* me as a result.
+
+One objection had to be cleared first. Lähdeaho's patients ate what they could tolerate
+rather than what they were assigned, so is that spread just uncontrolled exposure? No. The
+paper prints per-patient dose and duration, and regressing the change on both gives
+R² = 0.019 — 0.146 of the 1.053 is exposure, 1.043 is the patient.
+
+This shouldn't be surprising. The **floor (0.38)** is what the assay costs you when
 nothing happens: biopsy siting, orientation, reading. The **slope** is patient
 heterogeneity in *response*. If the average patient loses 1.5 of villous height, patients
 differ in how much they lose, and that spread scales with the mean.
@@ -80,16 +101,21 @@ A harsher gluten challenge buys more signal, and more noise with it.
 
 | Challenge injury | SD | N/arm for 50% protection | N/arm if SD were constant |
 |---|---|---|---|
-| 0.20 | 0.460 | 332 | 533 |
-| 0.61 | 0.582 | 58 | 58 |
-| 1.00 | 0.699 | 31 | 22 |
-| **1.53** | 0.857 | **20** | **10** |
-| 2.50 | 1.147 | 14 | 4 |
+| 0.20 | 0.462 | 336 | 624 |
+| 0.61 | 0.630 | 67 | 67 |
+| 1.00 | 0.790 | 40 | 25 |
+| **1.53** | 1.007 | **28** | **11** |
+| 2.50 | 1.404 | 20 | 4 |
 
 The right-hand column is what I said before. I claimed a 10 g/day challenge cuts a trial
-from 93 patients per arm to 15. The real figure is **58 → 20**. Still the biggest lever
-here, but it saturates: N falls roughly as 1/injury, not the 1/injury² that constant-SD
-arithmetic predicts.
+from 93 patients per arm to 15. The real figure is **67 → 28**. It still helps, but it
+saturates: N falls roughly as 1/injury, not the 1/injury² that constant-SD arithmetic
+predicts.
+
+I also used to call this the biggest lever available. That was wrong for a reason that
+had nothing to do with variance, and §5b is about it: the table is indexed by *injury*,
+and a sponsor doesn't get to choose an injury. They choose a dose and a duration, and
+raising the dose turns out to be the weaker of the two ways to move this column.
 
 ## 2. The trials that guessed the noise wrong are the ones that failed
 
@@ -163,8 +189,8 @@ Takeda then measured it directly (UEG Week 2025, abstract MP739):
 
 That settles the direction, and it retires my old "sampling can't be separated from
 biology" limitation. The answer is 23%. Against a single-fragment assay, averaging 4
-biopsies at a typical challenge (injury 0.61) cuts required N from **58 → 48** per arm for
-50% protection, and 8 biopsies get you to 46. It saturates fast because patient-level
+biopsies at a typical challenge (injury 0.61) cuts required N from **67 → 56** per arm for
+50% protection, and 8 biopsies get you to 54. It saturates fast because patient-level
 variance (52%) doesn't shrink no matter how many fragments you take. Two caveats: trials
 already take multiple fragments, so the gain over current practice is smaller than the
 gain over a theoretical single biopsy, and Takeda's 1% reader share is measured after
@@ -221,20 +247,27 @@ the smallest are enrolling patients who already have atrophy.
 **Teva** is the only one built to manufacture a histologic signal (3 g/day is the dose
 behind every positive VH:CD result on record, going into a mucosa with room to fall), and
 it's also the only one that openly declines to power for the endpoint. Its exposure is
-just arithmetic. At 20 evaluable per arm it needs **85% protection**, and the best ZED1227
+just arithmetic. At 20 evaluable per arm it needs **92% protection**, and the best ZED1227
 arm delivered 80%. Its own ±0.40 precision target spans everything from no effect to
 complete protection.
 
-That's the sharpest claim here, so it's worth saying how little reverses it. **The verdict
-flips at 23 evaluable per arm.** The protocol targets 40 evaluable (20 per arm) but permits
-up to 48 randomised (24 per arm), and the registry already lists 50 enrolled. So the honest
-form is conditional: at ~20 evaluable per arm TEV-53408 could not have seen a best-in-class
-drug, at 23+ it could. That's the first number to check at readout, before any p-value.
+This claim used to be conditional and no longer is, which is worth showing rather than
+quietly upgrading. **The verdict flips at 26 evaluable per arm.** Under the old variance
+model it flipped at 23 — inside the 20–24 per arm the protocol permits — so the honest
+form was "it depends what N they report." The steeper, better-anchored slope from §1 moves
+the flip point above 24 per arm (48 randomised, the protocol maximum) and above 25 per arm
+(50 enrolled, what the registry lists today). At every sample size TEV-53408 can plausibly
+deliver, it could not have seen a best-in-class drug. Evaluable N is still the first thing
+to check at readout, before any p-value; it just no longer has a value that rescues the
+design. If the flip point ever falls back to 25 or below, the conditional wording has to
+come back, and there's a test that fails if it does.
 
-**Sanofi and Dr Falk** need healing of **0.27** and **0.21**. The largest drug-minus-placebo
+**Sanofi and Dr Falk** need healing of **0.26** and **0.20**. The largest drug-minus-placebo
 VH:CD difference any restoration-design celiac trial has ever produced is **+0.14**, in
 ZED1227's own CEC-004 in 397 patients (0.26 vs 0.12), and that trial still missed its
-primary endpoint. So both need more than anyone has managed: 1.9× and 1.5×.
+primary endpoint. So both need more than anyone has managed: 1.9× and 1.5×. And those two
+figures assume their SIGE arms stay flat — §5b argues that assumption is untested in the
+population these trials actually enrol, and if it fails both numbers get worse.
 
 That's the prediction, and it's falsifiable. It's pinned in
 [`tests/test_prospective.py`](tests/test_prospective.py) so it can't drift toward whatever
@@ -291,6 +324,146 @@ evidence. And **the literature contradicts itself here.** Takeda's MP739 reports
 endpoint outperformed Vh:Cd"* on TAK-062, directly against Syage on two other trials.
 Nobody has reconciled that. It's an open question, not a settled one.
 
+## 5b. The challenge is a dose *and* a duration, and the duration is doing the work
+
+Every prevention trial has to manufacture the injury it then tries to prevent, so the
+challenge is the first design decision and it caps everything downstream. Sponsors argue
+about the dose. They state it in grams per day, debate whether patients will tolerate it,
+and pick a duration almost by habit — 14 days here, 6 weeks there.
+
+Put the published record in one table and the habit looks like the mistake.
+
+```bash
+uv run python -m ctsim.challenge
+```
+
+**Three studies have run the same 3 g/day dose at three different durations.** They were
+run years apart, on three continents, by groups not comparing themselves to each other.
+It's the closest thing the literature has to a controlled experiment on challenge length:
+
+| Study | Days | Injury (ΔVH:CD) | n | Per day |
+|---|---|---|---|---|
+| Leonard 2021 | 14 | 0.06 | 7 | 0.004 |
+| ZED1227 CEC-3 placebo | 42 | 0.61 | 30 | 0.015 |
+| Lähdeaho 2011 | 78 | 1.14 | 21 | 0.015 |
+
+About **0.015 VH:CD units lost per day**, still climbing at 78 days, no sign of flattening.
+
+Now the dose lever, measured in the one place it can be. Lähdeaho published per-patient
+data: 21 patients, one protocol, one reader, achieved dose spanning 1.3–5.0 g/day and
+duration 29–103 days. Regress the injury on both:
+
+| | r |
+|---|---|
+| dose | +0.14 |
+| duration | −0.09 |
+| **both jointly** | **R² = 0.019** |
+
+**The design explains 2% of who ends up with an atrophic mucosa.** The patient explains
+the rest. A sponsor agonising over 3 versus 5 g/day is turning a knob that isn't connected
+to much.
+
+Chain that to the variance model and it prices out. At 3 g/day, for a drug preventing half
+the injury:
+
+| Challenge | Injury | SD | MDE (80%) | N/arm |
+|---|---|---|---|---|
+| 2 weeks | 0.13 | 0.434 | 0.066 | **689** |
+| 4 weeks | 0.36 | 0.526 | 0.177 | 138 |
+| 6 weeks | 0.58 | 0.618 | 0.289 | **72** |
+| 8 weeks | 0.81 | 0.710 | 0.402 | 49 |
+| 12 weeks | 1.25 | 0.894 | 0.626 | **32** |
+
+Two readings. First, **a 14-day challenge at 3 g/day is not a trial, it's a formality** —
+it wants about 689 patients per arm. The short challenges that have worked did it on dose
+(TAK-101 at 12→6 g/day, KAN-101 at 9 g/day), not on 3 g. Second, **going from 6 weeks to
+12 more than halves the sample size**, 72 to 32, at a dose patients already tolerate.
+Lähdeaho lost 7 of 25 patients to symptoms at 3–5 g/day; a longer, gentler challenge buys
+the same injury without that.
+
+### Two things I had to fix to get here
+
+**KAN-101's challenge was 9 g/day for 2 weeks, not 3 g/day.** I had it as a second 3 g/day
+trial landing on the same −0.61 as ZED1227, and used "two trials agree" to justify the
+injury behind the Teva prediction. Its protocol says otherwise, verbatim: *"Participants
+will undergo a 2-week GC in which they will ingest 9 g/day of gluten protein in the form
+of 12 g vital wheat gluten."* The agreement at −0.61 is real but it's a coincidence of
+equal *cumulative* exposure (9 × 14 = 3 × 42 = 126 g), not a replication. Teva's read
+still holds, for a better reason: its 3 g/day × 6 weeks is an exact match to ZED1227's.
+
+**"Gluten" means two different things and the papers don't always say which.** TAK-101's
+protocol is explicit that a packet holds *"approximately 6 g gluten (approximately 8.5 g
+of powder)"*; Leonard's methods say the flour was 66% protein. But Sanofi states its SIGE
+dose as 250 mg of *vital wheat gluten*, which is roughly 190 mg of protein. Compare doses
+across trials without normalising and you're off by about 30%. Everything in
+[`src/ctsim/challenge.py`](src/ctsim/challenge.py) is grams of gluten **protein**, with
+the conversion recorded per row.
+
+### What this does to SIGE, which two live trials are betting on
+
+"Simulated inadvertent gluten exposure" is meant to mimic accidental contamination and
+hold the control arm flat. Takeda's protocol states the intent and the threshold
+literature in the same document: *"It is expected that SIGE will result in stable, rather
+than worsening, symptoms and enteropathy in the TAK-062 placebo groups"*, and, two
+sections earlier, *"The threshold of daily gluten that will cause mucosal injury ... is
+thought to be 10 to 50 mg/day."* TAK-062's SIGE placebo arm then moved −0.006 over 24
+weeks. Dead flat, as designed.
+
+But the only dose–response measured over a comparable duration puts the half-maximal dose
+at about **62 mg/day** (interpolated through Catassi's 10 mg and 50 mg arms and Lähdeaho's
+3.1 g arm, all at 78–90 days). Against that curve:
+
+| Trial | mg protein/day | Days | Entry criterion | % of max |
+|---|---|---|---|---|
+| TAK-062 | *redacted in protocol* | 168 | Vh:Cd < 2.5 | — |
+| Sanofi ASPIRION | 175 | 84 | Vh:Cd < 2.5 | **91%** |
+| Dr Falk CEC-013 | 214 | 105 | Vh:CrD ≤ 2.5 | **94%** |
+
+On a mucosa with villi to lose, these are not trace exposures — they sit near the top of
+the dose–response. *Simulated inadvertent* describes the intent behind the dose, not its
+size.
+
+Then read the entry column, because that's the whole argument. Every study behind that
+curve challenged a **healed** mucosa: Catassi's patients started at 2.20, Lähdeaho's at
+2.97. All three SIGE trials enrol patients who are **already atrophic**, and TAK-062
+stratified its own enrolment at Vh:Cd 1.5.
+
+So TAK-062's flat control arm does not show that SIGE spares the mucosa. It is equally
+consistent with a mucosa that had already fallen about as far as it goes. Nothing
+published separates those two readings, and they imply opposite things for the two trials
+running now. It's also answerable without new data: TAK-062's own baseline strata would do
+it, since the <1.5 group has less room to fall than the 1.5–2.5 group.
+
+It costs sample size either way. A restoration design assumes its control arm sits at the
+variance model's floor. If SIGE injures at all, the SD rises with it, and Sanofi is reading
+a 34-vs-34 contrast:
+
+| Assumed control injury | SD | Difference needed at n=34/arm |
+|---|---|---|
+| 0.00 (flat, as designed) | 0.380 | 0.272 |
+| 0.40 | 0.544 | 0.353 |
+
+The largest drug-minus-placebo VH:CD difference any restoration-design celiac trial has
+produced is **+0.14**.
+
+### What would sink all of this
+
+1. **The duration line is three points at one dose.** r = 0.997 on three points is not
+   evidence of linearity, it's what three points do. A fourth study at 3 g/day and any
+   duration is worth more than everything else in this section.
+2. The three differ in centre, decade, reader and population, so holding the dose constant
+   controls for the dose and nothing else. Leonard's 14-day point is n = 7 with a CI of
+   0.06 ± 0.38 — wide enough to sit on a curve as comfortably as on a line.
+3. Injury is bounded by having no villi left, so it can't grow linearly forever.
+   Extrapolating past ~12 weeks runs into that whatever the fit says.
+4. The dose–response is three anchors and three free parameters: an imposed shape, with no
+   residual and no goodness of fit. It's used only between its anchors.
+5. **Lähdeaho's dose was achieved intake, not assigned.** Patients who felt worse ate less
+   and stopped sooner, which biases the within-study dose effect toward zero — the
+   direction that flatters the claim I'm making. This is the weakest link here.
+6. Nothing above says a longer challenge is *safe*. It says it's more *detectable*. Those
+   are different questions and the second is not a licence to answer the first.
+
 ## 6. Data and provenance
 
 - **22 celiac trials** from the ClinicalTrials.gov API v2, 11 with posted results
@@ -325,20 +498,29 @@ arm SDs from injury alone:
 
 | Held-out arm | \|injury\| | SD observed | SD predicted | \|err\| |
 |---|---|---|---|---|
-| TAK-101 drug | 0.18 | 0.381 | 0.450 | 0.069 |
-| KAN-101 placebo | 0.61 | 0.614 | 0.539 | 0.075 |
-| TAK-101 placebo | 0.63 | 0.657 | 0.543 | 0.114 |
-| KAN-101 drug | 0.85 | 0.707 | 0.589 | 0.118 |
+| TAK-101 drug | 0.18 | 0.381 | 0.456 | 0.075 |
+| KAN-101 placebo | 0.61 | 0.614 | 0.636 | 0.022 |
+| TAK-101 placebo | 0.63 | 0.657 | 0.645 | 0.012 |
+| KAN-101 drug | 0.85 | 0.707 | 0.737 | 0.030 |
 
-MAE = 0.094. The slope stays positive (0.207) and the correlation holds (r = 0.90) on the
-training set alone. Leave-one-trial-out across all six trials never produces MAE above
-0.30. If the relationship were a coincidence, this is where it would have shown up.
+MAE = 0.035, down from 0.094 before Lähdeaho 2011 joined the training set. The slope stays
+positive (0.419) and the correlation holds on the training set alone.
+
+Leave-one-trial-out is where the honest weakness shows. Drop any of the six drug trials
+and the model still predicts it to within 0.10. Drop **Lähdeaho** and the error is 0.31 —
+because it is the only high-injury arm with a real sample size, and without it everything
+above injury 0.85 rests on Leonard's n = 7. So the slope of this model is carried by one
+study. That's a limitation, not a result, and the test enforcing it says so.
 
 ## 8. Honest limitations
 
-1. **The injury model is 16 arms from 6 trials.** r = 0.91 and the slope is four SEs from
-   zero, but it's still a straight line through a modest cloud, and the harshest-challenge
-   point (injury 1.53) rests on n = 7.
+1. **The injury model is 17 arms from 7 trials.** r = 0.90 and the slope is nearly six SEs
+   from zero, but it's still a straight line through a modest cloud, and the whole high
+   end rests on two arms — one of them n = 7. Leave-one-trial-out (§7) puts a number on
+   how much that matters: 0.31 versus 0.10 for everything else.
+1b. **The challenge duration model is three points.** Everything in §5b that depends on
+   0.015 units per day depends on three studies that agree suspiciously well. It is the
+   most useful thing here and the least defended.
 2. **Scale is confounded with population.** Change-score SDs and ANCOVA-residual SDs are
    different quantities, and the trials supplying each are also the trials with different
    designs. Both are tagged, and neither is silently averaged into the other.
